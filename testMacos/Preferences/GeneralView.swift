@@ -1,0 +1,149 @@
+//
+//  GeneralView.swift
+//  testMacos
+//
+//  Created by Dilan Piscatello on 5/4/22.
+//
+
+import SwiftUI
+import UserNotifications
+
+struct GeneralView: View {
+    @ObservedObject private var viewModel = ViewModel()
+    var ud = UserDefaults.standard
+    var body: some View {
+        
+        
+        VStack{
+            HStack{
+                Text("Basic Configurations").fontWeight(.bold).font(.system(size: 40)).padding()
+                Spacer()
+            }
+            VStack{
+                Picker("Duration between Breaks", selection: $viewModel.selectedIntervalTime) {
+                    ForEach(viewModel.screenIntervals, id: \.self) { time in
+                        Text("\(time)" + " Minutes")
+                    }
+                }
+                Picker("Break Duration", selection: $viewModel.selectedOverlayTime) {
+                    ForEach(viewModel.overlayIntervals, id: \.self) { time in
+                        Text("\(time)" + " Seconds")
+                    }
+                }
+                BackgroundColorsView(viewModel:viewModel)
+                EnableNotifcaionsView(viewModel:viewModel)
+                ResetView(viewModel:viewModel)
+            }.padding()
+            Spacer()
+        }
+        
+        
+    }
+}
+struct BackgroundColorOverlay:Equatable, Hashable{
+    var backColor: String 
+    var helpText: String
+}
+
+struct BackgroundColorsView: View {
+    @ObservedObject var viewModel: GeneralView.ViewModel
+   
+    var body: some View {
+        HStack{
+            Text("Overlay Background:")
+            ForEach(viewModel.backgroundColors, id: \.self) { color in
+                Button(action: {
+                    viewModel.selectedBackgroundColor = color.backColor
+                }) {
+                    Text("").padding(.top, 6)
+                        .padding(.bottom, 6)
+                        .padding(.leading, 12)
+                        .padding(.trailing, 12)
+                        .overlay(RoundedRectangle(cornerRadius: 5)
+                            .stroke(color.backColor == viewModel.selectedBackgroundColor ? .gray : .clear, lineWidth: color.backColor == viewModel.selectedBackgroundColor ? 3 : 0))
+                        .background(RoundedRectangle(cornerRadius: 5).fill((Color(hex: color.backColor)!)))
+                }
+                .help(color.helpText)
+                .buttonStyle(PlainButtonStyle())
+                .animation(.spring(), value: viewModel.selectedBackgroundColor)
+            }
+            Button(action: {
+                let randColorIndex = Int.random(in: 0..<viewModel.backgroundColors.count)
+                viewModel.selectedBackgroundColor = viewModel.backgroundColors[randColorIndex].backColor
+            }) {
+                Image("shuffle").resizable().frame(width: 28, height: 28)
+            }.buttonStyle(PlainButtonStyle())
+            Spacer()
+        }
+    }
+}
+
+
+struct EnableNotifcaionsView: View {
+    
+    @State private var presents = ud.bool(forKey: "showSettingsPage")
+    @ObservedObject var viewModel: GeneralView.ViewModel
+    @State private var hoverOverlay = Color.blue
+    @State private var isHovering = false
+    
+    var body: some View {
+        Toggle("Show less a less disruptive Downtime overlay using Notifications", isOn: $viewModel.notificationsOn).onChange(of: viewModel.notificationsOn, perform: {newValue in
+            
+            UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
+                if (Settings.authorizationStatus == .authorized && viewModel.notificationsOn){
+                   
+                    DispatchQueue.main.async {
+                    print("1")
+                    viewModel.notificationsOn = true
+                    }
+                }else if(!(Settings.authorizationStatus == .authorized) && viewModel.notificationsOn){
+                    DispatchQueue.main.async {
+                        print("2")
+                        viewModel.notificationsOn = false;
+                        viewModel.displaySettingPage = true;
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                    print("3")
+                    viewModel.notificationsOn = false
+                    }
+                }
+            })
+               
+            })
+        
+        .popover(isPresented:$viewModel.displaySettingPage ,arrowEdge: .bottom) {
+            ZStack{
+                isHovering ? Color.blue.scaleEffect(1.5) : Color.blue.opacity(0.8).scaleEffect(1.5)
+                    Button(action: {Notifications.openSettings()}){
+                        Text("Enable Notifications").frame(width: 200, height: 50, alignment: .center)
+                    }.buttonStyle(.borderless).padding()
+                }
+            .frame(width: 200, height: 50)
+            .onHover { isHovered in
+                isHovering = isHovered
+            
+            }
+            
+        }
+    }
+}
+struct ResetView: View{
+    @ObservedObject var viewModel: GeneralView.ViewModel
+    var body: some View{
+        Button("Reset Settings"){
+            viewModel.selectedIntervalTime = 20
+            viewModel.selectedOverlayTime = 20
+            viewModel.selectedBackgroundColor = Constants.DefaultBackgroundColor
+            viewModel.notificationsOn = false
+            
+        }
+    }
+}
+
+struct GeneralView_Previews: PreviewProvider {
+    static var previews: some View {
+        GeneralView()
+    }
+    
+}
