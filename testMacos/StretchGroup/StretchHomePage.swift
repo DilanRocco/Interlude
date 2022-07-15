@@ -17,6 +17,9 @@ struct StretchHomePage: View {
     var body: some View {
         ScrollView{
         LazyVGrid(columns: columns, spacing: 0){
+            
+            //
+            //test
 //            ForEach(viewModel.stretches, id: \.self){
 //                stretch in
 //                VStack{
