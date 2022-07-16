@@ -2,19 +2,21 @@
 - make the text for the app like the suggestions "Suggestion: It's best to focus on an object that is 20 feet away"
 - section about the book written by Jeffrey Ashnel
 https://theswiftdev.com/how-to-launch-a-macos-app-at-login/
-- page for you open the app for the first time
 - page for the streches
-- deal with dark mode. Making the icon black when bar is white in menu bar as well.
+- deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
 - figure out reseting app intervals (if user goes into sleep mode, reset the cycle of screens)
 - run when the compupter starts
-
-## Later ticket
-- make the streches and the break thing a paid user edition, also some of the settings could be a paid user thing. 
+- make text for notifiications
+- fix overlays for one hour and two hour
+- fix text make sure it is all grammaratically correct
 
 ## app landing page
 - Promotional Text - 170 characters 
 - App store description/pictures/privacy policy - all of that stuff needs to be sorted out 
 - Description - 4000 characters 
+- 
+- ## Later ticket
+- make the streches and the break thing a paid user edition, also some of the settings could be a paid user thing. 
 
 ## After 
 - finish the github read.me
@@ -36,6 +38,7 @@ https://theswiftdev.com/how-to-launch-a-macos-app-at-login/
 - A lot of settings need to use user-defaults to store data
 - Learn how data interacts with the Views. </br>
 - time left in the menubar or time/or a hourglass 
+- page for you open the app for the first time
 
 ## settings that do exist
 - 1. ability to change the time for how long screen time is 
