@@ -201,11 +201,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].setFrameOrigin(NSScreen.frame.origin)
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
-            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height ))
+            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1))
             if (overlaysShown % 6 == 0){
-                menuView = AnyView(TwoHourOverlay(width: Int(NSScreen.frame.width), height: Int(NSScreen.frame.height) ))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3))
             }else if (overlaysShown % 3 == 0){
-                menuView = AnyView(OneHourOverlay(width: Int(NSScreen.frame.width), height: Int(NSScreen.frame.height) ))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2))
             }
     
             blurWindows[count] = NSWindow(
