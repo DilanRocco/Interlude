@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-
+import ServiceManagement
 struct OnboardingView: View {
     
+    @State private var launchAtLogin = false 
     @State private var currentPage: OnboardingPage = .welcome
     @State private var previousPage: OnboardingPage = .welcome
     @State private var forward = true
@@ -19,6 +20,7 @@ struct OnboardingView: View {
     }
     
     var body: some View {
+        
         VStack {
             ForEach(pages, id: \.self) { page in
                 if page == currentPage {

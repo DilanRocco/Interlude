@@ -7,6 +7,7 @@
 import SwiftUI
 import AppKit
 import UserNotifications
+import ServiceManagement
 let appDelegate = AppDelegate()
 @main
 struct testMacosApp: App {
@@ -180,13 +181,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     static var windows:[NSWindow] = Array(repeating: NSWindow(), count: NSScreen.screens.count)
     static var blurWindows:[NSWindow] = Array(repeating: NSWindow(), count: NSScreen.screens.count)
     //static var window = NSWindow()
-
+    
+   
     
     static var monitor = NSWindow()
     
     static func openPauseOverlay(){
         overlaysShown += 1
         
+        print(overlaysShown)
         //count keeps track of which screen we are in the array of windows, and blurWindows
         var count = 0;
         NSScreen.screens.forEach { NSScreen in
@@ -266,13 +269,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     static func StartScreenTimer(){
             // have this as a global somewhere
-            func getFourth() -> Double{
-                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
+//            func getFourth() -> Double{
+//                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
         //TESTING
-//        func getFourth() -> Double{
-//            return 10.5}
-//            print("StartScreenTimer")
-//            print()
+        func getFourth() -> Double{
+            return 10.5}
+            print("StartScreenTimer")
+            print()
 
             
             menuExtrasConfigurator?.createMenu(imageName: "hourglass100%")
@@ -386,6 +389,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 
 }
 
+   
+
+    @objc func onSleepNote(note: NSNotification) {
+       overlaysShown = 0
+    }
+    func fileNotifications() {
+      NSWorkspace.shared.notificationCenter.addObserver(
+            self, selector: #selector(onSleepNote(note:)),
+            name: NSWorkspace.willSleepNotification, object: nil)
+    }
+    
     func applicationWillTerminate(_ notification: Notification) {
         
         print("app is going to terminate")
@@ -400,6 +414,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        fileNotifications()
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
         UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
