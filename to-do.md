@@ -14,7 +14,7 @@ https://theswiftdev.com/how-to-launch-a-macos-app-at-login/
 - Promotional Text - 170 characters 
 - App store description/pictures/privacy policy - all of that stuff needs to be sorted out 
 - Description - 4000 characters 
-- 
+
 - ## Later ticket
 - make the streches and the break thing a paid user edition, also some of the settings could be a paid user thing. 
 
