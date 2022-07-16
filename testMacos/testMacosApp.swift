@@ -302,6 +302,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     }
     static func CloseAllOverlayWindows(){
         print("CloseBothWindows")
+        if (windows[0].isVisible){
         for index in 0...windows.count-1{
         NSAnimationContext.runAnimationGroup({ (context) -> Void in
             context.duration = 0.125
@@ -313,6 +314,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             blurWindows[index].animator().alphaValue = 0.01
           }, completionHandler: blurWindows[index].close)
         
+        }
         }
     }
 
@@ -388,14 +390,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 
 
 }
-
-   
+    @objc func onWakeNote(note: NSNotification) {
+       AppDelegate.StartScreenTimer()
+    }
 
     @objc func onSleepNote(note: NSNotification) {
        overlaysShown = 0
+       AppDelegate.CloseAllOverlayWindows()
+       AppDelegate.StopScreenTimer()
+    
+        
     }
+    
     func fileNotifications() {
-      NSWorkspace.shared.notificationCenter.addObserver(
+        NSWorkspace.shared.notificationCenter.addObserver(
+               self, selector: #selector(onWakeNote(note:)),
+               name: NSWorkspace.didWakeNotification, object: nil)
+
+        NSWorkspace.shared.notificationCenter.addObserver(
             self, selector: #selector(onSleepNote(note:)),
             name: NSWorkspace.willSleepNotification, object: nil)
     }
