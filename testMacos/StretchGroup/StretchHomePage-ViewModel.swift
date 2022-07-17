@@ -14,6 +14,11 @@ contentRect: NSRect(x: 0, y: 0, width: 700, height: 700),
 styleMask: [.titled, .miniaturizable, .closable, .resizable, .fullSizeContentView, ],
 backing: .buffered, defer: false)
 func OpenStretchHomePage(){
+    print("open Stretches")
+    if (stretchHomePage.isVisible){
+        stretchHomePage.orderFrontRegardless()
+        print("open")
+    }else{
     print("test")
     let stretchView = StretchHomePage()
     stretchHomePage.center()
@@ -23,7 +28,9 @@ func OpenStretchHomePage(){
     stretchHomePage.orderFrontRegardless()
     stretchHomePage.contentView?.layerUsesCoreImageFilters = true
     stretchHomePage.contentView = NSHostingView(rootView: stretchView)
+    stretchHomePage.level = NSWindow.Level.popUpMenu
     stretchHomePage.title = "Stretches"
+    }
 }
 extension StretchHomePage{
     @MainActor class ViewModel: ObservableObject{

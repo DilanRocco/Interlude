@@ -122,7 +122,7 @@ var menuExtrasConfigurator: MacExtrasConfigurator?
             mainMenu.addItem(.separator())
             
             let rootItem4 = NSMenuItem()
-            rootItem4.title = "Close Downtime"
+            rootItem4.title = "Close Interlude"
             rootItem4.target = self
             rootItem4.action = #selector(Self.closeAppAction(_:))
             mainMenu.addItem(rootItem4)
@@ -145,13 +145,7 @@ var menuExtrasConfigurator: MacExtrasConfigurator?
             }
         }
         @objc private func stretchesAction(_ sender: Any?){
-            print("open Stretches")
-            if (stretchHomePage.isVisible){
-                stretchHomePage.orderFrontRegardless()
-                print("open")
-            }else{
-                OpenStretchHomePage()
-            }
+           OpenStretchHomePage()
         }
         
         @objc private func watchMovieAction(_ sender: Any?) {
@@ -201,7 +195,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].setFrameOrigin(NSScreen.frame.origin)
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
-            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1))
+            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3))
             if (overlaysShown % 6 == 0){
                 menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3))
             }else if (overlaysShown % 3 == 0){
@@ -273,7 +267,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 //                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
         //TESTING
         func getFourth() -> Double{
-            return 10.5}
+            return 2.5
+            
+        }
             print("StartScreenTimer")
             print()
 

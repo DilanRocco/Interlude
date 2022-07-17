@@ -32,24 +32,33 @@ struct DefaultOverlay: View {
                 Text(model.getRandonSuggestion())
                     .font(.system(size: 17))
                     .foregroundColor(.white)
+                   
                 }else if (overlay == 2){
+              
                 Text("Step Away")
                         .font(.system(size: 100))
                         .fontWeight(.heavy)
                         .foregroundColor(.white)
+                        .padding([.bottom],1)
                 Text("It's been an hour and it's recommended that you step away from the computer for a few minutes")
                     .font(.system(size: 17))
                     .foregroundColor(.white)
+                   
+                  
                 }else if (overlay == 3){
                 Text("Stretch Your Body")
                         .font(.system(size: 100))
                         .fontWeight(.heavy)
                         .foregroundColor(.white)
+                        .padding([.bottom],1)
                 Text("It's been two hours and it's recommended that you step away from the computer and stretch your body")
-                    Button("Open Stretches"){
-                            
+                        .font(.system(size: 17))
+                        .foregroundColor(.white)
+                        
+                    Button("Try some Stretches"){
+                       OpenStretchHomePage()
                     }
-                    .font(.system(size: 17))
+                    .font(.system(size: 15))
                     .foregroundColor(.white)
                 }
                 Spacer()
