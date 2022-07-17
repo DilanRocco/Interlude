@@ -68,7 +68,7 @@ enum OnboardingPage: CaseIterable {
             VStack{
                 Image("clock").resizable().frame(width: 250, height: 250)
                 Text("Interludes occur every 20 minutes").font(.system(size:20)).bold().padding()
-                Text("From research, it has been found that 20 minutes intervals of 20 seconds give you just the right amount of time to reset your eyes. Then, every hour that goes by, it will recommended that you step away from the computer. Then, every second hour, it will recommended that you stretch where instructions and videos are provided.").font(.system(size:20)).padding([.leading, .trailing], 50).multilineTextAlignment(.center)
+                Text("From research, it has been found that 20 minutes intervals of 20 seconds give you just the right amount of time to reset your eyes. Then, every hour that goes by, it will recommended that you step away from the computer. Additionally, every second hour, it will recommended that you stretch where instructions and videos are provided.").font(.system(size:20)).padding([.leading, .trailing], 50).multilineTextAlignment(.center)
             Spacer()
             }
         case .overlay:
@@ -82,7 +82,7 @@ enum OnboardingPage: CaseIterable {
         case .end:
             VStack{
                 Text("Everything is already setup!").font(.system(size:20).bold()).padding().multilineTextAlignment(.center)
-                Text("For more information, there is a menu bar app resembling an hourglass that will be the hub of this app. There, you can learn more about the theory behind this app, and modify preferences to your liking.").font(.system(size:20)).padding().multilineTextAlignment(.center).padding([.leading, .trailing], 50)
+                Text("For more information, there is a menu bar app resembling an hourglass that will be the hub of this app. There, you can learn more about the theory behind this app, and modify many preferences to your liking.").font(.system(size:20)).padding().multilineTextAlignment(.center).padding([.leading, .trailing], 50)
                 
                 
                 Button(action: closeOnboardingWindow, label: {
