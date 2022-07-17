@@ -9,7 +9,7 @@ and parents and teachers should be aware of the importance of appropriate
 intervals and encourage children to learn when to take breaks from computer
 use.
 
-This may be due to the fact that this book was written many years ago in 2005 before addictive apps like Instagram, TikTok, Facebook, become very popular. So I decided to take the rules Anshel says about children in Chapter 9, and put these techinques in not only children but adults as well.
+
 ### Solution
 
 Mr. Anshel spilts the latter part of the chapter 9 into four sections.
@@ -36,6 +36,8 @@ A few listed below:
 - A Disk Reliever
 - Pelvic Tilt
 - Head Roll
+
+I decided creating an app that reminded you to particapte in these breaks would be helpful. Humans have trouble sticking to unguided structure and this app keeps track of the timing and allows you to focus on what's most important for you. Even in the book, Ashnel even mentions that it would best to have an application built to follow these rules exactly what Interlude aims to do. 
 
 #### Ergonomics Handbook Information:
 Anshel, Jeffrey. Visual Ergonomics Handbook. CRC Press, Taylor &amp; Francis Group, 2019.<br />
