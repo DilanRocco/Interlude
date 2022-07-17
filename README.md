@@ -44,7 +44,7 @@ I developed this app to remind you to particapte in these breaks. Humans have tr
 Anshel, Jeffrey. Visual Ergonomics Handbook. CRC Press, Taylor &amp; Francis Group, 2019.<br />
 Book Link: routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611
 
-# What does the app Downtime Aim to Do?
+# What does the app Interlude Aim to Do?
 
 Every twenty minutes the user is guided to take a break from whatever task they are doing by displaying an overlay across their entire screen. 
 
