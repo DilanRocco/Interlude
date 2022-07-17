@@ -55,7 +55,7 @@ Every second hour over a single session the user is guided to perform some strec
 The app contains instructions and animations of stretches to relieve stiffness and pain from sitting behind a compnuter for a prolonged period.
 
 
-Downtime aims to give your eyes, body, and mind the proper break it needs by following a scientifically researched interval of breaks and actions to perform during those breaks"
+Interlude aims to give your eyes, body, and mind the proper break it needs by following a scientifically researched interval of breaks and actions to perform during those breaks"
 
 
 
