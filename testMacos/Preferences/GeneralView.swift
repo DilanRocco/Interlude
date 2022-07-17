@@ -16,24 +16,26 @@ struct GeneralView: View {
         
         VStack{
             HStack{
-                Text("Basic Configurations").fontWeight(.bold).font(.system(size: 40)).padding()
+                Text("Customize").fontWeight(.bold).font(.largeTitle)
                 Spacer()
-            }
+            }.padding()
             VStack{
                 Picker("Duration between Breaks", selection: $viewModel.selectedIntervalTime) {
                     ForEach(viewModel.screenIntervals, id: \.self) { time in
                         Text("\(time)" + " Minutes")
                     }
-                }
+                }.padding()
                 Picker("Break Duration", selection: $viewModel.selectedOverlayTime) {
                     ForEach(viewModel.overlayIntervals, id: \.self) { time in
                         Text("\(time)" + " Seconds")
                     }
-                }
-                BackgroundColorsView(viewModel:viewModel)
-                EnableNotifcaionsView(viewModel:viewModel)
-                ResetView(viewModel:viewModel)
-            }.padding()
+                }.padding()
+                BackgroundColorsView(viewModel:viewModel).padding()
+                EnableNotifcaionsView(viewModel:viewModel).padding()
+                OpenOnboardingSlides().padding()
+                ResetView(viewModel:viewModel).padding()
+                
+            }.font(.system(size:15))
             Spacer()
         }
         
@@ -67,12 +69,12 @@ struct BackgroundColorsView: View {
                 .buttonStyle(PlainButtonStyle())
                 .animation(.spring(), value: viewModel.selectedBackgroundColor)
             }
-            Button(action: {
-                let randColorIndex = Int.random(in: 0..<viewModel.backgroundColors.count)
-                viewModel.selectedBackgroundColor = viewModel.backgroundColors[randColorIndex].backColor
-            }) {
-                Image("shuffle").resizable().frame(width: 28, height: 28)
-            }.buttonStyle(PlainButtonStyle())
+//            Button(action: {
+//                let randColorIndex = Int.random(in: 0..<viewModel.backgroundColors.count)
+//                viewModel.selectedBackgroundColor = viewModel.backgroundColors[randColorIndex].backColor
+//            }) {
+//                Image("shuffle").resizable().frame(width: 28, height: 28)
+//            }.buttonStyle(PlainButtonStyle())
             Spacer()
         }
     }
@@ -87,7 +89,7 @@ struct EnableNotifcaionsView: View {
     @State private var isHovering = false
     
     var body: some View {
-        Toggle("Show less a less disruptive Downtime overlay using Notifications", isOn: $viewModel.notificationsOn).onChange(of: viewModel.notificationsOn, perform: {newValue in
+        Toggle("Show less a less disruptive Interlude overlay using Notifications", isOn: $viewModel.notificationsOn).onChange(of: viewModel.notificationsOn, perform: {newValue in
             
             UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
                 if (Settings.authorizationStatus == .authorized && viewModel.notificationsOn){
@@ -141,9 +143,18 @@ struct ResetView: View{
     }
 }
 
-struct GeneralView_Previews: PreviewProvider {
-    static var previews: some View {
-        GeneralView()
+struct OpenOnboardingSlides: View{
+    var body: some View{
+        Button("Open Onboarding Slides"){
+           openOnboardingWindow()
+            
+        }
     }
-    
 }
+
+//struct GeneralView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GeneralView()
+//    }
+//
+//}

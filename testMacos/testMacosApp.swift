@@ -456,7 +456,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         fileNotifications()
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
-        UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
+        //UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
             print("App has already launched once before")
         }else{
@@ -554,6 +554,7 @@ func toHex(alpha: Bool = false) -> String? {
 }
  
     let nscol = NSColor(hex: "#2196f3")
+
 
 
 
