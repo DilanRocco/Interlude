@@ -16,7 +16,7 @@ struct StretchHomePage: View {
         ]
     var body: some View {
         ScrollView{
-        LazyVGrid(columns: columns, spacing: 0){
+        LazyVGrid(columns: columns, spacing: 2){
             
             //
             //test
