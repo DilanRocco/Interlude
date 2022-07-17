@@ -1,9 +1,8 @@
 ## things still to do with the app
-- section about the book written by Jeffrey Ashnel
+- section about the book written by Jeffrey Ashnel - finish settings pages
 - page for the streches
 - make text for notifiications
 - deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
-- run when the compupter starts
 - fix text make sure it is all grammaratically correct
 
 ## Just Continue
@@ -16,6 +15,8 @@
 - Description - 4000 characters 
 
 ## Later ticket
+- Rate System 
+- Random background with Color Picker
 - make the streches and the break thing a paid user edition, also some of the settings could be a paid user thing. 
 
 ## After 
@@ -35,7 +36,7 @@
 - (big item) I also need to have to animate the character streches - learn how to do after effects/blender need to learn how to animate a default character for the streches </br>
 - make the overlay fade-in instead of being so quick
 - figure out reseting app intervals (if user goes into sleep mode, reset the cycle of screens)
-## compeleted-ish items that still running
+- run when the compupter starts
 - A lot of settings need to use user-defaults to store data
 - Learn how data interacts with the Views. </br>
 - time left in the menubar or time/or a hourglass 
