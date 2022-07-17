@@ -1,11 +1,14 @@
 ## things still to do with the app
-- make the text for the app like the suggestions "Suggestion: It's best to focus on an object that is 20 feet away"
 - section about the book written by Jeffrey Ashnel
 - page for the streches
+- make text for notifiications
 - deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
 - run when the compupter starts
-- make text for notifiications
 - fix text make sure it is all grammaratically correct
+
+## Just Continue
+- make the text for the app like the suggestions "Suggestion: It's best to focus on an object that is 20 feet away"
+
 
 ## app landing page
 - Promotional Text - 170 characters 
