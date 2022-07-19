@@ -188,6 +188,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         print(overlaysShown)
         //count keeps track of which screen we are in the array of windows, and blurWindows
         var count = 0;
+        NSApp.activate(ignoringOtherApps: true)
         NSScreen.screens.forEach { NSScreen in
             
             windows[count] = NSWindow(
@@ -383,6 +384,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 //skip the overlay and a new timer
     static func CloseOverlayButton(){
         print("CloseOverlayButton")
+        stretchHomePage.level = .normal
         CloseAllOverlayWindows()
         NSApplication.shared.presentationOptions = []
         StopTimerOverlay()

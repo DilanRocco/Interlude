@@ -25,6 +25,9 @@ struct NSVideoPlayer: NSViewRepresentable {
         view.player?.playImmediately(atRate: 1)
         return view
     }
+    func stop(){
+        
+    }
     
     func updateNSView(_ nsView: AVPlayerView, context: Context) {}
     

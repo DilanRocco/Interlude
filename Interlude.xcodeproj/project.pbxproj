@@ -14,6 +14,9 @@
 		1B5E176A277243E6003A3658 /* testMacosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E1769277243E6003A3658 /* testMacosTests.swift */; };
 		1B5E1774277243E6003A3658 /* testMacosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E1773277243E6003A3658 /* testMacosUITests.swift */; };
 		1B5E1776277243E6003A3658 /* testMacosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E1775277243E6003A3658 /* testMacosUITestsLaunchTests.swift */; };
+		1B7618812885C0980004FA38 /* E_Square.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 1B7618802885BC630004FA38 /* E_Square.mp4 */; };
+		1B7618832885CEC10004FA38 /* AVPlayerViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7618822885CEC10004FA38 /* AVPlayerViewExtensions.swift */; };
+		1B761885288637640004FA38 /* InDepthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B761884288637600004FA38 /* InDepthView.swift */; };
 		1B8C4BB62835A5E600F3B603 /* OverlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */; };
 		1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4406278CF3D50037136A /* PreferencesView.swift */; };
 		1B9D4409278CF9F20037136A /* PreferencesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4408278CF9F20037136A /* PreferencesModel.swift */; };
@@ -92,6 +95,9 @@
 		1B5E176F277243E6003A3658 /* InterludeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterludeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5E1773277243E6003A3658 /* testMacosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosUITests.swift; sourceTree = "<group>"; };
 		1B5E1775277243E6003A3658 /* testMacosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1B7618802885BC630004FA38 /* E_Square.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = E_Square.mp4; path = ../../../../../Downloads/E_Square.mp4; sourceTree = "<group>"; };
+		1B7618822885CEC10004FA38 /* AVPlayerViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewExtensions.swift; sourceTree = "<group>"; };
+		1B761884288637600004FA38 /* InDepthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InDepthView.swift; sourceTree = "<group>"; };
 		1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayModel.swift; sourceTree = "<group>"; };
 		1B9D4406278CF3D50037136A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		1B9D4408278CF9F20037136A /* PreferencesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesModel.swift; sourceTree = "<group>"; };
@@ -167,6 +173,8 @@
 			children = (
 				1BDAFA1C287738C6004737C5 /* StretchHomePage-ViewModel.swift */,
 				1BDAFA1E287738CC004737C5 /* StretchHomePage.swift */,
+				1B761884288637600004FA38 /* InDepthView.swift */,
+				1B7618822885CEC10004FA38 /* AVPlayerViewExtensions.swift */,
 				1BDAFA2028773E50004737C5 /* Visuals */,
 			);
 			path = StretchGroup;
@@ -296,6 +304,7 @@
 		1BDAFA2028773E50004737C5 /* Visuals */ = {
 			isa = PBXGroup;
 			children = (
+				1B7618802885BC630004FA38 /* E_Square.mp4 */,
 				1BDFC855287C982E00CCD178 /* A.mp4 */,
 				1BDFC851287C982E00CCD178 /* B.mp4 */,
 				1BDFC858287C982F00CCD178 /* C.mp4 */,
@@ -461,6 +470,7 @@
 				1BDFC85F287C983F00CCD178 /* G.mp4 in Resources */,
 				1BDFC860287C983F00CCD178 /* H.mp4 in Resources */,
 				1B5E175F277243E6003A3658 /* Preview Assets.xcassets in Resources */,
+				1B7618812885C0980004FA38 /* E_Square.mp4 in Resources */,
 				1B5E175C277243E5003A3658 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -507,12 +517,14 @@
 				1BC2E55728233274001811D1 /* GeneralView-ViewModel.swift in Sources */,
 				1B9D4409278CF9F20037136A /* PreferencesModel.swift in Sources */,
 				1BC2E55F28233327001811D1 /* AdvancedView-ViewModel.swift in Sources */,
+				1B761885288637640004FA38 /* InDepthView.swift in Sources */,
 				1BC2E5612823336B001811D1 /* AboutView.swift in Sources */,
 				1BC2E56328233379001811D1 /* AboutView-ViewModel.swift in Sources */,
 				1BC2E5552823320F001811D1 /* GeneralView.swift in Sources */,
 				1B5E1758277243E3003A3658 /* testMacosApp.swift in Sources */,
 				1BDFD3172880624500E6B1FB /* Onboarding-ViewModel.swift in Sources */,
 				1BC2E55D282332F9001811D1 /* AdvancedView.swift in Sources */,
+				1B7618832885CEC10004FA38 /* AVPlayerViewExtensions.swift in Sources */,
 				1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
