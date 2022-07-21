@@ -1,5 +1,4 @@
 ## things still to do with the app
-- make text for notifiications
 - deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
 - fix text make sure it is all grammaratically correct
 
@@ -40,7 +39,7 @@
 - time left in the menubar or time/or a hourglass 
 - page for you open the app for the first time
 - fix overlays for one hour and two hour
-
+- make text for notifiications
 ## settings that do exist
 - 1. ability to change the time for how long screen time is 
 - 2. ability to change the intermission time
