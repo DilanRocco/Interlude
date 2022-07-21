@@ -24,8 +24,8 @@ struct StretchHomePage: View {
         if !show{
             ScrollView{
                 LazyVGrid(columns: columns, spacing: 2){
-                    ForEach((1...7),  id: \.self){ i in
-                        StretchTile(show: $show, index: i,currentSubviewIndex: $currentSubviewIndex).animation(.none)
+                    ForEach(0..<viewModel.stretches.count) { i in
+                        StretchTile(show: $show, index: i,currentSubviewIndex: $currentSubviewIndex,  viewModel: viewModel).animation(.none)
                     }
                 }.animation(.none)
             }.frame(width: 800, height: 800, alignment: .center).transition(AnyTransition.move(edge: .leading)).animation(.default)
@@ -45,24 +45,31 @@ struct StretchTile: View {
     @Binding var show: Bool
     @State var index: Int
     @Binding var currentSubviewIndex: Int
+    @ObservedObject var viewModel: StretchHomePage.ViewModel
+
    
-    let player = AVPlayer(url: Bundle.main.url(forResource: "E_Square", withExtension: "mp4")!)
     var body: some View {
-       
+        
         VStack{
-            AVPlayerControllerRepresented(player: player)
-                .frame(height: 400).animation(.none)
-            Text("Leg Movement").foregroundColor(hovered ? .blue : .none).animation(.none)
-        }.contentShape(Rectangle())
+               
+            Image(nsImage: viewModel.generateThumbnail(path: Bundle.main.url(forResource: viewModel.stretches[index][0],withExtension: "mp4")!)!).scaleEffect(hovered ? 1 : 1.1).clipped().animation(.default, value: hovered)
+   
+            Text(viewModel.stretches[index][1]).foregroundColor(hovered ? .blue : .none).animation(.none).font(.title3)
+                
+        }
+        .contentShape(Rectangle())
             .animation(.none)
         .onTapGesture {
             withAnimation(.spring()) {
                 show.toggle()
+                print(viewModel.stretches.count)
+            
             }
               
               currentSubviewIndex = index
               print("The whole VStack is tappable now!")
             }
+     
         
         .onAppear{
             print("on appear of main page")
@@ -76,12 +83,15 @@ struct StretchTile: View {
             hovered = hovering
             
             if (hovering){
-                player.play()
-                
+                //player.play()
+           
                 print("hovering")
             }else{
-                player.seek(to: CMTime.zero)
-                player.pause()
+                print("not hovering")
+                print(index)
+           
+                
+            
              
             }
         }
@@ -109,9 +119,7 @@ struct AVPlayerControllerRepresented : NSViewRepresentable {
     func stop(){
         
     }
-    func play(){
-        
-    }
+    
     func updateNSView(_ nsView: AVPlayerView, context: Context) {
         
     }

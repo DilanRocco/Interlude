@@ -47,6 +47,23 @@ extension StretchHomePage{
             ["H","Shoulder squeeze", "Another excellent stretch for slouchers. Lace your fingers behind your back with the palms facing in. Slowly raise and straighten your arms. Hold for 5 to 10 sec. Repeat 5 to 10 times."]]
         
         
+        func generateThumbnail(path: URL) -> NSImage? {
+                    do {
+                        let asset = AVURLAsset(url: path, options: nil)
+                        let imgGenerator = AVAssetImageGenerator(asset: asset)
+                        imgGenerator.appliesPreferredTrackTransform = true
+                        let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+                        let thumbnail = NSImage(cgImage: cgImage, size: NSSize(width: 400,height: 400))
+                        //
+                        return thumbnail
+                    } catch let error {
+                        print("*** Error generating thumbnail: \(error.localizedDescription)")
+                        return nil
+                    }
+                }
+        
     }
+    
+    
     
 }
