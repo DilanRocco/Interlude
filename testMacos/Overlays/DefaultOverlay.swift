@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DefaultOverlay: View {
     @State private var isPresented = false
-    @ObservedObject var model = viewModel()
+   
     var width: CGFloat;
     var height: CGFloat;
     var overlay: Int;
@@ -29,7 +29,7 @@ struct DefaultOverlay: View {
                     .font(.system(size: 100))
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
-                Text(model.getRandonSuggestion())
+                Text(Overlay.getRandonSuggestion())
                     .font(.system(size: 17))
                     .foregroundColor(.white)
                    

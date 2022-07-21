@@ -39,7 +39,7 @@ struct InDepthView: View {
             VideoPlayer(player: player).frame(width: 600, height: 400, alignment: .center)
                 
                 
-            Text(viewModel.stretches[currentSubviewIndex][2]).font(.system(size: 15)).padding().frame(width: 600, height: .infinity, alignment: .center)
+            Text(viewModel.stretches[currentSubviewIndex][2]).font(.system(size: 15)).padding().frame(width: 600, alignment: .center)
                 Spacer()
                 Spacer()
         
