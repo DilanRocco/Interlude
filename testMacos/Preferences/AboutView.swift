@@ -18,8 +18,12 @@ struct AboutView: View {
             
                 HStack{
                     Image("icon")
+                        .resizable()
+                        .frame(width: 128, height: 128, alignment: .center)
                         .cornerRadius(10)
                         .padding()
+                        
+                        
                     let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
                     let version = nsObject as! String
                     
@@ -37,7 +41,7 @@ struct AboutView: View {
                             
                         }.padding(.top, -15)
                         Text( version) .frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.gray)
-                            .padding(.bottom,50)
+                            .padding(.bottom,25)
                         Text("Dilan Rocco Piscatello").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.gray)
                         
                     }

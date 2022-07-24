@@ -195,7 +195,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     static func openPauseOverlay(){
         
-        
+        let darkBackground =  UserDefaults.standard.bool(forKey: "darkBackground")
         print(overlaysShown)
         //count keeps track of which screen we are in the array of windows, and blurWindows
         var count = 0;
@@ -209,11 +209,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].setFrameOrigin(NSScreen.frame.origin)
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
-            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy() ))
+            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: darkBackground ))
             if (overlaysShown % 6 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy()))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy(), dark: darkBackground))
             }else if (overlaysShown % 3 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy()))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: darkBackground))
             }
            
             blurWindows[count] = NSWindow(
@@ -423,6 +423,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         }else{
             UserDefaults.standard.set(false, forKey: "useNotifications")
             UserDefaults.standard.set(Constants.DefaultBackgroundColor, forKey: "backgroundColor")
+            UserDefaults.standard.set(false, forKey: "darkBackground")
             UserDefaults.standard.set(20, forKey: "screenInterval")
             UserDefaults.standard.set(20, forKey: "overlayInterval")
             UserDefaults.standard.set(true, forKey: "isAppAlreadyLaunchedOnce")

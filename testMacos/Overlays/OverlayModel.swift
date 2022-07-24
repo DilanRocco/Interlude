@@ -13,6 +13,7 @@ class Overlay{
         
     static func getRandonSuggestion() -> String{
         return suggestionArray.randomElement() ?? "It's best to focus on an object 20 feet away"
+
         
     }
     static func timeSinceStringfy() -> String{
@@ -55,7 +56,7 @@ class Overlay{
             print("Notifications are authoirzed ")
 //         var category = UNNotificationCategory(identifier: "stretchescat", actions: [], intentIdentifiers: [], options: [])
             let openStretch = UNNotificationAction(identifier: "openStretches", title: "Try Stretches", options: UNNotificationActionOptions.init(rawValue: 0))
-            var category = UNNotificationCategory(identifier: "category", actions: [openStretch], intentIdentifiers: [], options:.customDismissAction)
+            let category = UNNotificationCategory(identifier: "category", actions: [openStretch], intentIdentifiers: [], options:.customDismissAction)
             UNUserNotificationCenter.current().setNotificationCategories([category])
             
             let content = UNMutableNotificationContent()
@@ -71,7 +72,7 @@ class Overlay{
                 content.subtitle = "It's been \(Overlay.timeSinceStringfy()) since you stepped away from the computer. Get up and take a break for a few minutes"
             }else{
                 print("overlaysShown: \(overlaysShown), if: 1")
-                content.title = "Break Time!"
+                content.title = "Turn Away!"
                 content.subtitle = Overlay.getRandonSuggestion()
             }
             
