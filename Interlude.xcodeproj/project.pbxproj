@@ -12,6 +12,10 @@
 		1B5E175C277243E5003A3658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B5E175B277243E5003A3658 /* Assets.xcassets */; };
 		1B5E175F277243E6003A3658 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B5E175E277243E6003A3658 /* Preview Assets.xcassets */; };
 		1B601172288DC3D9006030FB /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601171288DC3D9006030FB /* UserDefaults.swift */; };
+		1B601176288ED04A006030FB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601175288ED04A006030FB /* Color.swift */; };
+		1B601178288ED28D006030FB /* NSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601177288ED28D006030FB /* NSColor.swift */; };
+		1B60117A288ED2E1006030FB /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601179288ED2E1006030FB /* Notification.swift */; };
+		1B60117C288ED4A8006030FB /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B60117B288ED4A8006030FB /* MenuBar.swift */; };
 		1B761885288637640004FA38 /* InDepthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B761884288637600004FA38 /* InDepthView.swift */; };
 		1B8C4BB62835A5E600F3B603 /* OverlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */; };
 		1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4406278CF3D50037136A /* PreferencesView.swift */; };
@@ -22,7 +26,7 @@
 		1B9FC02D288449F7007D3BDE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B9FC02B288449F7007D3BDE /* Main.storyboard */; };
 		1B9FC03228844A89007D3BDE /* LauncherApp.app in Copy Files (1 item) */ = {isa = PBXBuildFile; fileRef = 1B9FC023288449F4007D3BDE /* LauncherApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1BBE5FEA2881C39000C83E0A /* overlayDefault.mov in Resources */ = {isa = PBXBuildFile; fileRef = 1BBE5FE92881C39000C83E0A /* overlayDefault.mov */; };
-		1BBE5FEE2881C80200C83E0A /* GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBE5FED2881C80200C83E0A /* GIF.swift */; };
+		1BBE5FEE2881C80200C83E0A /* NSVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBE5FED2881C80200C83E0A /* NSVideoPlayer.swift */; };
 		1BBE5FFC2881EB0300C83E0A /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1BBE5FFB2881EB0300C83E0A /* SDWebImageSwiftUI */; };
 		1BBE60082881FB5900C83E0A /* hourglassf.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1BBE60072881FB5800C83E0A /* hourglassf.gif */; };
 		1BC2E5552823320F001811D1 /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC2E5542823320F001811D1 /* GeneralView.swift */; };
@@ -69,6 +73,10 @@
 		1B601171288DC3D9006030FB /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		1B601173288E0871006030FB /* Interlude-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Interlude-Info.plist"; sourceTree = "<group>"; };
 		1B601174288E08B2006030FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1B601175288ED04A006030FB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		1B601177288ED28D006030FB /* NSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.swift; sourceTree = "<group>"; };
+		1B601179288ED2E1006030FB /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		1B60117B288ED4A8006030FB /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		1B761884288637600004FA38 /* InDepthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InDepthView.swift; sourceTree = "<group>"; };
 		1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayModel.swift; sourceTree = "<group>"; };
 		1B9D4406278CF3D50037136A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
@@ -80,7 +88,7 @@
 		1B9FC02C288449F7007D3BDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1B9FC02E288449F7007D3BDE /* LauncherApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LauncherApp.entitlements; sourceTree = "<group>"; };
 		1BBE5FE92881C39000C83E0A /* overlayDefault.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = overlayDefault.mov; sourceTree = "<group>"; };
-		1BBE5FED2881C80200C83E0A /* GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIF.swift; sourceTree = "<group>"; };
+		1BBE5FED2881C80200C83E0A /* NSVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSVideoPlayer.swift; sourceTree = "<group>"; };
 		1BBE60072881FB5800C83E0A /* hourglassf.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hourglassf.gif; sourceTree = "<group>"; };
 		1BBE603728825BFA00C83E0A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		1BC2E5542823320F001811D1 /* GeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralView.swift; sourceTree = "<group>"; };
@@ -159,10 +167,11 @@
 		1B5E1756277243E3003A3658 /* testMacos */ = {
 			isa = PBXGroup;
 			children = (
+				1B5E1757277243E3003A3658 /* testMacosApp.swift */,
+				1B60117B288ED4A8006030FB /* MenuBar.swift */,
+				1BE88D9A28733DAF00AC382C /* Constants.swift */,
 				1B601170288DB9DB006030FB /* Extensions */,
 				1B3BABB7283976D1006DF855 /* StretchGroup */,
-				1B5E1757277243E3003A3658 /* testMacosApp.swift */,
-				1BE88D9A28733DAF00AC382C /* Constants.swift */,
 				1BDFD3182880624D00E6B1FB /* Onboarding */,
 				1B8C4BB42835A4CF00F3B603 /* Overlays */,
 				1BC2E553282331E2001811D1 /* Preferences */,
@@ -185,6 +194,10 @@
 			isa = PBXGroup;
 			children = (
 				1B601171288DC3D9006030FB /* UserDefaults.swift */,
+				1B601175288ED04A006030FB /* Color.swift */,
+				1BBE5FED2881C80200C83E0A /* NSVideoPlayer.swift */,
+				1B601177288ED28D006030FB /* NSColor.swift */,
+				1B601179288ED2E1006030FB /* Notification.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -260,7 +273,6 @@
 			children = (
 				1BDFD314288060CC00E6B1FB /* OnboardingView.swift */,
 				1BDFD3162880624500E6B1FB /* Onboarding-ViewModel.swift */,
-				1BBE5FED2881C80200C83E0A /* GIF.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -387,18 +399,22 @@
 				1BE88D9B28733DAF00AC382C /* Constants.swift in Sources */,
 				1BC2E559282332B4001811D1 /* MethodologyView.swift in Sources */,
 				1B5E175A277243E3003A3658 /* DefaultOverlay.swift in Sources */,
-				1BBE5FEE2881C80200C83E0A /* GIF.swift in Sources */,
+				1BBE5FEE2881C80200C83E0A /* NSVideoPlayer.swift in Sources */,
 				1BDFD315288060CC00E6B1FB /* OnboardingView.swift in Sources */,
 				1BDAFA1F287738CC004737C5 /* StretchHomePage.swift in Sources */,
 				1BC2E55728233274001811D1 /* GeneralView-ViewModel.swift in Sources */,
 				1B9D4409278CF9F20037136A /* PreferencesModel.swift in Sources */,
 				1B761885288637640004FA38 /* InDepthView.swift in Sources */,
+				1B601176288ED04A006030FB /* Color.swift in Sources */,
 				1BC2E5612823336B001811D1 /* AboutView.swift in Sources */,
 				1BC2E56328233379001811D1 /* AboutView-ViewModel.swift in Sources */,
 				1BC2E5552823320F001811D1 /* GeneralView.swift in Sources */,
 				1B601172288DC3D9006030FB /* UserDefaults.swift in Sources */,
+				1B601178288ED28D006030FB /* NSColor.swift in Sources */,
+				1B60117A288ED2E1006030FB /* Notification.swift in Sources */,
 				1B5E1758277243E3003A3658 /* testMacosApp.swift in Sources */,
 				1BDFD3172880624500E6B1FB /* Onboarding-ViewModel.swift in Sources */,
+				1B60117C288ED4A8006030FB /* MenuBar.swift in Sources */,
 				1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
