@@ -10,7 +10,6 @@ import AppKit
 import SwiftUI
 
 
-var ud = UserDefaults.standard
 var prefencesWin = NSWindow(
 contentRect: NSRect(x: 0, y: 0, width: 700, height: 700),
 styleMask: [.titled, .miniaturizable, .closable, .resizable, .fullSizeContentView, ],

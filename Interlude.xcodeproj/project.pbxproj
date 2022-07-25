@@ -11,6 +11,7 @@
 		1B5E175A277243E3003A3658 /* DefaultOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E1759277243E3003A3658 /* DefaultOverlay.swift */; };
 		1B5E175C277243E5003A3658 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B5E175B277243E5003A3658 /* Assets.xcassets */; };
 		1B5E175F277243E6003A3658 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B5E175E277243E6003A3658 /* Preview Assets.xcassets */; };
+		1B601172288DC3D9006030FB /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601171288DC3D9006030FB /* UserDefaults.swift */; };
 		1B761885288637640004FA38 /* InDepthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B761884288637600004FA38 /* InDepthView.swift */; };
 		1B8C4BB62835A5E600F3B603 /* OverlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */; };
 		1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4406278CF3D50037136A /* PreferencesView.swift */; };
@@ -65,6 +66,9 @@
 		1B5E175B277243E5003A3658 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B5E175E277243E6003A3658 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1B5E1760277243E6003A3658 /* testMacos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testMacos.entitlements; sourceTree = "<group>"; };
+		1B601171288DC3D9006030FB /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		1B601173288E0871006030FB /* Interlude-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Interlude-Info.plist"; sourceTree = "<group>"; };
+		1B601174288E08B2006030FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1B761884288637600004FA38 /* InDepthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InDepthView.swift; sourceTree = "<group>"; };
 		1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayModel.swift; sourceTree = "<group>"; };
 		1B9D4406278CF3D50037136A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 		1B5E174B277243E3003A3658 = {
 			isa = PBXGroup;
 			children = (
+				1B601173288E0871006030FB /* Interlude-Info.plist */,
 				1BBE5FE92881C39000C83E0A /* overlayDefault.mov */,
 				1BBE60072881FB5800C83E0A /* hourglassf.gif */,
 				1B5E1756277243E3003A3658 /* testMacos */,
@@ -179,6 +184,7 @@
 		1B601170288DB9DB006030FB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1B601171288DC3D9006030FB /* UserDefaults.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -202,6 +208,7 @@
 		1B9FC024288449F4007D3BDE /* LauncherApp */ = {
 			isa = PBXGroup;
 			children = (
+				1B601174288E08B2006030FB /* Info.plist */,
 				1B9FC025288449F4007D3BDE /* AppDelegate.swift */,
 				1B9FC027288449F4007D3BDE /* ViewController.swift */,
 				1B9FC029288449F7007D3BDE /* Assets.xcassets */,
@@ -389,6 +396,7 @@
 				1BC2E5612823336B001811D1 /* AboutView.swift in Sources */,
 				1BC2E56328233379001811D1 /* AboutView-ViewModel.swift in Sources */,
 				1BC2E5552823320F001811D1 /* GeneralView.swift in Sources */,
+				1B601172288DC3D9006030FB /* UserDefaults.swift in Sources */,
 				1B5E1758277243E3003A3658 /* testMacosApp.swift in Sources */,
 				1BDFD3172880624500E6B1FB /* Onboarding-ViewModel.swift in Sources */,
 				1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */,
@@ -548,6 +556,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interlude-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Interlude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -580,6 +589,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interlude-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Interlude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -610,6 +620,7 @@
 				DEVELOPMENT_TEAM = 5LMLW6JWUG;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LauncherApp/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -640,6 +651,7 @@
 				DEVELOPMENT_TEAM = 5LMLW6JWUG;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LauncherApp/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
