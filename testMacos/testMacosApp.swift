@@ -11,11 +11,10 @@ import ServiceManagement
 import Cocoa
 
 let appDelegate = AppDelegate()
-
 @main
 struct testMacosApp: App {
+    
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @State private var window: NSWindow?
     var body: some Scene {
       WindowGroup {
             ZStack {
@@ -74,12 +73,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
             var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
-            if (overlaysShown % 6 == 0){
+            if (ud.bool(forKey: "com.twenty.twenty.extra.features")){
+                if (overlaysShown % 6 == 0){
                 menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
-            } else if (overlaysShown % 3 == 0) {
+                } else if (overlaysShown % 3 == 0) {
                 menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
+                }
             }
-           
             blurWindows[count] = NSWindow(
                         contentRect: NSRect(x: 0, y: 0, width: NSScreen.frame.width, height: NSScreen.frame.height),
                         styleMask: [.borderless, .fullSizeContentView],
@@ -270,6 +270,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
         //ud.set(false, forKey: "isAppAlreadyLaunchedOnce")
+        ud.set(false, forKey:"com.twenty.twenty.extra.features")
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
             print("App has already launched once before")
         }else{
