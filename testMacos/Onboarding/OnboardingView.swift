@@ -11,6 +11,7 @@ struct OnboardingView: View {
     @State private var currentPage: OnboardingPage = .welcome
     @State private var previousPage: OnboardingPage = .welcome
     @State private var forward = true
+
     private let pages: [OnboardingPage]
     
     init(pages: [OnboardingPage]) {

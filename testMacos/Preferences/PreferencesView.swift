@@ -9,9 +9,9 @@ import SwiftUI
 import UserNotifications
 import Combine
 import StoreKit
-
+var storeManager = StoreManager ()
 struct PreferencesView: View {
-    @State var alreadyLoaded = false
+    
     @State var selected: Int?
     var tabs = ["Customize","Theory","Interlude+","About"]
     
@@ -20,7 +20,7 @@ struct PreferencesView: View {
             //Use your product IDs instead
             "com.twenty.twenty.extra.features"]
         
-        @StateObject var storeManager = StoreManager ()
+    
         
     var body: some View {
         
@@ -49,7 +49,6 @@ struct PreferencesView: View {
                 if alreadyLoaded {
                    return
                 }else{
-                    SKPaymentQueue.default().add(storeManager)
                     storeManager.getProducts(productIDs: productIDs)
                     alreadyLoaded = true
                 }})),AnyView(AboutView())]
