@@ -63,7 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 
         //count keeps track of which screen we are in the array of windows, and blurWindows
         var count = 0;
-        
+     
         NSScreen.screens.forEach { NSScreen in
             windows[count] = NSWindow(
                 contentRect: NSRect(x: 0, y:0, width: NSScreen.frame.width, height: NSScreen.frame.height),
