@@ -1,7 +1,4 @@
 # Inspiration
-<img width="1269" alt="test" src="https://user-images.githubusercontent.com/68393684/188495793-ee23cae6-fc9b-444a-8a9b-271c9327dbb0.png">
-
-
 The Author Jeffrey Anshel, from the book Visual Ergonomics, does a deep dive into the best practices for the human body when using a computer. With over 200 pages of analysis, I recommend that everyone take some time to at least skim through the ideas Mr. Anshel tries to explain. This book, written in 2005, is cited hundreds of times and acts as a golden handbook for adequately using a computer. From posture to a perfect desk lamp, this book covers a lot.
 <br />
 <br />
@@ -49,7 +46,7 @@ Anshel, Jeffrey. Visual Ergonomics Handbook. CRC Press, Taylor &amp; Francis Gro
 Book Link: routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611
 
 # What does the app Interlude actually do?
-
+<img width="1269" alt="test" src="https://user-images.githubusercontent.com/68393684/188495793-ee23cae6-fc9b-444a-8a9b-271c9327dbb0.png">
 I developed this app to remind you to participate in the techniques from the Methods section. Humans have trouble sticking to self-guided regulation, so this app offloads pressure on you to remember to stay healthy and break. In the book, Ashnel mentions that it would be best to have an application built to instruct you when to break. (Ashnel, 153)
 
 Interlude aims to give your eyes, body, and mind the proper break it needs by following a scientifically researched interval of breaks and actions to perform during those breaks. 
