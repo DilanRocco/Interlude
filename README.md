@@ -1,17 +1,17 @@
-## Inspiration:
+# Inspiration:
 
-The Author Jeffrey Anshel from the book [Viusal Ergonomics Handbook](routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611)does a deep dive into the best practices for the human body when using a computer.
-With over 200 pages of analysis, I would recommended that everyone takes some time to at least skim through the ideas Mr. Anshel tries to explain. Cited hundreds of times, this book written in 2005 acts as a golden handbook for proper use of a computer. From posture to a perfect desk lamp, this book covers a lot... So instead of focusing on every aspect of the book, I found one part of the book quite interesting: *Chapter 9 - Kids and Computers.*  However, I think that the chapter title is a quite misleading. While the chapter does mention techinques for children and the way they interact with computers, these rules still very much apply for us adults. The book doesn't elobarate as much as I wished on the fact that adults can fall for the same mistakes children make. For example, Jeffrey Anshel says:
+The Author Jeffrey Anshel from the book [Viusal Ergonomics Handbook](routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611) does a deep dive into the best practices for the human body when using a computer.
+With over 200 pages of analysis, I would recommended that everyone takes some time to at least skim through the ideas Mr. Anshel tries to explain. Cited hundreds of times, this book written in 2005 acts as a golden handbook for proper use of a computer. From posture to a perfect desk lamp, this book covers a lot. So instead of focusing on every aspect of the book, I honed into one part of the book I was particular interested in: *Chapter 9 - Kids and Computers.*  However, I think that the chapter title is misleading. While the chapter does mention techinques for children and the way they interact with computers, these rules still apply for us adults. The book doesn't elobarate enough on the fact that adults fall culprit to the same mistakes children make. For example, Jeffrey Anshel says:
+
 > Children may not be good at regulating their own computer usage
 and parents and teachers should be aware of the importance of appropriate
 intervals and encourage children to learn when to take breaks from computer
 use.
 
-I don't think Asnhel believes that adults won't fall culprit to usage problems; however, that he belives children are much more prone to these issues - therefore focusing on younger people. It's also worth mentioning that this book was written in 2005 when there weren't as many easy accessible addicting apps that keep you engaged for hours on end.
+My guess is Mr. Anshel believes that children are much more prone to these issues because they have less self-control to monitor these activties. Additionally, since this book was written in 2005, he might of not anticapted how addicting these machines would get.
 
-### Solution
-
-Mr. Anshel spilts the latter part of the chapter 9 into four sections. (Ashnel 137)
+# Methods
+These are some of the methods that Mr. Ashnel talked about in his book. I picked these ones out because I use some of their technique in the app. (Ashnel 137)
 
 ##### Eye Breaks
 > Looking at a computer screen for a while can cause
@@ -36,13 +36,15 @@ A few listed below:
 - Pelvic Tilt
 - Head Roll
 
-I developed this app to remind you to particapte in these breaks. Humans have trouble sticking to unguided structure, so this app offloads that pressure so you don't have to remember when you last took a break. Even in the book, Ashnel even mentions that it would best to have an application built to instruct you when to break. (Ashnel, 153)
+
 
 #### Ergonomics Handbook Information:
 Anshel, Jeffrey. Visual Ergonomics Handbook. CRC Press, Taylor &amp; Francis Group, 2019.<br />
 Book Link: routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611
 
 # What does the app Interlude actually do?
+
+I developed this app to remind you to particapte in the techiques from the Methods section. Humans have trouble sticking to self-guided regulation, so this app offloads that pressure any pressure for you to remember to stay healthy and break. Even in the book, Ashnel even mentions that it would best to have an application built to instruct you when to break. (Ashnel, 153)
 
 Interlude aims to give your eyes, body, and mind the proper break it needs by following a scientifically researched interval of breaks and actions to perform during those breaks 
 
