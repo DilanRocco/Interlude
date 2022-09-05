@@ -1,4 +1,4 @@
-# Inspiration:
+# Inspiration
 The Author Jeffrey Anshel, from the book Visual Ergonomics, does a deep dive into the best practices for the human body when using a computer. With over 200 pages of analysis, I recommend that everyone take some time to at least skim through the ideas Mr. Anshel tries to explain. This book, written in 2005, is cited hundreds of times and acts as a golden handbook for adequately using a computer. From posture to a perfect desk lamp, this book covers a lot.
 <br />
 <br />
