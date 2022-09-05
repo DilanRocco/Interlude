@@ -16,7 +16,7 @@ My guess is Mr. Anshel believes that children are much more prone to these issue
 These are some of the methods that Mr. Ashnel talked about in his book. I picked these ones out because I use some of their technique in the app. (Ashnel 137)
 
 ##### Eye Breaks
-> Looking at a computer screen for a while can cause
+Looking at a computer screen for a while can cause
 some changes in how the eyes are working, for example, the rate of
 blinking will decrease which means that the tear film of the eye is
 not being refreshed and dirt and debris is not being cleaned from
