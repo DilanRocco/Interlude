@@ -1,6 +1,6 @@
 ## Inspiration:
 
-The Author Jeffrey Anshel from the book Viusal Ergonomics Book does a deep dive into the best practices for the human body when using a computer.
+The Author Jeffrey Anshel from the book [Viusal Ergonomics Handbook](routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611)does a deep dive into the best practices for the human body when using a computer.
 With over 200 pages of analysis, I would recommended that everyone takes some time to at least skim through the ideas Mr. Anshel tries to explain. Cited hundreds of times, this book written in 2005 acts as a golden handbook for proper use of a computer. From posture to a perfect desk lamp, this book covers a lot... So instead of focusing on every aspect of the book, I found one part of the book quite interesting: *Chapter 9 - Kids and Computers.*  However, I think that the chapter title is a quite misleading. While the chapter does mention techinques for children and the way they interact with computers, these rules still very much apply for us adults. The book doesn't elobarate as much as I wished on the fact that adults can fall for the same mistakes children make. For example, Jeffrey Anshel says:
 > Children may not be good at regulating their own computer usage
 and parents and teachers should be aware of the importance of appropriate
