@@ -2,15 +2,7 @@
 The Author Jeffrey Anshel, from the book Visual Ergonomics, does a deep dive into the best practices for the human body when using a computer. With over 200 pages of analysis, I recommend that everyone take some time to at least skim through the ideas Mr. Anshel tries to explain. This book, written in 2005, is cited hundreds of times and acts as a golden handbook for adequately using a computer. From posture to a perfect desk lamp, this book covers a lot.
 <br />
 <br />
-So instead of focusing on every aspect of the book, I honed into one part of the book I was particularly interested in: *Chapter 9 - Kids and Computers.*  However, I think that the chapter title is misleading. While the chapter mentions techniques for children and how they interact with computers, these rules still apply to us adults. The book doesn't elaborate enough on the fact that adults fall the culprit for the same mistakes children make.
-For example, Jeffrey Anshel says:
-
-> Children may not be good at regulating their own computer usage
-and parents and teachers should be aware of the importance of appropriate
-intervals and encourage children to learn when to take breaks from computer
-use.
-
-Also, since this book was written in 2005, I think he failed to consider how addicting computers would get, even for the most diligent adults.
+So instead of focusing on every aspect of the book, I honed into one part of the book I was particularly interested in: *Chapter 9 - Kids and Computers.*  However, I think that the chapter title is misleading. While the chapter mentions techniques for children and how they interact with computers, these rules still apply to us adults. The book doesn't elaborate enough on the fact that adults fall the culprit for the same mistakes children make. Since this book was written in 2005, I think he didn't even consider how addicting computers would get, even for the most diligent adults.
 
 
 # Methods
