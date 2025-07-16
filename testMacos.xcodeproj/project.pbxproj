@@ -15,8 +15,6 @@
 		1B5E1774277243E6003A3658 /* testMacosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E1773277243E6003A3658 /* testMacosUITests.swift */; };
 		1B5E1776277243E6003A3658 /* testMacosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E1775277243E6003A3658 /* testMacosUITestsLaunchTests.swift */; };
 		1B8C4BB62835A5E600F3B603 /* OverlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */; };
-		1B9D4401278BE5AD0037136A /* OneHourOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4400278BE5AD0037136A /* OneHourOverlay.swift */; };
-		1B9D4403278BE6730037136A /* TwoHourOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4402278BE6730037136A /* TwoHourOverlay.swift */; };
 		1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4406278CF3D50037136A /* PreferencesView.swift */; };
 		1B9D4409278CF9F20037136A /* PreferencesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4408278CF9F20037136A /* PreferencesModel.swift */; };
 		1BBE5FEA2881C39000C83E0A /* overlayDefault.mov in Resources */ = {isa = PBXBuildFile; fileRef = 1BBE5FE92881C39000C83E0A /* overlayDefault.mov */; };
@@ -89,8 +87,6 @@
 		1B5E1773277243E6003A3658 /* testMacosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosUITests.swift; sourceTree = "<group>"; };
 		1B5E1775277243E6003A3658 /* testMacosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayModel.swift; sourceTree = "<group>"; };
-		1B9D4400278BE5AD0037136A /* OneHourOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneHourOverlay.swift; sourceTree = "<group>"; };
-		1B9D4402278BE6730037136A /* TwoHourOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoHourOverlay.swift; sourceTree = "<group>"; };
 		1B9D4406278CF3D50037136A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		1B9D4408278CF9F20037136A /* PreferencesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesModel.swift; sourceTree = "<group>"; };
 		1BBE5FE92881C39000C83E0A /* overlayDefault.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = overlayDefault.mov; sourceTree = "<group>"; };
@@ -226,8 +222,6 @@
 			children = (
 				1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */,
 				1B5E1759277243E3003A3658 /* DefaultOverlay.swift */,
-				1B9D4400278BE5AD0037136A /* OneHourOverlay.swift */,
-				1B9D4402278BE6730037136A /* TwoHourOverlay.swift */,
 			);
 			path = Overlays;
 			sourceTree = "<group>";
@@ -437,13 +431,11 @@
 				1B5E175A277243E3003A3658 /* DefaultOverlay.swift in Sources */,
 				1BBE5FEE2881C80200C83E0A /* GIF.swift in Sources */,
 				1BDFD315288060CC00E6B1FB /* OnboardingView.swift in Sources */,
-				1B9D4403278BE6730037136A /* TwoHourOverlay.swift in Sources */,
 				1BDAFA1F287738CC004737C5 /* StretchHomePage.swift in Sources */,
 				1BC2E55728233274001811D1 /* GeneralView-ViewModel.swift in Sources */,
 				1B9D4409278CF9F20037136A /* PreferencesModel.swift in Sources */,
 				1BC2E55F28233327001811D1 /* AdvancedView-ViewModel.swift in Sources */,
 				1BC2E5612823336B001811D1 /* AboutView.swift in Sources */,
-				1B9D4401278BE5AD0037136A /* OneHourOverlay.swift in Sources */,
 				1BC2E56328233379001811D1 /* AboutView-ViewModel.swift in Sources */,
 				1BC2E5552823320F001811D1 /* GeneralView.swift in Sources */,
 				1B5E1758277243E3003A3658 /* testMacosApp.swift in Sources */,
