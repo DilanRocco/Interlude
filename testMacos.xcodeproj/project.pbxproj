@@ -23,6 +23,7 @@
 		1BBE5FEE2881C80200C83E0A /* GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBE5FED2881C80200C83E0A /* GIF.swift */; };
 		1BBE5FFC2881EB0300C83E0A /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1BBE5FFB2881EB0300C83E0A /* SDWebImageSwiftUI */; };
 		1BBE60082881FB5900C83E0A /* hourglassf.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1BBE60072881FB5800C83E0A /* hourglassf.gif */; };
+		1BBE603828825BFA00C83E0A /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBE603728825BFA00C83E0A /* ServiceManagement.framework */; platformFilter = maccatalyst; };
 		1BC2E5552823320F001811D1 /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC2E5542823320F001811D1 /* GeneralView.swift */; };
 		1BC2E55728233274001811D1 /* GeneralView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC2E55628233274001811D1 /* GeneralView-ViewModel.swift */; };
 		1BC2E559282332B4001811D1 /* MethodologyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC2E558282332B4001811D1 /* MethodologyView.swift */; };
@@ -63,6 +64,18 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1BBE603528825B9700C83E0A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1B5E1754277243E3003A3658 /* testMacos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testMacos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5E1757277243E3003A3658 /* testMacosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosApp.swift; sourceTree = "<group>"; };
@@ -83,6 +96,7 @@
 		1BBE5FE92881C39000C83E0A /* overlayDefault.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = overlayDefault.mov; sourceTree = "<group>"; };
 		1BBE5FED2881C80200C83E0A /* GIF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIF.swift; sourceTree = "<group>"; };
 		1BBE60072881FB5800C83E0A /* hourglassf.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hourglassf.gif; sourceTree = "<group>"; };
+		1BBE603728825BFA00C83E0A /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		1BC2E5542823320F001811D1 /* GeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralView.swift; sourceTree = "<group>"; };
 		1BC2E55628233274001811D1 /* GeneralView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeneralView-ViewModel.swift"; sourceTree = "<group>"; };
 		1BC2E558282332B4001811D1 /* MethodologyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodologyView.swift; sourceTree = "<group>"; };
@@ -112,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BBE5FFC2881EB0300C83E0A /* SDWebImageSwiftUI in Frameworks */,
+				1BBE603828825BFA00C83E0A /* ServiceManagement.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +235,7 @@
 		1BBE5FFA2881EB0300C83E0A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1BBE603728825BFA00C83E0A /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -276,6 +292,7 @@
 				1B5E1750277243E3003A3658 /* Sources */,
 				1B5E1751277243E3003A3658 /* Frameworks */,
 				1B5E1752277243E3003A3658 /* Resources */,
+				1BBE603528825B9700C83E0A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -332,7 +349,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1310;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					1B5E1753277243E3003A3658 = {
