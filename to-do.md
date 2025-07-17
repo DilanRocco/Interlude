@@ -1,5 +1,5 @@
 ## things still to do with the app
-- section about the book written by Jeffrey Ashnel - finish settings pages
+- copy the read.me into the theory page
 - page for the streches
 - make text for notifiications
 - deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
