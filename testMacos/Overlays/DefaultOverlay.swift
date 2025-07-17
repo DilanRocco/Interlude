@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-//keeps track of the amount of times in a session a
-var timesOverlayDisplayed = 0
 struct DefaultOverlay: View {
     @State private var isPresented = false
     @ObservedObject var model = viewModel()
     var width: CGFloat;
     var height: CGFloat;
+    var overlay: Int;
+    var timeSinceStringfy: String;
     // overlay:
     // 1,
     // 2,
     // 3,
     // 1 represents the 20 minute main interval 2 represents the hour interval and 3 represents the 2 hour interval
-    var overlay: Int;
+    
     var body: some View {
             VStack{
                 Spacer()
@@ -40,7 +40,7 @@ struct DefaultOverlay: View {
                         .fontWeight(.heavy)
                         .foregroundColor(.white)
                         .padding([.bottom],1)
-                Text("It's been an hour and it's recommended that you step away from the computer for a few minutes")
+                Text("It's been \(timeSinceStringfy) since you stepped away from the computer. Get up and take a break for a few minutes")
                     .font(.system(size: 17))
                     .foregroundColor(.white)
                    
@@ -51,7 +51,7 @@ struct DefaultOverlay: View {
                         .fontWeight(.heavy)
                         .foregroundColor(.white)
                         .padding([.bottom],1)
-                Text("It's been two hours and it's recommended that you step away from the computer and stretch your body")
+                Text("It's been \(timeSinceStringfy) since the last stretch break. Try stepping away from the computer to stretch your body")
                         .font(.system(size: 17))
                         .foregroundColor(.white)
                         
@@ -70,7 +70,6 @@ struct DefaultOverlay: View {
                 
             }.frame(minWidth: width, minHeight:  height)
        
-        //(PreferencesTab.ColorDownload() == "#f6f7f6ff") ? Color.clear : (Color(hex:PreferencesTab.ColorDownload()))
             
            }
                             

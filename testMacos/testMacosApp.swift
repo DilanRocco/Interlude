@@ -8,6 +8,8 @@ import SwiftUI
 import AppKit
 import UserNotifications
 import ServiceManagement
+import Cocoa
+
 let appDelegate = AppDelegate()
 @main
 struct testMacosApp: App {
@@ -195,13 +197,42 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].setFrameOrigin(NSScreen.frame.origin)
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
-            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3))
+            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: timeSinceStringfy() ))
             if (overlaysShown % 6 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: timeSinceStringfy()))
             }else if (overlaysShown % 3 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: timeSinceStringfy()))
             }
-    
+            func timeSinceStringfy() -> String{
+                let time = ud.integer(forKey: "screenInterval") * overlaysShown
+                
+                switch time{
+                case 60:
+                    return "an hour"
+                case 60...119:
+                    return "over an hour"
+                case 120:
+                    return "two hours"
+                case 121...179:
+                    return "over two hours"
+                case 180:
+                    return "three hours"
+                case 180...239:
+                    return "over three hours"
+                case 240:
+                    return "four hours"
+                case 240...299:
+                    return "over four hours"
+                case 300:
+                    return "five hours"
+                case 300...359:
+                    return "over five hours"
+                case 360:
+                    return "six hours"
+                default:
+                   return "an hour"
+                }
+            }
             blurWindows[count] = NSWindow(
                         contentRect: NSRect(x: 0, y: 0, width: NSScreen.frame.width, height: NSScreen.frame.height),
                         styleMask: [.borderless, .fullSizeContentView],
@@ -263,13 +294,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     static func StartScreenTimer(){
             // have this as a global somewhere
-//            func getFourth() -> Double{
-//                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
+            func getFourth() -> Double{
+                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
         //TESTING
-        func getFourth() -> Double{
-            return 2.5
-            
-        }
+//        func getFourth() -> Double{
+//            return 2.5
+//
+//        }
             print("StartScreenTimer")
             print()
 
@@ -440,14 +471,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         AppDelegate.StartScreenTimer()
         
         
-    
-            
+        print("hello")
+        let launcherAppId = "com.Rocco-Piscatello.LauncherApp"
+        let runningApps = NSWorkspace.shared.runningApplications
+
+        let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
+        print(isRunning)
+        print("isrunning")
+        SMLoginItemSetEnabled(launcherAppId as CFString, true)
+        print("test")
+        if isRunning {
+            DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
+        }
         //For Testing the Overlay
         //OverlayWindow.openPauseOverlay()
     }
    
 }
-
+extension Notification.Name {
+    static let killLauncher = Notification.Name("killLauncher")
+}
 class Notifications{
     static var timer: Timer?
     static func openSettings(){
@@ -511,3 +554,6 @@ func toHex(alpha: Bool = false) -> String? {
 }
  
     let nscol = NSColor(hex: "#2196f3")
+
+
+
