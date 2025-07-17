@@ -31,10 +31,10 @@ extension AppDelegate: NSApplicationDelegate {
             components.removeLast()
             components.append("MacOS")
             components.append("testMacos") //main app name
-
-            let newPath = NSString.path(withComponents: components)
+            let newPath = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.twenty.twenty")!
+            //let newPath = NSString.path(withComponents: components)
             print("running app")
-            NSWorkspace.shared.launchApplication(newPath)
+            NSWorkspace.shared.openApplication(at: newPath, configuration: NSWorkspace.OpenConfiguration() , completionHandler: nil)
         }
         else {
             self.terminate()

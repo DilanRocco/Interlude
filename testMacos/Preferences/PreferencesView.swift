@@ -13,8 +13,9 @@ struct PreferencesView: View {
     
     @State var selected: Int? = 0
     //https://betterprogramming.pub/using-sidebar-in-swiftui-without-a-navigationview-94f4181c09b
-    var tabs = ["Basic Configurations","Methodology","Advanced", "About"]
-    var tabViews = [AnyView(GeneralView()),AnyView(MethodologyView()),AnyView(AdvancedView()),AnyView(AboutView())]
+    var tabs = ["Customize","Theory", "About"]
+    var tabViews = [AnyView(GeneralView()),AnyView(MethodologyView()),AnyView(AboutView())]
+
     var body: some View {
         HStack {
             List(0...tabs.count-1, id: \.self, selection: $selected) { number in
@@ -42,11 +43,11 @@ struct PreferencesView: View {
 
 
 
-struct PreferencesView_Previews: PreviewProvider {
-    static var previews: some View {
-        PreferencesView()
-    }
-}
+//struct PreferencesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PreferencesView()
+//    }
+//}
 
 extension Color {
     public init?(hex: String) {

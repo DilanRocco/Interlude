@@ -11,7 +11,7 @@ struct MethodologyView: View {
         var body: some View {
             VStack{
                 HStack{
-                    Text("Methodology").fontWeight(.bold).font(.system(size: 40)).padding()
+                    Text("Theory").fontWeight(.bold).font(.largeTitle).padding()
                     Spacer()
                 }
                 Spacer()

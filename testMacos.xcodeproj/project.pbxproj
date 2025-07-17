@@ -283,12 +283,12 @@
 				1B9D4408278CF9F20037136A /* PreferencesModel.swift */,
 				1BC2E5602823336B001811D1 /* AboutView.swift */,
 				1BC2E56228233379001811D1 /* AboutView-ViewModel.swift */,
-				1BC2E55C282332F9001811D1 /* AdvancedView.swift */,
-				1BC2E55E28233327001811D1 /* AdvancedView-ViewModel.swift */,
 				1BC2E5542823320F001811D1 /* GeneralView.swift */,
 				1BC2E55628233274001811D1 /* GeneralView-ViewModel.swift */,
 				1BC2E558282332B4001811D1 /* MethodologyView.swift */,
 				1BC2E55A282332CA001811D1 /* MethodologyView-ViewModel.swift */,
+				1BC2E55C282332F9001811D1 /* AdvancedView.swift */,
+				1BC2E55E28233327001811D1 /* AdvancedView-ViewModel.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -700,12 +700,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twenty.twenty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -729,12 +730,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twenty.twenty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -841,6 +843,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LauncherApp/LauncherApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -869,6 +872,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LauncherApp/LauncherApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
