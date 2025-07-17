@@ -81,15 +81,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1B5E1754277243E3003A3658 /* testMacos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testMacos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B5E1754277243E3003A3658 /* Interlude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Interlude.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5E1757277243E3003A3658 /* testMacosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosApp.swift; sourceTree = "<group>"; };
 		1B5E1759277243E3003A3658 /* DefaultOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOverlay.swift; sourceTree = "<group>"; };
 		1B5E175B277243E5003A3658 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B5E175E277243E6003A3658 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1B5E1760277243E6003A3658 /* testMacos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testMacos.entitlements; sourceTree = "<group>"; };
-		1B5E1765277243E6003A3658 /* testMacosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testMacosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B5E1765277243E6003A3658 /* InterludeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterludeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5E1769277243E6003A3658 /* testMacosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosTests.swift; sourceTree = "<group>"; };
-		1B5E176F277243E6003A3658 /* testMacosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testMacosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B5E176F277243E6003A3658 /* InterludeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterludeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5E1773277243E6003A3658 /* testMacosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosUITests.swift; sourceTree = "<group>"; };
 		1B5E1775277243E6003A3658 /* testMacosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMacosUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayModel.swift; sourceTree = "<group>"; };
@@ -190,9 +190,9 @@
 		1B5E1755277243E3003A3658 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1B5E1754277243E3003A3658 /* testMacos.app */,
-				1B5E1765277243E6003A3658 /* testMacosTests.xctest */,
-				1B5E176F277243E6003A3658 /* testMacosUITests.xctest */,
+				1B5E1754277243E3003A3658 /* Interlude.app */,
+				1B5E1765277243E6003A3658 /* InterludeTests.xctest */,
+				1B5E176F277243E6003A3658 /* InterludeUITests.xctest */,
 				1B9FC023288449F4007D3BDE /* LauncherApp.app */,
 			);
 			name = Products;
@@ -321,9 +321,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1B5E1753277243E3003A3658 /* testMacos */ = {
+		1B5E1753277243E3003A3658 /* Interlude */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1B5E1779277243E6003A3658 /* Build configuration list for PBXNativeTarget "testMacos" */;
+			buildConfigurationList = 1B5E1779277243E6003A3658 /* Build configuration list for PBXNativeTarget "Interlude" */;
 			buildPhases = (
 				1B5E1750277243E3003A3658 /* Sources */,
 				1B5E1751277243E3003A3658 /* Frameworks */,
@@ -334,17 +334,17 @@
 			);
 			dependencies = (
 			);
-			name = testMacos;
+			name = Interlude;
 			packageProductDependencies = (
 				1BBE5FFB2881EB0300C83E0A /* SDWebImageSwiftUI */,
 			);
 			productName = testMacos;
-			productReference = 1B5E1754277243E3003A3658 /* testMacos.app */;
+			productReference = 1B5E1754277243E3003A3658 /* Interlude.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1B5E1764277243E6003A3658 /* testMacosTests */ = {
+		1B5E1764277243E6003A3658 /* InterludeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1B5E177C277243E6003A3658 /* Build configuration list for PBXNativeTarget "testMacosTests" */;
+			buildConfigurationList = 1B5E177C277243E6003A3658 /* Build configuration list for PBXNativeTarget "InterludeTests" */;
 			buildPhases = (
 				1B5E1761277243E6003A3658 /* Sources */,
 				1B5E1762277243E6003A3658 /* Frameworks */,
@@ -355,14 +355,14 @@
 			dependencies = (
 				1B5E1767277243E6003A3658 /* PBXTargetDependency */,
 			);
-			name = testMacosTests;
+			name = InterludeTests;
 			productName = testMacosTests;
-			productReference = 1B5E1765277243E6003A3658 /* testMacosTests.xctest */;
+			productReference = 1B5E1765277243E6003A3658 /* InterludeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		1B5E176E277243E6003A3658 /* testMacosUITests */ = {
+		1B5E176E277243E6003A3658 /* InterludeUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1B5E177F277243E6003A3658 /* Build configuration list for PBXNativeTarget "testMacosUITests" */;
+			buildConfigurationList = 1B5E177F277243E6003A3658 /* Build configuration list for PBXNativeTarget "InterludeUITests" */;
 			buildPhases = (
 				1B5E176B277243E6003A3658 /* Sources */,
 				1B5E176C277243E6003A3658 /* Frameworks */,
@@ -373,9 +373,9 @@
 			dependencies = (
 				1B5E1771277243E6003A3658 /* PBXTargetDependency */,
 			);
-			name = testMacosUITests;
+			name = InterludeUITests;
 			productName = testMacosUITests;
-			productReference = 1B5E176F277243E6003A3658 /* testMacosUITests.xctest */;
+			productReference = 1B5E176F277243E6003A3658 /* InterludeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		1B9FC022288449F4007D3BDE /* LauncherApp */ = {
@@ -421,7 +421,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1B5E174F277243E3003A3658 /* Build configuration list for PBXProject "testMacos" */;
+			buildConfigurationList = 1B5E174F277243E3003A3658 /* Build configuration list for PBXProject "Interlude" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -437,9 +437,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1B5E1753277243E3003A3658 /* testMacos */,
-				1B5E1764277243E6003A3658 /* testMacosTests */,
-				1B5E176E277243E6003A3658 /* testMacosUITests */,
+				1B5E1753277243E3003A3658 /* Interlude */,
+				1B5E1764277243E6003A3658 /* InterludeTests */,
+				1B5E176E277243E6003A3658 /* InterludeUITests */,
 				1B9FC022288449F4007D3BDE /* LauncherApp */,
 			);
 		};
@@ -548,12 +548,12 @@
 /* Begin PBXTargetDependency section */
 		1B5E1767277243E6003A3658 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1B5E1753277243E3003A3658 /* testMacos */;
+			target = 1B5E1753277243E3003A3658 /* Interlude */;
 			targetProxy = 1B5E1766277243E6003A3658 /* PBXContainerItemProxy */;
 		};
 		1B5E1771277243E6003A3658 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1B5E1753277243E3003A3658 /* testMacos */;
+			target = 1B5E1753277243E3003A3658 /* Interlude */;
 			targetProxy = 1B5E1770277243E6003A3658 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -700,6 +700,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Interlude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -730,6 +731,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Interlude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -765,7 +767,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testMacos.app/Contents/MacOS/testMacos";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Interlude.app/Contents/MacOS/Interlude";
 			};
 			name = Debug;
 		};
@@ -789,7 +791,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testMacos.app/Contents/MacOS/testMacos";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Interlude.app/Contents/MacOS/Interlude";
 			};
 			name = Release;
 		};
@@ -898,7 +900,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1B5E174F277243E3003A3658 /* Build configuration list for PBXProject "testMacos" */ = {
+		1B5E174F277243E3003A3658 /* Build configuration list for PBXProject "Interlude" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B5E1777277243E6003A3658 /* Debug */,
@@ -907,7 +909,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B5E1779277243E6003A3658 /* Build configuration list for PBXNativeTarget "testMacos" */ = {
+		1B5E1779277243E6003A3658 /* Build configuration list for PBXNativeTarget "Interlude" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B5E177A277243E6003A3658 /* Debug */,
@@ -916,7 +918,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B5E177C277243E6003A3658 /* Build configuration list for PBXNativeTarget "testMacosTests" */ = {
+		1B5E177C277243E6003A3658 /* Build configuration list for PBXNativeTarget "InterludeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B5E177D277243E6003A3658 /* Debug */,
@@ -925,7 +927,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B5E177F277243E6003A3658 /* Build configuration list for PBXNativeTarget "testMacosUITests" */ = {
+		1B5E177F277243E6003A3658 /* Build configuration list for PBXNativeTarget "InterludeUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B5E1780277243E6003A3658 /* Debug */,
