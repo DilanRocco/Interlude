@@ -35,7 +35,6 @@
 - make the overlay fade-in instead of being so quick
 - figure out reseting app intervals (if user goes into sleep mode, reset the cycle of screens)
 - run when the compupter starts
-## compeleted-ish items that still running
 - A lot of settings need to use user-defaults to store data
 - Learn how data interacts with the Views. </br>
 - time left in the menubar or time/or a hourglass 
