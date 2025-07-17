@@ -9,10 +9,11 @@ and parents and teachers should be aware of the importance of appropriate
 intervals and encourage children to learn when to take breaks from computer
 use.
 
-This may be due to the fact that this book was written many years ago in 2005 before addictive apps like Instagram, TikTok, Facebook, become very popular. So I decided to take the rules Anshel says about children in Chapter 9, and put these techinques in not only children but adults as well.
+I don't think Asnhel believes that adults won't fall culprit to usage problems; however, that he belives children are much more prone to these issues - therefore focusing on younger people. It's also worth mentioning that this book was written in 2005 when there weren't as many easy accessible addicting apps that keep you engaged for hours on end.
+
 ### Solution
 
-Mr. Anshel spilts the latter part of the chapter 9 into four sections.
+Mr. Anshel spilts the latter part of the chapter 9 into four sections. (Ashnel 137)
 
 ##### Eye Breaks
 > Looking at a computer screen for a while can cause
@@ -30,18 +31,20 @@ So when you are on that intermit break, you should rest your hands in a relaxed,
 To allow the body to improve blood circulation, and reduce the accumulation of static muscle fatigue, he recommends taking a *brief rest break* where they stand up, move around, and step away from the comupter. 
 
 ##### The Exercise breaks
-To reduce muscle fatigue, *gentle exercises* can be done every 1-2h. Specific examples of excersises that can be done are listed in Chapter 10 in the *General Body Exercises* section.
+To reduce muscle fatigue, *gentle exercises* can be done every 1-2h. Specific examples of excersises that can be done are listed in Chapter 10 in the *General Body Exercises* section. (Ashnel, 169)
 A few listed below:
 - A Pectoral strech
 - A Disk Reliever
 - Pelvic Tilt
 - Head Roll
 
+I developed this app to remind you to particapte in these breaks. Humans have trouble sticking to unguided structure, so this app offloads that pressure so you don't have to remember when you last took a break. Even in the book, Ashnel even mentions that it would best to have an application built to instruct you when to break. (Ashnel, 153)
+
 #### Ergonomics Handbook Information:
 Anshel, Jeffrey. Visual Ergonomics Handbook. CRC Press, Taylor &amp; Francis Group, 2019.<br />
 Book Link: routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611
 
-# What does the app Downtime Aim to Do?
+# What does the app Interlude Aim to Do?
 
 Every twenty minutes the user is guided to take a break from whatever task they are doing by displaying an overlay across their entire screen. 
 
