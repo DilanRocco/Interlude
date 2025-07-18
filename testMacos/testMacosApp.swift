@@ -204,7 +204,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                 menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: timeSinceStringfy()))
             }
             func timeSinceStringfy() -> String{
-                let time = ud.integer(forKey: "screenInterval") * overlaysShown
+                let time = ud.integer(forKey: "screenInterval") * (overlaysShown % 6)
                 
                 switch time{
                 case 60:
@@ -418,10 +418,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 
 }
     @objc func onWakeNote(note: NSNotification) {
+        print("on wake")
        AppDelegate.StartScreenTimer()
     }
 
     @objc func onSleepNote(note: NSNotification) {
+        print("on sleep")
        overlaysShown = 0
        AppDelegate.CloseAllOverlayWindows()
        AppDelegate.StopScreenTimer()
@@ -474,7 +476,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         print("hello")
         let launcherAppId = "com.Rocco-Piscatello.LauncherApp"
         let runningApps = NSWorkspace.shared.runningApplications
-
+        
         let isRunning = !runningApps.filter { $0.bundleIdentifier == launcherAppId }.isEmpty
         print(isRunning)
         print("isrunning")
@@ -483,6 +485,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         if isRunning {
             DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier!)
         }
+        
         //For Testing the Overlay
         //OverlayWindow.openPauseOverlay()
     }
