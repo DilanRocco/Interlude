@@ -2,7 +2,6 @@
 - copy the read.me into the theory page
 - page for the streches
 - make text for notifiications
-- what happens when the computer just turns off after inactivity
 - deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
 - fix text make sure it is all grammaratically correct
 
