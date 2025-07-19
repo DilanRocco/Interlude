@@ -57,6 +57,7 @@ struct DefaultOverlay: View {
                         
                     Button("Try some Stretches"){
                        OpenStretchHomePage()
+                       stretchHomePage.level = NSWindow.Level.popUpMenu
                     }
                     .font(.system(size: 15))
                     .foregroundColor(.white)

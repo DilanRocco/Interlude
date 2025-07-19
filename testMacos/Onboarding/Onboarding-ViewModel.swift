@@ -113,6 +113,7 @@ struct OverlayView: View {
                 
                 let URL = Bundle.main.url(forResource: "overlayDefault", withExtension: "mov")!
                 NSVideoPlayer(videoURL: URL).frame(width: 640, height: 360)
+
                 
             
             

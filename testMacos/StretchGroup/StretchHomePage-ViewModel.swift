@@ -10,7 +10,7 @@ import AppKit
 import SwiftUI
 import AVKit
 var stretchHomePage = NSWindow(
-contentRect: NSRect(x: 0, y: 0, width: 700, height: 700),
+contentRect: NSRect(x: 0, y: 0, width: 800, height: 828),
 styleMask: [.titled, .miniaturizable, .closable, .resizable, .fullSizeContentView, ],
 backing: .buffered, defer: false)
 func OpenStretchHomePage(){
@@ -23,12 +23,13 @@ func OpenStretchHomePage(){
     let stretchView = StretchHomePage()
     stretchHomePage.center()
     stretchHomePage.collectionBehavior = .fullScreenAuxiliary
-    stretchHomePage.makeKeyAndOrderFront(nil)
+    stretchHomePage.makeKeyAndOrderFront(true)
     stretchHomePage.isReleasedWhenClosed = false
     stretchHomePage.orderFrontRegardless()
+    NSApp.activate(ignoringOtherApps: true)
     stretchHomePage.contentView?.layerUsesCoreImageFilters = true
     stretchHomePage.contentView = NSHostingView(rootView: stretchView)
-    stretchHomePage.level = NSWindow.Level.popUpMenu
+    
     stretchHomePage.title = "Stretches"
     }
 }
@@ -45,20 +46,7 @@ extension StretchHomePage{
             ["G","Head roll","Relax your shoulders and pull your head forward as far as it will go. Hold for just two seconds. Then slowly rotate your head along your shoulders until it is all the way back. Continue rolling around to the other side until you return to your original position. Roll you head in one direction three cycles, then reverse the direction for another three cycles. Feel the upper shoulder mus- cles relax. Do these slowly and feel the stretch in the neck muscles."],
             ["H","Shoulder squeeze", "Another excellent stretch for slouchers. Lace your fingers behind your back with the palms facing in. Slowly raise and straighten your arms. Hold for 5 to 10 sec. Repeat 5 to 10 times."]]
         
-        func generateThumbnail(path: URL) -> NSImage? {
-            do {
-                let asset = AVURLAsset(url: path, options: nil)
-                let imgGenerator = AVAssetImageGenerator(asset: asset)
-                imgGenerator.appliesPreferredTrackTransform = true
-                let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
-                let thumbnail = NSImage(cgImage: cgImage, size: NSSize(width: 400,height: 400))
-                //
-                return thumbnail
-            } catch let error {
-                print("*** Error generating thumbnail: \(error.localizedDescription)")
-                return nil
-            }
-        }
+        
     }
     
 }
