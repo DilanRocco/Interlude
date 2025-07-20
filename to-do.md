@@ -1,5 +1,4 @@
 ## things still to do with the app
-- copy the read.me into the theory page
 - make text for notifiications
 - deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
 - fix text make sure it is all grammaratically correct
@@ -7,6 +6,7 @@
 ## Just Continue
 - make the text for the app like the suggestions "Suggestion: It's best to focus on an object that is 20 feet away"
 - page for the streches make animations better
+- copy the read.me into the theory page
 
 ## app landing page
 - Promotional Text - 170 characters 
