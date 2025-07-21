@@ -1,13 +1,11 @@
 ## things still to do with the app
-- copy the read.me into the theory page
-- page for the streches
-- make text for notifiications
 - deal with dark mode. Making the icon black when bar is white in menu bar as well. all around the app as well.
 - fix text make sure it is all grammaratically correct
 
 ## Just Continue
 - make the text for the app like the suggestions "Suggestion: It's best to focus on an object that is 20 feet away"
-
+- page for the streches make animations better
+- copy the read.me into the theory page
 
 ## app landing page
 - Promotional Text - 170 characters 
@@ -41,7 +39,7 @@
 - time left in the menubar or time/or a hourglass 
 - page for you open the app for the first time
 - fix overlays for one hour and two hour
-
+- make text for notifiications
 ## settings that do exist
 - 1. ability to change the time for how long screen time is 
 - 2. ability to change the intermission time

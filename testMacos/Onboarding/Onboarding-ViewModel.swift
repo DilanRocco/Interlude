@@ -67,8 +67,8 @@ enum OnboardingPage: CaseIterable {
         case .overview:
             VStack{
                 Image("clock").resizable().frame(width: 250, height: 250)
-                Text("Interludes occur every 20 minutes").font(.system(size:20)).bold().padding()
-                Text("From research, it has been found that 20 minutes intervals of 20 seconds give you just the right amount of time to reset your eyes. Then, every hour that goes by, it will recommended that you step away from the computer. Additionally, every second hour, it will recommended that you stretch where instructions and videos are provided.").font(.system(size:20)).padding([.leading, .trailing], 50).multilineTextAlignment(.center)
+                Text("Here's how it works").font(.system(size:20)).bold().padding()
+                Text("From research, it has been found that 20 minutes intervals of 20 seconds breaks give you just the right amount of time to rest your eyes. Additionally, research says that every hour you should step away from the computer and every second hour you should stretch your body. Interlude makes it easy for you to follow this structure.").font(.system(size:20)).padding([.leading, .trailing], 50).multilineTextAlignment(.center)
             Spacer()
             }
         case .overlay:

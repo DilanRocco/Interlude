@@ -172,18 +172,29 @@ var menuExtrasConfigurator: MacExtrasConfigurator?
         }
         
     }
+
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
     var updateConfig: UpdateStatus?
     static var windows:[NSWindow] = Array(repeating: NSWindow(), count: NSScreen.screens.count)
     static var blurWindows:[NSWindow] = Array(repeating: NSWindow(), count: NSScreen.screens.count)
-    //static var window = NSWindow()
+  
     
-   
-    
+    //performs the actions of the notification buttons
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        if response.notification.request.content.categoryIdentifier == "category"{
+            switch response.actionIdentifier{
+            case "openStretches":
+                OpenStretchHomePage()
+            default:
+                break
+            }
+        }
+    }
     static var monitor = NSWindow()
     
     static func openPauseOverlay(){
-        overlaysShown += 1
+        
         
         print(overlaysShown)
         //count keeps track of which screen we are in the array of windows, and blurWindows
@@ -198,42 +209,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].setFrameOrigin(NSScreen.frame.origin)
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
-            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: timeSinceStringfy() ))
+            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy() ))
             if (overlaysShown % 6 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: timeSinceStringfy()))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy()))
             }else if (overlaysShown % 3 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: timeSinceStringfy()))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy()))
             }
-            func timeSinceStringfy() -> String{
-                let time = ud.integer(forKey: "screenInterval") * (overlaysShown % 6)
-                
-                switch time{
-                case 60:
-                    return "an hour"
-                case 60...119:
-                    return "over an hour"
-                case 120:
-                    return "two hours"
-                case 121...179:
-                    return "over two hours"
-                case 180:
-                    return "three hours"
-                case 180...239:
-                    return "over three hours"
-                case 240:
-                    return "four hours"
-                case 240...299:
-                    return "over four hours"
-                case 300:
-                    return "five hours"
-                case 300...359:
-                    return "over five hours"
-                case 360:
-                    return "six hours"
-                default:
-                   return "an hour"
-                }
-            }
+           
             blurWindows[count] = NSWindow(
                         contentRect: NSRect(x: 0, y: 0, width: NSScreen.frame.width, height: NSScreen.frame.height),
                         styleMask: [.borderless, .fullSizeContentView],
@@ -303,7 +285,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 //
 //        }
             print("StartScreenTimer")
-            print()
+            print(getFourth())
 
             
             menuExtrasConfigurator?.createMenu(imageName: "hourglass100%")
@@ -317,11 +299,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                         timerTest = Timer.scheduledTimer(withTimeInterval: getFourth(), repeats: false) { timer in
                             menuExtrasConfigurator?.createMenu(imageName: "hourglass25%")
                             timerTest = Timer.scheduledTimer(withTimeInterval: getFourth(), repeats: false) { timer in
+                                overlaysShown += 1
+                                StopScreenTimer()
                                 if (UserDefaults.standard.bool(forKey: "useNotifications")){
-                                    startNotifying()
+                                    Overlay.startNotifying(overlaysShown: overlaysShown)
                                 }else{
-                               StopScreenTimer()
-                               openPauseOverlay()
+                                    openPauseOverlay()
                                 }
                                 }
                             }
@@ -392,33 +375,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     }
     
     
-    static func startNotifying(){
-    print("stratNotifying")
-    let interval = UserDefaults.standard.integer(forKey: "screenInterval")
-    UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
-        print(Settings)
-        if (Settings.authorizationStatus == .authorized){
-            print("Notifications are authoirzed ")
-            let content = UNMutableNotificationContent()
-            content.title = "Break Time!"
-            content.subtitle = "Try to look away from the screen"
-           //content.sound = UNNotificationSound.default
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30,  repeats: false)
-            // choose a random identifier
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request)
-            
-            }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
-                        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                StartScreenTimer()
-            
-        }
-                                                               
-    })
-
-
-}
+   
     @objc func onWakeNote(note: NSNotification) {
         print("on wake")
        AppDelegate.StartScreenTimer()
@@ -460,7 +417,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         fileNotifications()
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
-        //UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
+//        UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
             print("App has already launched once before")
         }else{
@@ -559,6 +516,7 @@ func toHex(alpha: Bool = false) -> String? {
 }
  
     let nscol = NSColor(hex: "#2196f3")
+
 
 
 
