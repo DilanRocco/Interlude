@@ -277,13 +277,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     static func StartScreenTimer(){
             // have this as a global somewhere
-//            func getFourth() -> Double{
-//                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
+            func getFourth() -> Double{
+                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
         //TESTING
-        func getFourth() -> Double{
-            return 2.5
-
-        }
+//        func getFourth() -> Double{
+//            return 2.5
+//
+//        }
             print("StartScreenTimer")
             print(getFourth())
 
@@ -417,7 +417,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         fileNotifications()
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
-        UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
+//        UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
             print("App has already launched once before")
         }else{

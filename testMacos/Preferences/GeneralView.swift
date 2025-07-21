@@ -32,6 +32,7 @@ struct GeneralView: View {
                 }.padding()
                 BackgroundColorsView(viewModel:viewModel).padding()
                 EnableNotifcaionsView(viewModel:viewModel).padding()
+                WatchingAMovie().padding()
                 OpenOnboardingSlides().padding()
                 ResetView(viewModel:viewModel).padding()
                 
@@ -45,6 +46,18 @@ struct GeneralView: View {
 struct BackgroundColorOverlay:Equatable, Hashable{
     var backColor: String 
     var helpText: String
+}
+struct WatchingAMovie: View {
+    @State private var watchingMovie = watchingAMovie
+    var body: some View {
+        VStack{
+        Toggle("Watching A Movie - Pause overlays from displaying", isOn: $watchingMovie).onChange(of: watchingMovie, perform: {watching in
+                watchingAMovie = watching
+                menuExtrasConfigurator?.createMainMenu()
+        })
+            
+        }.multilineTextAlignment(.leading).frame(width: 450, alignment: .leading)
+    }
 }
 
 struct BackgroundColorsView: View {
@@ -138,6 +151,7 @@ struct ResetView: View{
             viewModel.selectedOverlayTime = 20
             viewModel.selectedBackgroundColor = Constants.DefaultBackgroundColor
             viewModel.notificationsOn = false
+            watchingAMovie = false
             
         }
     }
