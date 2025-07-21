@@ -394,7 +394,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     static func startNotifying(){
     print("stratNotifying")
-    let interval = UserDefaults.standard.integer(forKey: "screenInterval")
+    let interval = UserDefaults.standard.integer(forKey: "screenInterval")*60
     UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
         print(Settings)
         if (Settings.authorizationStatus == .authorized){
@@ -403,7 +403,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             content.title = "Break Time!"
             content.subtitle = "Try to look away from the screen"
            //content.sound = UNNotificationSound.default
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30,  repeats: false)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(interval),  repeats: false)
             // choose a random identifier
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             UNUserNotificationCenter.current().add(request)
