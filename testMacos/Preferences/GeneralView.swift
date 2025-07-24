@@ -46,6 +46,7 @@ struct GeneralView: View {
 struct BackgroundColorOverlay:Equatable, Hashable{
     var backColor: String 
     var helpText: String
+    var dark: Bool
 }
 struct WatchingAMovie: View {
     @State private var watchingMovie = watchingAMovie
@@ -54,6 +55,12 @@ struct WatchingAMovie: View {
         Toggle("Watching A Movie - Pause overlays from displaying", isOn: $watchingMovie).onChange(of: watchingMovie, perform: {watching in
                 watchingAMovie = watching
                 menuExtrasConfigurator?.createMainMenu()
+            if watching {
+                AppDelegate.StopScreenTimer()
+            }else{
+                AppDelegate.StartScreenTimer()
+            }
+            
         })
             
         }.multilineTextAlignment(.leading).frame(width: 450, alignment: .leading)
@@ -69,6 +76,7 @@ struct BackgroundColorsView: View {
             ForEach(viewModel.backgroundColors, id: \.self) { color in
                 Button(action: {
                     viewModel.selectedBackgroundColor = color.backColor
+                    viewModel.backgroundDark = color.dark
                 }) {
                     Text("").padding(.top, 6)
                         .padding(.bottom, 6)
@@ -151,7 +159,9 @@ struct ResetView: View{
             viewModel.selectedOverlayTime = 20
             viewModel.selectedBackgroundColor = Constants.DefaultBackgroundColor
             viewModel.notificationsOn = false
+            viewModel.backgroundDark = false
             watchingAMovie = false
+            
             
         }
     }

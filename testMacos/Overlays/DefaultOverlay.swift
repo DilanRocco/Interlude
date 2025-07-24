@@ -14,6 +14,7 @@ struct DefaultOverlay: View {
     var height: CGFloat;
     var overlay: Int;
     var timeSinceStringfy: String;
+    var dark: Bool
     // overlay:
     // 1,
     // 2,
@@ -25,42 +26,48 @@ struct DefaultOverlay: View {
                 Spacer()
                 
                 if (overlay == 1){
-                Text("Break Time")
+                Text("Turn Away")
                     .font(.system(size: 100))
                     .fontWeight(.heavy)
-                    .foregroundColor(.white)
+                    .foregroundColor(dark ? .white : .black)
+                    
                 Text(Overlay.getRandonSuggestion())
                     .font(.system(size: 17))
-                    .foregroundColor(.white)
+                    .foregroundColor(dark ? .white : .black)
+                    
                    
                 }else if (overlay == 2){
               
                 Text("Step Away")
                         .font(.system(size: 100))
                         .fontWeight(.heavy)
-                        .foregroundColor(.white)
+                        .foregroundColor(dark ? .white : .black)
                         .padding([.bottom],1)
                 Text("It's been \(timeSinceStringfy) since you stepped away from the computer. Get up and take a break for a few minutes")
                     .font(.system(size: 17))
-                    .foregroundColor(.white)
+                    .foregroundColor(dark ? .white : .black)
+                    .frame(maxWidth: 500, alignment: .center)
+                    .multilineTextAlignment(.center)
                    
                   
                 }else if (overlay == 3){
                 Text("Stretch Your Body")
                         .font(.system(size: 100))
                         .fontWeight(.heavy)
-                        .foregroundColor(.white)
+                        .foregroundColor(dark ? .white : .black)
                         .padding([.bottom],1)
                 Text("It's been \(timeSinceStringfy) since the last stretch break. Try stepping away from the computer to stretch your body")
                         .font(.system(size: 17))
-                        .foregroundColor(.white)
+                        .foregroundColor(dark ? .white : .black)
+                        .frame(maxWidth: 600, alignment: .center)
+                        .multilineTextAlignment(.center)
                         
                     Button("Try some Stretches"){
                        OpenStretchHomePage()
                        stretchHomePage.level = NSWindow.Level.popUpMenu
                     }
                     .font(.system(size: 15))
-                    .foregroundColor(.white)
+                    .foregroundColor(dark ? .white : .black)
                 }
                 Spacer()
                 Button("Skip Overlay") {

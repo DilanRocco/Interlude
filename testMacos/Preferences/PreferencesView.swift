@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 import UserNotifications
 import Combine
 struct PreferencesView: View {
@@ -39,15 +38,6 @@ struct PreferencesView: View {
         }
     }
 
-
-
-
-
-//struct PreferencesView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PreferencesView()
-//    }
-//}
 
 extension Color {
     public init?(hex: String) {
