@@ -13,9 +13,8 @@ class Overlay{
         
     static func getRandonSuggestion() -> String{
         return suggestionArray.randomElement() ?? "It's best to focus on an object 20 feet away"
-
-        
     }
+    
     static func timeSinceStringfy() -> String{
         let time = (ud.integer(forKey: "screenInterval") * (overlaysShown)) % 360
         
@@ -44,39 +43,31 @@ class Overlay{
             return "six hours"
         default:
            return "deafult"
+            }
         }
-    }
     
     static func startNotifying(overlaysShown:Int){
-    print("stratNotifying")
+        print("startNotifying")
         let overlayInterval = ud.integer(forKey: "overlayInterval")
-    UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
-        print(Settings)
+        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
         if (Settings.authorizationStatus == .authorized){
-            print("Notifications are authoirzed ")
-//         var category = UNNotificationCategory(identifier: "stretchescat", actions: [], intentIdentifiers: [], options: [])
             let openStretch = UNNotificationAction(identifier: "openStretches", title: "Try Stretches", options: UNNotificationActionOptions.init(rawValue: 0))
             let category = UNNotificationCategory(identifier: "category", actions: [openStretch], intentIdentifiers: [], options:.customDismissAction)
             UNUserNotificationCenter.current().setNotificationCategories([category])
             
             let content = UNMutableNotificationContent()
             if (overlaysShown % 6 == 0){
-                print("overlaysShown: \(overlaysShown), if: 6")
-               
                 content.categoryIdentifier = "category"
                 content.title = "Stretch Your Body"
                 content.subtitle = "It's been \(Overlay.timeSinceStringfy()) since the last stretch break. Try stepping away from the computer to stretch your body"
             }else if (overlaysShown % 3 == 0){
-                print("overlaysShown: \(overlaysShown), if: 3")
                 content.title = "Step Away"
                 content.subtitle = "It's been \(Overlay.timeSinceStringfy()) since you stepped away from the computer. Get up and take a break for a few minutes"
             }else{
-                print("overlaysShown: \(overlaysShown), if: 1")
                 content.title = "Turn Away!"
                 content.subtitle = Overlay.getRandonSuggestion()
             }
             
-           //content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1,  repeats: false)
             // choose a random identifier
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
@@ -85,7 +76,7 @@ class Overlay{
             UNUserNotificationCenter.current().add(request)
             
             }
-        DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(overlayInterval)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(overlayInterval)) {
                         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
             AppDelegate.StartScreenTimer()
             }

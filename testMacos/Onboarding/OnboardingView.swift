@@ -8,8 +8,6 @@
 import SwiftUI
 import ServiceManagement
 struct OnboardingView: View {
-    
-    @State private var launchAtLogin = false 
     @State private var currentPage: OnboardingPage = .welcome
     @State private var previousPage: OnboardingPage = .welcome
     @State private var forward = true
@@ -31,34 +29,23 @@ struct OnboardingView: View {
                             removal: .move(edge: forward ? .leading : .trailing)))
                         .animation(.default)
                 }
-            
             }
-            
-                HStack {
-                   
-                    Spacer()
+            HStack {
+                   Spacer()
                     if currentPage.shouldShowNextButton {
                     Button(action: showNextPage,
                             label: {
                         Text("Next")
-                       
-                        
-                    })
+                       })
                     }
                 }
                 .padding(EdgeInsets(top: 0, leading: 50, bottom: 50, trailing: 50))
                 .transition(AnyTransition.asymmetric(
                                 insertion: .move(edge: .trailing),
-                                removal: .move(edge: .leading))
-                           )
+                                removal: .move(edge: .leading)))
                 .animation(.default)
-            
-        }
-          
-            .onAppear {
+            }.onAppear {
                 self.currentPage = pages.first!
-                
-           
             }
     }
  
@@ -66,26 +53,19 @@ struct OnboardingView: View {
         self.forward = true
         self.previousPage = currentPage
         guard let currentIndex = pages.firstIndex(of: currentPage), pages.count > currentIndex + 1 else {
-            
-            
             return
         }
         currentPage = pages[currentIndex + 1]
     }
+    
     private func showBackPage() {
         self.forward = false
         self.previousPage = currentPage
         guard let currentIndex = pages.firstIndex(of: currentPage), 0 <= currentIndex - 1 else {
-            print("else")
             return
         }
-        
         currentPage = pages[currentIndex - 1]
     }
 } 
 
-//struct Onboarding_Previews: PreviewProvider {
-//    static var previews: some View {
-//        OnboardingView()
-//    }
-//}
+
