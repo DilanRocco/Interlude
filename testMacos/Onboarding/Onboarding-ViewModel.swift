@@ -81,7 +81,7 @@ enum OnboardingPage: CaseIterable {
             
         case .end:
             VStack{
-                Text("Everything is already setup!").font(.system(size:20).bold()).padding().multilineTextAlignment(.center)
+                Text("The countdown to your first overlay has begun!").font(.system(size:20).bold()).padding().multilineTextAlignment(.center)
                 Text("For more information, there is a menu bar app resembling an hourglass that will be the hub of this app. There, you can learn more about the theory behind this app, and modify many preferences to your liking.").font(.system(size:20)).padding().multilineTextAlignment(.center).padding([.leading, .trailing], 50)
                 
                 

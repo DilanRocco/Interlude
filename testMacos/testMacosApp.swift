@@ -195,9 +195,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     static func openPauseOverlay(){
         
-        let darkBackground =  UserDefaults.standard.bool(forKey: "darkBackground")
         print(overlaysShown)
         //count keeps track of which screen we are in the array of windows, and blurWindows
+        let backgroundColor = UserDefaults.backgroundColor
         var count = 0;
         NSApp.activate(ignoringOtherApps: true)
         NSScreen.screens.forEach { NSScreen in
@@ -209,11 +209,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].setFrameOrigin(NSScreen.frame.origin)
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
-            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: darkBackground ))
+            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark ))
             if (overlaysShown % 6 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy(), dark: darkBackground))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
             }else if (overlaysShown % 3 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: darkBackground))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
             }
            
             blurWindows[count] = NSWindow(
@@ -247,7 +247,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             blurWindows[count].level = NSWindow.Level.popUpMenu
         
             windows[count].contentView? = NSHostingView(rootView: menuView)
-            windows[count].backgroundColor = NSColor(hex: UserDefaults.standard.string(forKey: "backgroundColor") ?? Constants.DefaultBackgroundColor)
+            windows[count].backgroundColor = NSColor(hex: UserDefaults.backgroundColor.backColor)
 
             windows[count].standardWindowButton(.zoomButton)?.isHidden = true
             windows[count].standardWindowButton(.miniaturizeButton)?.isHidden = true
@@ -277,13 +277,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     
     static func StartScreenTimer(){
             // have this as a global somewhere
-            func getFourth() -> Double{
-                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
+//            func getFourth() -> Double{
+//                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
         //TESTING
-//        func getFourth() -> Double{
-//            return 2.5
-//
-//        }
+        func getFourth() -> Double{
+            return 2.5
+
+        }
             print("StartScreenTimer")
             print(getFourth())
 
@@ -417,16 +417,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         fileNotifications()
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
-//        UserDefaults.standard.set(false, forKey: "isAppAlreadyLaunchedOnce")
+        ud.set(false, forKey: "isAppAlreadyLaunchedOnce")
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
             print("App has already launched once before")
         }else{
-            UserDefaults.standard.set(false, forKey: "useNotifications")
-            UserDefaults.standard.set(Constants.DefaultBackgroundColor, forKey: "backgroundColor")
-            UserDefaults.standard.set(false, forKey: "darkBackground")
-            UserDefaults.standard.set(20, forKey: "screenInterval")
-            UserDefaults.standard.set(20, forKey: "overlayInterval")
-            UserDefaults.standard.set(true, forKey: "isAppAlreadyLaunchedOnce")
+            ud.set(false, forKey: "useNotifications")
+            UserDefaults.backgroundColor = Constants.DefaultBackgroundColor
+            ud.set(20, forKey: "screenInterval")
+            ud.set(20, forKey: "overlayInterval")
+            ud.set(true, forKey: "isAppAlreadyLaunchedOnce")
             openOnboardingWindow()
         }
         UNUserNotificationCenter.current().delegate = self

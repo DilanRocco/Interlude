@@ -7,10 +7,23 @@
 
 import Foundation
 
+//GLOBAL CONSTANTS
+let ud = UserDefaults.standard
+
+
 struct Constants{
     // background color used for the overlay screen
-    static let DefaultBackgroundColor = "#f6f7f680"
-   
+    static let DefaultBackgroundColor = BackgroundColorOverlay(backColor: "#f6f7f680", helpText: "Semi-Transparent", dark: false)
     
     
+    
+}
+
+
+
+
+struct BackgroundColorOverlay:Equatable, Hashable,Codable{
+    var backColor: String
+    var helpText: String
+    var dark: Bool
 }

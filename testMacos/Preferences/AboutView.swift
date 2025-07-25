@@ -15,13 +15,12 @@ struct AboutView: View {
                 Text("About").fontWeight(.bold).font(.largeTitle).padding()
                 Spacer()
             }
-            
-                HStack{
-                    Image("icon")
-                        .resizable()
-                        .frame(width: 128, height: 128, alignment: .center)
-                        .cornerRadius(10)
-                        .padding()
+            HStack{
+                Image("icon")
+                    .resizable()
+                    .frame(width: 128, height: 128, alignment: .center)
+                    .cornerRadius(10)
+                    .padding()
                         
                         
                     let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
@@ -40,17 +39,12 @@ struct AboutView: View {
                             
                             
                         }.padding(.top, -15)
-                        Text( version) .frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.gray)
+                        Text(version) .frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.gray)
                             .padding(.bottom,25)
                         Text("Dilan Rocco Piscatello").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.gray)
-                        
                     }
                     Spacer()
-                }
-                    
-           
-                
-                
+            }
             Text("If you find bugs with Interlude, please either leave a review, or comment on the Github repository. Thanks for downloading, and if you have further questions, you can always message me on any of my socials.").padding()
             HStack{
                 Link("Youtube", destination: URL(string: "https://www.youtube.com/dilanrocco")!)
@@ -63,10 +57,4 @@ struct AboutView: View {
         }
     }
     
-}
-
-struct AboutView_Previews: PreviewProvider {
-    static var previews: some View {
-        AboutView()
-    }
 }
