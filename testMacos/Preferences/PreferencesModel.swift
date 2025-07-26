@@ -14,8 +14,8 @@ var prefencesWin = NSWindow(
 contentRect: NSRect(x: 0, y: 0, width: 700, height: 700),
 styleMask: [.titled, .miniaturizable, .closable, .resizable, .fullSizeContentView, ],
 backing: .buffered, defer: false)
-func OpenPreferencesWindow(){
-    let PrefView = PreferencesView()
+func OpenPreferencesWindow(selected: Int){
+    let PrefView = PreferencesView(selected:selected)
     prefencesWin.center()
     prefencesWin.collectionBehavior = .fullScreenAuxiliary
     prefencesWin.makeKeyAndOrderFront(nil)

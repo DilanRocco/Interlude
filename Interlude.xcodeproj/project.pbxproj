@@ -16,6 +16,9 @@
 		1B601178288ED28D006030FB /* NSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601177288ED28D006030FB /* NSColor.swift */; };
 		1B60117A288ED2E1006030FB /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601179288ED2E1006030FB /* Notification.swift */; };
 		1B60117C288ED4A8006030FB /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B60117B288ED4A8006030FB /* MenuBar.swift */; };
+		1B60117E288F1368006030FB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B60117D288F1368006030FB /* StoreKit.framework */; };
+		1B601182288F161D006030FB /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601181288F161D006030FB /* MoreView.swift */; };
+		1B601186288F3978006030FB /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B601185288F3978006030FB /* StoreManager.swift */; };
 		1B761885288637640004FA38 /* InDepthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B761884288637600004FA38 /* InDepthView.swift */; };
 		1B8C4BB62835A5E600F3B603 /* OverlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */; };
 		1B9D4407278CF3D50037136A /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D4406278CF3D50037136A /* PreferencesView.swift */; };
@@ -77,6 +80,11 @@
 		1B601177288ED28D006030FB /* NSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.swift; sourceTree = "<group>"; };
 		1B601179288ED2E1006030FB /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		1B60117B288ED4A8006030FB /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		1B60117D288F1368006030FB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		1B601181288F161D006030FB /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		1B601183288F1C68006030FB /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
+		1B601184288F235A006030FB /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = Configuration.storekit; path = testMacos/Preferences/Configuration.storekit; sourceTree = "<group>"; };
+		1B601185288F3978006030FB /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		1B761884288637600004FA38 /* InDepthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InDepthView.swift; sourceTree = "<group>"; };
 		1B8C4BB52835A5E600F3B603 /* OverlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayModel.swift; sourceTree = "<group>"; };
 		1B9D4406278CF3D50037136A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
@@ -117,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BBE5FFC2881EB0300C83E0A /* SDWebImageSwiftUI in Frameworks */,
+				1B60117E288F1368006030FB /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +153,7 @@
 		1B5E174B277243E3003A3658 = {
 			isa = PBXGroup;
 			children = (
+				1B601184288F235A006030FB /* Configuration.storekit */,
 				1B601173288E0871006030FB /* Interlude-Info.plist */,
 				1BBE5FE92881C39000C83E0A /* overlayDefault.mov */,
 				1BBE60072881FB5800C83E0A /* hourglassf.gif */,
@@ -234,6 +244,7 @@
 		1BBE5FFA2881EB0300C83E0A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B60117D288F1368006030FB /* StoreKit.framework */,
 				1BBE603728825BFA00C83E0A /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
@@ -249,6 +260,9 @@
 				1BC2E5542823320F001811D1 /* GeneralView.swift */,
 				1BC2E55628233274001811D1 /* GeneralView-ViewModel.swift */,
 				1BC2E558282332B4001811D1 /* MethodologyView.swift */,
+				1B601181288F161D006030FB /* MoreView.swift */,
+				1B601185288F3978006030FB /* StoreManager.swift */,
+				1B601183288F1C68006030FB /* Configuration.storekit */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -396,11 +410,13 @@
 			files = (
 				1BDAFA1D287738C6004737C5 /* StretchHomePage-ViewModel.swift in Sources */,
 				1B8C4BB62835A5E600F3B603 /* OverlayModel.swift in Sources */,
+				1B601186288F3978006030FB /* StoreManager.swift in Sources */,
 				1BE88D9B28733DAF00AC382C /* Constants.swift in Sources */,
 				1BC2E559282332B4001811D1 /* MethodologyView.swift in Sources */,
 				1B5E175A277243E3003A3658 /* DefaultOverlay.swift in Sources */,
 				1BBE5FEE2881C80200C83E0A /* NSVideoPlayer.swift in Sources */,
 				1BDFD315288060CC00E6B1FB /* OnboardingView.swift in Sources */,
+				1B601182288F161D006030FB /* MoreView.swift in Sources */,
 				1BDAFA1F287738CC004737C5 /* StretchHomePage.swift in Sources */,
 				1BC2E55728233274001811D1 /* GeneralView-ViewModel.swift in Sources */,
 				1B9D4409278CF9F20037136A /* PreferencesModel.swift in Sources */,
@@ -566,7 +582,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 5LMLW6JWUG;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -581,7 +597,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twenty.twenty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -599,7 +615,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 5LMLW6JWUG;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -614,7 +630,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twenty.twenty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

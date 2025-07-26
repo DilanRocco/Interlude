@@ -44,7 +44,7 @@ struct AboutView: View {
                         Text("Dilan Rocco Piscatello").frame(maxWidth: .infinity, alignment: .leading).foregroundColor(.gray)
                     }
                     Spacer()
-            }
+            }.padding([.top],-15)
             Text("If you find bugs with Interlude, please either leave a review, or comment on the Github repository. Thanks for downloading, and if you have further questions, you can always message me on any of my socials.").padding()
             HStack{
                 Link("Youtube", destination: URL(string: "https://www.youtube.com/dilanrocco")!)

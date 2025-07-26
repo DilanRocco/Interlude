@@ -10,6 +10,7 @@ import UserNotifications
 
 struct GeneralView: View {
     @ObservedObject private var viewModel = ViewModel()
+    
     var body: some View {
         VStack{
             HStack{
