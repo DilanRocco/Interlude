@@ -269,8 +269,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         fileNotifications()
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
-        //ud.set(false, forKey: "isAppAlreadyLaunchedOnce")
-        ud.set(false, forKey:"com.twenty.twenty.extra.features")
+//        ud.set(false, forKey: "isAppAlreadyLaunchedOnce")
+//        ud.set(false, forKey:"com.twenty.twenty.extra.features")
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
             print("App has already launched once before")
         }else{

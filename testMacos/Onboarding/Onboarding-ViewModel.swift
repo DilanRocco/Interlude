@@ -9,11 +9,12 @@ import Foundation
 import AppKit
 import AVKit
 import SwiftUI
+import StoreKit
 import AVFoundation
 import SDWebImage
 import SDWebImageSwiftUI
 
-
+var alreadyLoaded = false
 var onboardingWindow = NSWindow(
 contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
 styleMask: [.titled, .miniaturizable, .closable, .fullSizeContentView, ],
@@ -37,12 +38,13 @@ enum OnboardingPage: CaseIterable {
     case welcome
     case overlay
     case overview
+    case more
     case end
     static let fullOnboarding = OnboardingPage.allCases
     
     var shouldShowNextButton: Bool {
         switch self {
-        case  .welcome, .overview, .overlay:
+        case  .welcome, .overview, .overlay, .more:
             
             return true
         default:
@@ -77,7 +79,19 @@ enum OnboardingPage: CaseIterable {
                 
                 
                 // This button should only be enabled once permissions are set:
-               
+        case .more:
+            MoreView2(storeManager: storeManager).onAppear(perform: {
+                
+                if (alreadyLoaded){
+                    return
+                }else{
+                    SKPaymentQueue.default().add(storeManager)
+                    storeManager.getProducts(productIDs: ["com.twenty.twenty.extra.features"])
+                    alreadyLoaded = true
+                }
+                    
+                    
+                })
             
         case .end:
             VStack{
