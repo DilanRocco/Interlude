@@ -50,6 +50,7 @@
 		1BDFD315288060CC00E6B1FB /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDFD314288060CC00E6B1FB /* OnboardingView.swift */; };
 		1BDFD3172880624500E6B1FB /* Onboarding-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDFD3162880624500E6B1FB /* Onboarding-ViewModel.swift */; };
 		1BE88D9B28733DAF00AC382C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE88D9A28733DAF00AC382C /* Constants.swift */; };
+		1BF6BA842890B76B00E6A7F4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B60117D288F1368006030FB /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -133,6 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BF6BA842890B76B00E6A7F4 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,7 +584,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 5LMLW6JWUG;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -615,7 +617,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 5LMLW6JWUG;
 				ENABLE_HARDENED_RUNTIME = YES;
