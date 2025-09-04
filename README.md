@@ -44,7 +44,9 @@ I developed this app to remind you to particapte in these breaks. Humans have tr
 Anshel, Jeffrey. Visual Ergonomics Handbook. CRC Press, Taylor &amp; Francis Group, 2019.<br />
 Book Link: routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611
 
-# What does the app Interlude Aim to Do?
+# What does the app Interlude actually do?
+
+Interlude aims to give your eyes, body, and mind the proper break it needs by following a scientifically researched interval of breaks and actions to perform during those breaks 
 
 Every twenty minutes the user is guided to take a break from whatever task they are doing by displaying an overlay across their entire screen. 
 
@@ -54,8 +56,13 @@ Every second hour over a single session the user is guided to perform some strec
 
 The app contains instructions and animations of stretches to relieve stiffness and pain from sitting behind a compnuter for a prolonged period.
 
+Interlude has a settings page to make overlays best fitting for you liking
+Examples include:
+- Less intrusive overlays through the way of notifications
+- background color changes
+- ability to increase/decrease interval overlay period
 
-Interlude aims to give your eyes, body, and mind the proper break it needs by following a scientifically researched interval of breaks and actions to perform during those breaks"
+
 
 
 
