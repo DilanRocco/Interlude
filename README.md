@@ -1,5 +1,6 @@
 # Inspiration
-<img width="1788" alt="Screen Shot 2022-09-05 at 1 26 01 PM" src="https://user-images.githubusercontent.com/68393684/188495393-c122144d-f7a6-4ab5-bebb-d3c7fe59135e.png">
+<img width="1269" alt="test" src="https://user-images.githubusercontent.com/68393684/188495793-ee23cae6-fc9b-444a-8a9b-271c9327dbb0.png">
+
 
 The Author Jeffrey Anshel, from the book Visual Ergonomics, does a deep dive into the best practices for the human body when using a computer. With over 200 pages of analysis, I recommend that everyone take some time to at least skim through the ideas Mr. Anshel tries to explain. This book, written in 2005, is cited hundreds of times and acts as a golden handbook for adequately using a computer. From posture to a perfect desk lamp, this book covers a lot.
 <br />
