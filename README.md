@@ -1,13 +1,11 @@
 # Inspiration:
 
-The Author Jeffrey Anshel from the book [Viusal Ergonomics Handbook](routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611) does a deep dive into the best practices for the human body when using a computer.
-With over 200 pages of analysis, I would recommended that everyone takes some time to at least skim through the ideas Mr. Anshel tries to explain. Cited hundreds of times, this book written in 2005 acts as a golden handbook for proper use of a computer. From posture to a perfect desk lamp, this book covers a lot. So instead of focusing on every aspect of the book, I honed into one part of the book I was particular interested in: *Chapter 9 - Kids and Computers.*  However, I think that the chapter title is misleading. While the chapter does mention techinques for children and the way they interact with computers, these rules still apply for us adults. The book doesn't elobarate enough on the fact that adults fall culprit to the same mistakes children make. For example, Jeffrey Anshel says:
-
+The Author Jeffrey Anshel from the book [Viusal Ergonomics Handbook](routledge.com/Visual-Ergonomics-Handbook/Anshel/p/book/9780367392611) does a deep dive into the best practices for the human body when using a computer. With over 200 pages of analysis, I would recommended that everyone takes some time to at least skim through the ideas Mr. Anshel tries to explain. Cited hundreds of times, this book written in 2005 acts as a golden handbook for proper use of a computer. From posture to a perfect desk lamp, this book covers a lot. <br />
+So instead of focusing on every aspect of the book, I honed into one part of the book I was particular interested in: *Chapter 9 - Kids and Computers.*  However, I think that the chapter title is misleading. While the chapter does mention techinques for children and the way they interact with computers, these rules still apply for us adults. The book doesn't elobarate enough on the fact that adults fall culprit to the same mistakes children make. For example, Jeffrey Anshel says:
 > Children may not be good at regulating their own computer usage
 and parents and teachers should be aware of the importance of appropriate
 intervals and encourage children to learn when to take breaks from computer
 use.
-
 My guess is Mr. Anshel believes that children are much more prone to these issues because they have less self-control to monitor these activties. Additionally, since this book was written in 2005, he might of not anticapted how addicting these machines would get.
 
 # Methods
