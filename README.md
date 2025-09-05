@@ -1,5 +1,3 @@
-# ⌛ Interlude 
-
 ## Inspiration:
 
 The Author Jeffrey Anshel from the book Viusal Ergonomics Book does a deep dive into the best practices for the human body when using a computer.
