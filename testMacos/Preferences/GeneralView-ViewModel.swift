@@ -37,7 +37,7 @@ extension GeneralView{
        
         @Published var selectedOverlayTime: Int {
             didSet {
-                UserDefaults.standard.set(selectedIntervalTime, forKey: "overlayInterval")
+                UserDefaults.standard.set(selectedOverlayTime, forKey: "overlayInterval")
                 
             }
         }
