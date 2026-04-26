@@ -18,16 +18,13 @@ struct GeneralView: View {
                 Spacer()
             }.padding()
             VStack{
-                Picker("Duration between Breaks", selection: $viewModel.selectedIntervalTime) {
-                    ForEach(viewModel.screenIntervals, id: \.self) { time in
-                        Text("\(time)" + " Minutes")
-                    }
-                }.padding()
-                Picker("Break Duration", selection: $viewModel.selectedOverlayTime) {
-                    ForEach(viewModel.overlayIntervals, id: \.self) { time in
-                        Text("\(time)" + " Seconds")
-                    }
-                }.padding()
+                Stepper("Duration between Breaks: \(viewModel.selectedIntervalTime) Minutes",
+                        value: $viewModel.selectedIntervalTime,
+                        in: 1...120).padding()
+                Stepper("Break Duration: \(viewModel.selectedOverlayTime) Seconds",
+                        value: $viewModel.selectedOverlayTime,
+                        in: 5...300,
+                        step: 5).padding()
                 BackgroundColorsView(viewModel:viewModel).padding()
                 EnableNotifcaionsView(viewModel:viewModel).padding()
                 WatchingAMovie().padding()

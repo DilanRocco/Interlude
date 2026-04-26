@@ -61,6 +61,8 @@ var menuExtrasConfigurator: MacExtrasConfigurator?
             let rootItem = NSMenuItem()
             rootItem.title = "Reset Break"
             rootItem.target = self
+            rootItem.keyEquivalent = "b"
+            rootItem.keyEquivalentModifierMask = [.command, .option]
             if (!watchingAMovie){
                 rootItem.action = #selector(Self.skipBreakAction(_:))
             }

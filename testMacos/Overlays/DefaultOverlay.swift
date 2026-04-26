@@ -71,6 +71,7 @@ struct DefaultOverlay: View {
                 }
                 Spacer()
                 Button("Skip Overlay") {
+                    breaksSkipped += 1
                     AppDelegate.CloseOverlayButton()
                 }.padding(60)
                  .buttonStyle(.borderless)
