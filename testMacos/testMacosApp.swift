@@ -28,6 +28,7 @@ struct testMacosApp: App {
 
 // time when you can use the computer // default is 20 minutes 1200.0
 var overlaysShown: Int = 0
+var breaksSkipped: Int = 0
  //time when you are supposed to look away // default is 20 minutes
 var NotificationTimer: Timer?
 var timerTest: Timer?
@@ -163,6 +164,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                             menuExtrasConfigurator?.createMenu(imageName: "hourglass25%")
                             timerTest = Timer.scheduledTimer(withTimeInterval: getFourth(), repeats: false) { timer in
                                 overlaysShown += 1
+                                UserDefaults.standard.set(
+                                    UserDefaults.standard.integer(forKey: "totalBreaksAllTime") + 1,
+                                    forKey: "totalBreaksAllTime"
+                                )
                                 StopScreenTimer()
                                 if (UserDefaults.standard.bool(forKey: "useNotifications")){
                                     Overlay.startNotifying(overlaysShown: overlaysShown)
@@ -241,6 +246,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     @objc func onSleepNote(note: NSNotification) {
         print("on sleep")
        overlaysShown = 0
+       breaksSkipped = 0
        AppDelegate.CloseAllOverlayWindows()
        AppDelegate.StopScreenTimer()
     
@@ -284,6 +290,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         
         UNUserNotificationCenter.current().delegate = self
         AppDelegate.StartScreenTimer()
+        
+        NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
+            guard event.modifierFlags.intersection(.deviceIndependentFlagsMask).contains([.command, .option]),
+                  event.charactersIgnoringModifiers?.lowercased() == "b" else { return }
+            DispatchQueue.main.async {
+                if AppDelegate.windows.first?.isVisible == true {
+                    breaksSkipped += 1
+                    AppDelegate.CloseOverlayButton()
+                } else {
+                    AppDelegate.StopScreenTimer()
+                    AppDelegate.StartScreenTimer()
+                }
+            }
+        }
         
         let launcherAppId = "com.Rocco-Piscatello.LauncherApp"
         let runningApps = NSWorkspace.shared.runningApplications

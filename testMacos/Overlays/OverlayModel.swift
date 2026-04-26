@@ -42,7 +42,7 @@ class Overlay{
         case 360:
             return "six hours"
         default:
-           return "deafult"
+           return "a short while"
             }
         }
     
