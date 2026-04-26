@@ -16,10 +16,8 @@ struct testMacosApp: App {
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
-      WindowGroup {
-            ZStack {
-                EmptyView()
-            }
+        Settings {
+            EmptyView()
         }
     }
 }
