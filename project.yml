@@ -1,0 +1,180 @@
+name: Interlude
+
+options:
+  createIntermediateGroups: true
+  deploymentTarget:
+    macOS: "11.0"
+
+packages:
+  SDWebImageSwiftUI:
+    url: https://github.com/SDWebImage/SDWebImageSwiftUI
+    minorVersion: "2.0.0"
+
+schemes:
+  Interlude:
+    build:
+      targets:
+        Interlude: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+  LauncherApp:
+    build:
+      targets:
+        LauncherApp: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+
+targets:
+
+  # ─────────────────────────────────────────────
+  # Main app
+  # ─────────────────────────────────────────────
+  Interlude:
+    type: application
+    platform: macOS
+    deploymentTarget: "11.0"
+
+    info:
+      path: Interlude-Info.plist
+      properties:
+        LSUIElement: true
+
+    entitlements:
+      path: testMacos/testMacos.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-only: true
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.twenty.twenty
+        PRODUCT_NAME: "$(TARGET_NAME)"
+        DEVELOPMENT_TEAM: 8S9CQKY697
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        ENABLE_HARDENED_RUNTIME: YES
+        COMBINE_HIDPI_IMAGES: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: "Interlude-Info.plist"
+        INFOPLIST_KEY_CFBundleDisplayName: Interlude
+        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        DEVELOPMENT_ASSET_PATHS: "\"testMacos/Preview Content\""
+        MARKETING_VERSION: "1.2"
+        CURRENT_PROJECT_VERSION: "11"
+        SWIFT_VERSION: "5.0"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        ENABLE_PREVIEWS: YES
+        MACOSX_DEPLOYMENT_TARGET: "11.0"
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+      configs:
+        Debug:
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+          SWIFT_COMPILATION_MODE: wholemodule
+
+    sources:
+      - path: testMacos
+        excludes:
+          - "MenuBarView.swift"       # legacy dead file — wrong API signature
+          - "Date.swift"              # unused file
+          - "**/.DS_Store"
+          - "testMacos.entitlements"  # handled by entitlements key above
+          - "Preview Content/**"       # handled by DEVELOPMENT_ASSET_PATHS
+      # Root-level resources (live next to the .xcodeproj)
+      - path: hourglassf.gif
+      - path: overlayDefault.mov
+
+    dependencies:
+      - package: SDWebImageSwiftUI
+      - sdk: StoreKit.framework
+      - target: LauncherApp
+        embed: false
+        link: false
+
+    postBuildScripts:
+      - name: "Embed Login Item Helper"
+        script: |
+          DEST="${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/Library/LoginItems"
+          mkdir -p "${DEST}"
+          cp -R "${BUILT_PRODUCTS_DIR}/LauncherApp.app" "${DEST}/"
+        inputFiles:
+          - "${BUILT_PRODUCTS_DIR}/LauncherApp.app"
+        outputFiles:
+          - "${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/Library/LoginItems/LauncherApp.app"
+
+  # ─────────────────────────────────────────────
+  # Login-item helper
+  # ─────────────────────────────────────────────
+  LauncherApp:
+    type: application
+    platform: macOS
+    deploymentTarget: "12.1"
+
+    info:
+      path: LauncherApp/Info.plist
+      properties:
+        LSUIElement: true
+
+    entitlements:
+      path: LauncherApp/LauncherApp.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-only: true
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "com.Rocco-Piscatello.LauncherApp"
+        PRODUCT_NAME: "$(TARGET_NAME)"
+        DEVELOPMENT_TEAM: 8S9CQKY697
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        ENABLE_HARDENED_RUNTIME: YES
+        COMBINE_HIDPI_IMAGES: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: LauncherApp/Info.plist
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        INFOPLIST_KEY_NSMainStoryboardFile: Main
+        INFOPLIST_KEY_NSPrincipalClass: NSApplication
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.0"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        MACOSX_DEPLOYMENT_TARGET: "12.1"
+        SKIP_INSTALL: YES
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+
+    sources:
+      - path: LauncherApp
+        excludes:
+          - "*.plist"
+          - "*.entitlements"
+          - "**/*.storyboard"
+          - "**/.DS_Store"
+
+    resources:
+      - path: LauncherApp/Assets.xcassets
+      - path: LauncherApp/Base.lproj/Main.storyboard
+
+    dependencies:
+      - sdk: StoreKit.framework
