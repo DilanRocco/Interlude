@@ -35,10 +35,12 @@ struct PreferencesView: View {
             .frame(width: 200)
             .listStyle(SidebarListStyle())
             
-            Spacer()
+            Divider()
+
             detailView
-            Spacer()
-        }.frame(width: 700, height: 700, alignment: .center)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .padding(.vertical, 8)
+        }.frame(width: 760, height: 720, alignment: .center)
         
     }
     

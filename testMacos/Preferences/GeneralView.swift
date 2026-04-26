@@ -12,30 +12,117 @@ struct GeneralView: View {
     @ObservedObject private var viewModel = ViewModel()
     
     var body: some View {
-        VStack{
-            HStack{
-                Text("Customize").fontWeight(.bold).font(.largeTitle)
-                Spacer()
-            }.padding()
-            VStack{
-                Stepper("Duration between Breaks: \(viewModel.selectedIntervalTime) Minutes",
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Customize")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                    Text("Adjust timing, appearance, and reminder behavior.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+
+                PreferenceSection(title: "Timing", subtitle: "Control when reminders appear and how long they stay visible.") {
+                    Stepper(
                         value: $viewModel.selectedIntervalTime,
-                        in: 1...120).padding()
-                Stepper("Break Duration: \(viewModel.selectedOverlayTime) Seconds",
+                        in: 1...120
+                    ) {
+                        LabeledPreferenceValue(
+                            title: "Duration between breaks",
+                            valueText: "\(viewModel.selectedIntervalTime) min"
+                        )
+                    }
+
+                    Divider()
+
+                    Stepper(
                         value: $viewModel.selectedOverlayTime,
                         in: 5...300,
-                        step: 5).padding()
-                BackgroundColorsView(viewModel:viewModel).padding()
-                EnableNotifcaionsView(viewModel:viewModel).padding()
-                WatchingAMovie().padding()
-                OpenOnboardingSlides().padding()
-                ResetView(viewModel:viewModel).padding()
-                
-            }.font(.system(size:15))
-            Spacer()
+                        step: 5
+                    ) {
+                        LabeledPreferenceValue(
+                            title: "Break duration",
+                            valueText: "\(viewModel.selectedOverlayTime) sec"
+                        )
+                    }
+                }
+
+                PreferenceSection(title: "Appearance", subtitle: "Choose the overlay color theme.") {
+                    BackgroundColorsView(viewModel: viewModel)
+                }
+
+                PreferenceSection(title: "Behavior", subtitle: "Pause reminders or limit them to your active schedule.") {
+                    WatchingAMovie()
+                    Divider()
+                    ScheduleView(viewModel: viewModel)
+                }
+
+                PreferenceSection(title: "Notifications", subtitle: "Use a less disruptive notification-style reminder.") {
+                    EnableNotifcaionsView(viewModel: viewModel)
+                }
+
+                PreferenceSection(title: "Maintenance") {
+                    HStack(spacing: 10) {
+                        OpenOnboardingSlides()
+                        Spacer()
+                        ResetView(viewModel: viewModel)
+                    }
+                }
+            }
+            .font(.system(size: 14))
+            .frame(maxWidth: 560, alignment: .leading)
+            .padding(24)
         }
-        
-        
+    }
+}
+
+private struct PreferenceSection<Content: View>: View {
+    let title: String
+    var subtitle: String?
+    let content: Content
+
+    init(title: String, subtitle: String? = nil, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.subtitle = subtitle
+        self.content = content()
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.headline)
+            if let subtitle {
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            content
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color.gray.opacity(0.12))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(Color.gray.opacity(0.28), lineWidth: 1)
+        )
+    }
+}
+
+private struct LabeledPreferenceValue: View {
+    let title: String
+    let valueText: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+            Spacer(minLength: 16)
+            Text(valueText)
+                .foregroundColor(.secondary)
+        }
     }
 }
 
@@ -43,8 +130,8 @@ struct GeneralView: View {
 struct WatchingAMovie: View {
     @State private var watchingMovie = watchingAMovie
     var body: some View {
-        VStack{
-            Toggle("Watching A Movie - Pause overlays from displaying", isOn: $watchingMovie).onChange(of: watchingMovie, perform: {watching in
+        VStack(alignment: .leading, spacing: 0) {
+            Toggle("Watching a movie (pause overlays)", isOn: $watchingMovie).onChange(of: watchingMovie, perform: {watching in
                 watchingAMovie = watching
                 menuExtrasConfigurator?.createMainMenu()
                 if watching {
@@ -53,7 +140,9 @@ struct WatchingAMovie: View {
                     AppDelegate.StartScreenTimer()
                 }
             })
-        }.multilineTextAlignment(.leading).frame(width: 450, alignment: .leading)
+        }
+        .multilineTextAlignment(.leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -62,18 +151,25 @@ struct BackgroundColorsView: View {
     @ObservedObject var viewModel: GeneralView.ViewModel
    
     var body: some View {
-        HStack{
+        HStack {
             Text("Overlay Background:")
+                .frame(width: 140, alignment: .leading)
             ForEach(viewModel.backgroundColors, id: \.self) { color in
                 Button(action: {
                     viewModel.selectedBackgroundColor = color
                 }) {
-                    Text("").padding(.top, 6)
+                    Text("")
+                        .padding(.top, 6)
                         .padding(.bottom, 6)
                         .padding(.leading, 12)
                         .padding(.trailing, 12)
-                        .overlay(RoundedRectangle(cornerRadius: 5)
-                        .stroke(color.backColor == viewModel.selectedBackgroundColor.backColor ? .gray : .clear, lineWidth: color.backColor == viewModel.selectedBackgroundColor.backColor ? 3 : 0))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(
+                                    color.backColor == viewModel.selectedBackgroundColor.backColor ? .gray : .clear,
+                                    lineWidth: color.backColor == viewModel.selectedBackgroundColor.backColor ? 3 : 0
+                                )
+                        )
                         .background(RoundedRectangle(cornerRadius: 5).fill((Color(hex: color.backColor)!)))
                 }
                 .help(color.helpText)
@@ -91,13 +187,14 @@ struct EnableNotifcaionsView: View {
     @State private var isHovering = false
     
     var body: some View {
-        Toggle("Show less a less disruptive Interlude overlay using Notifications", isOn: $viewModel.notificationsOn).onChange(of: viewModel.notificationsOn, perform: { newValue in
+        Toggle("Show a less disruptive Interlude reminder using notifications", isOn: $viewModel.notificationsOn).onChange(of: viewModel.notificationsOn, perform: { newValue in
+                let isTryingToEnable = newValue
                 UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
-                    if (Settings.authorizationStatus == .authorized && viewModel.notificationsOn){
+                    if (Settings.authorizationStatus == .authorized && isTryingToEnable){
                         DispatchQueue.main.async {
                             viewModel.notificationsOn = true
                         }
-                    }else if(!(Settings.authorizationStatus == .authorized) && viewModel.notificationsOn){
+                    }else if(!(Settings.authorizationStatus == .authorized) && isTryingToEnable){
                         DispatchQueue.main.async {
                             viewModel.notificationsOn = false;
                             viewModel.displaySettingPage = true;
@@ -125,6 +222,7 @@ struct EnableNotifcaionsView: View {
             }
             
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -142,6 +240,36 @@ struct ResetView: View{
             
             
         }
+        .foregroundColor(.red)
+    }
+}
+
+// Schedule hours control
+struct ScheduleView: View {
+    @ObservedObject var viewModel: GeneralView.ViewModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Toggle("Only remind me during scheduled hours", isOn: $viewModel.scheduleEnabled)
+
+            if viewModel.scheduleEnabled {
+                HStack(spacing: 16) {
+                    Text("From")
+                    DatePicker("", selection: $viewModel.scheduleStart, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .frame(width: 90)
+                    Text("Until")
+                    DatePicker("", selection: $viewModel.scheduleEnd, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .frame(width: 90)
+                }
+                .padding(.leading, 4)
+
+                Toggle("Weekdays only", isOn: $viewModel.scheduleWeekdaysOnly)
+                    .padding(.leading, 4)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -152,6 +280,7 @@ struct OpenOnboardingSlides: View{
            openOnboardingWindow()
             
         }
+        .buttonStyle(.bordered)
     }
 }
 
