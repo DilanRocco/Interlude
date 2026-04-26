@@ -139,6 +139,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
  }
     
     static func StartScreenTimer(){
+            guard isWithinSchedule() else {
+                startScheduleWaitTimer()
+                return
+            }
+            stopScheduleWaitTimer()
+
             // have this as a global somewhere
             func getFourth() -> Double{
                 0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
@@ -245,8 +251,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
        breaksSkipped = 0
        AppDelegate.CloseAllOverlayWindows()
        AppDelegate.StopScreenTimer()
-    
-        
+       stopScheduleWaitTimer()
     }
    
     // deals with computer going to sleep and waking up
@@ -280,6 +285,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             UserDefaults.backgroundColor = Constants.DefaultBackgroundColor
             ud.set(20, forKey: "screenInterval")
             ud.set(20, forKey: "overlayInterval")
+            ud.set(false, forKey: "scheduleEnabled")
+            ud.set(9,     forKey: "scheduleStartHour")
+            ud.set(0,     forKey: "scheduleStartMinute")
+            ud.set(18,    forKey: "scheduleEndHour")
+            ud.set(0,     forKey: "scheduleEndMinute")
+            ud.set(false, forKey: "scheduleWeekdaysOnly")
             ud.set(true, forKey: "isAppAlreadyLaunchedOnce")
             openOnboardingWindow()
         }
