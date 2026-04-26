@@ -162,12 +162,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                             menuExtrasConfigurator?.createMenu(imageName: "hourglass25%")
                             timerTest = Timer.scheduledTimer(withTimeInterval: getFourth(), repeats: false) { timer in
                                 overlaysShown += 1
-                                UserDefaults.standard.set(
-                                    UserDefaults.standard.integer(forKey: "totalBreaksAllTime") + 1,
-                                    forKey: "totalBreaksAllTime"
-                                )
                                 StopScreenTimer()
                                 if (UserDefaults.standard.bool(forKey: "useNotifications")){
+                                    StatsStore.shared.recordTaken()
                                     Overlay.startNotifying(overlaysShown: overlaysShown)
                                 }else{
                                     openPauseOverlay()
@@ -206,6 +203,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         timerOverlay = Timer.scheduledTimer(withTimeInterval: Double(UserDefaults.standard.integer(forKey: "overlayInterval")), repeats: false) { timer in
                 print("in overlay")
                 StopTimerOverlay()
+                StatsStore.shared.recordTaken()
                 CloseOverlayButton()
         }
     }
@@ -295,6 +293,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             DispatchQueue.main.async {
                 if AppDelegate.windows.first?.isVisible == true {
                     breaksSkipped += 1
+                    StatsStore.shared.recordSkipped()
                     AppDelegate.CloseOverlayButton()
                 } else {
                     AppDelegate.StopScreenTimer()

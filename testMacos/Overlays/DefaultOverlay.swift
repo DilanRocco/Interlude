@@ -72,6 +72,7 @@ struct DefaultOverlay: View {
                 Spacer()
                 Button("Skip Overlay") {
                     breaksSkipped += 1
+                    StatsStore.shared.recordSkipped()
                     AppDelegate.CloseOverlayButton()
                 }.padding(60)
                  .buttonStyle(.borderless)

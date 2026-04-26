@@ -19,6 +19,8 @@ schemes:
       config: Debug
     test:
       config: Debug
+      targets:
+        - name: InterludeTests
     profile:
       config: Release
     analyze:
@@ -53,7 +55,7 @@ targets:
       path: testMacos/testMacos.entitlements
       properties:
         com.apple.security.app-sandbox: true
-        com.apple.security.files.user-selected.read-only: true
+        com.apple.security.files.user-selected.read-write: true
 
     settings:
       base:
@@ -118,6 +120,28 @@ targets:
           - "${BUILT_PRODUCTS_DIR}/LauncherApp.app"
         outputFiles:
           - "${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/Library/LoginItems/LauncherApp.app"
+
+  # ─────────────────────────────────────────────
+  # Unit tests
+  # ─────────────────────────────────────────────
+  InterludeTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "11.0"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.twenty.twenty.tests
+        PRODUCT_NAME: "$(TARGET_NAME)"
+        DEVELOPMENT_TEAM: 8S9CQKY697
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: "5.0"
+        MACOSX_DEPLOYMENT_TARGET: "11.0"
+    sources:
+      - path: InterludeTests
+    dependencies:
+      - target: Interlude
 
   # ─────────────────────────────────────────────
   # Login-item helper
