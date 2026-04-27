@@ -240,7 +240,7 @@ struct ResetView: View{
             
             
         }
-        .foregroundColor(.red)
+        .foregroundColor(.black)
     }
 }
 
