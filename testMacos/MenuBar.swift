@@ -109,13 +109,8 @@ var menuExtrasConfigurator: MacExtrasConfigurator?
                 closePopOver()
             }
         }
-        @objc private func stretchesAction(_ sender: Any?)
-        {
-            if (ud.bool(forKey: "com.twenty.twenty.extra.features")){
-                OpenStretchHomePage()
-            }else{
-                OpenPreferencesWindow(selected: 2)
-            }
+        @objc private func stretchesAction(_ sender: Any?) {
+            OpenStretchHomePage()
         }
         
         @objc private func watchMovieAction(_ sender: Any?) {
