@@ -56,6 +56,7 @@ targets:
       properties:
         com.apple.security.app-sandbox: true
         com.apple.security.files.user-selected.read-write: true
+        com.apple.security.personal-information.calendars: true
 
     settings:
       base:
@@ -72,6 +73,7 @@ targets:
         INFOPLIST_FILE: "Interlude-Info.plist"
         INFOPLIST_KEY_CFBundleDisplayName: Interlude
         INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
+        INFOPLIST_KEY_NSCalendarsUsageDescription: "Interlude uses your calendar to avoid showing break overlays during meetings."
         INFOPLIST_KEY_NSHumanReadableCopyright: ""
         DEVELOPMENT_ASSET_PATHS: "\"testMacos/Preview Content\""
         MARKETING_VERSION: "1.2"

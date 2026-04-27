@@ -144,6 +144,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                 return
             }
             stopScheduleWaitTimer()
+            stopCalendarWaitTimer()
 
             // have this as a global somewhere
             func getFourth() -> Double{
@@ -169,6 +170,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                             timerTest = Timer.scheduledTimer(withTimeInterval: getFourth(), repeats: false) { timer in
                                 overlaysShown += 1
                                 StopScreenTimer()
+                                if shouldDeferOverlayForCalendar() {
+                                    deferOverlayUntilCalendarUnblocked()
+                                    return
+                                }
                                 if (UserDefaults.standard.bool(forKey: "useNotifications")){
                                     StatsStore.shared.recordTaken()
                                     Overlay.startNotifying(overlaysShown: overlaysShown)
@@ -224,7 +229,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     static func StopScreenTimer() {
         print("stopScreenTimer")
         timerTest?.invalidate()
-        timerTest = Timer()
+        timerTest = nil
     }
 
     //CloseOverlayButton is called when either the OverlayInterval is called or the button is clicked on the overlay to
@@ -252,6 +257,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
        AppDelegate.CloseAllOverlayWindows()
        AppDelegate.StopScreenTimer()
        stopScheduleWaitTimer()
+       stopCalendarWaitTimer()
     }
    
     // deals with computer going to sleep and waking up
@@ -268,6 +274,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     func applicationWillTerminate(_ notification: Notification) {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        stopScheduleWaitTimer()
+        stopCalendarWaitTimer()
          
    }
     
@@ -291,8 +299,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             ud.set(18,    forKey: "scheduleEndHour")
             ud.set(0,     forKey: "scheduleEndMinute")
             ud.set(false, forKey: "scheduleWeekdaysOnly")
+            ud.set(false, forKey: "calendarBlockingEnabled")
             ud.set(true, forKey: "isAppAlreadyLaunchedOnce")
             openOnboardingWindow()
+        }
+        CalendarAvailabilityStore.shared.startObservingStoreChanges {
+            handleCalendarStoreChanged()
         }
         
         UNUserNotificationCenter.current().delegate = self

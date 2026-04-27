@@ -268,6 +268,14 @@ struct ScheduleView: View {
                 Toggle("Weekdays only", isOn: $viewModel.scheduleWeekdaysOnly)
                     .padding(.leading, 4)
             }
+
+            Divider()
+
+            Toggle("Skip overlays during calendar meetings", isOn: $viewModel.calendarBlockingEnabled)
+                .help("When enabled, Interlude checks Apple Calendar before showing an overlay.")
+            Text(viewModel.calendarAccessStatusText)
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
