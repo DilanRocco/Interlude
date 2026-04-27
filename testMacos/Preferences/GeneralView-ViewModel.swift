@@ -8,6 +8,7 @@
 import Foundation
 import UserNotifications
 import AppKit
+import EventKit
 
 extension GeneralView{
     @MainActor class ViewModel: ObservableObject{
@@ -79,6 +80,16 @@ extension GeneralView{
             }
         }
 
+        @Published var calendarBlockingEnabled: Bool {
+            didSet {
+                handleCalendarBlockingToggle()
+            }
+        }
+
+        @Published var calendarAccessStatusText: String
+
+        private var isSyncingCalendarToggle = false
+
         private static func timeFromHourMinute(hourKey: String, minuteKey: String) -> Date {
             var comps = Calendar.current.dateComponents([.year, .month, .day], from: Date())
             comps.hour = UserDefaults.standard.integer(forKey: hourKey)
@@ -99,13 +110,50 @@ extension GeneralView{
             scheduleStart = ViewModel.timeFromHourMinute(hourKey: "scheduleStartHour", minuteKey: "scheduleStartMinute")
             scheduleEnd   = ViewModel.timeFromHourMinute(hourKey: "scheduleEndHour",   minuteKey: "scheduleEndMinute")
             scheduleWeekdaysOnly = UserDefaults.standard.bool(forKey: "scheduleWeekdaysOnly")
+            calendarBlockingEnabled = UserDefaults.standard.bool(forKey: "calendarBlockingEnabled")
+            calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
         }
-        
-        
-       
+
+        private func handleCalendarBlockingToggle() {
+            guard !isSyncingCalendarToggle else { return }
+
+            UserDefaults.standard.set(calendarBlockingEnabled, forKey: "calendarBlockingEnabled")
+            if !calendarBlockingEnabled {
+                stopCalendarWaitTimer()
+                AppDelegate.StopScreenTimer()
+                AppDelegate.StartScreenTimer()
+                calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
+                return
+            }
+
+            CalendarAvailabilityStore.shared.requestAccess { [weak self] granted in
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    if granted {
+                        self.calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
+                    } else {
+                        self.isSyncingCalendarToggle = true
+                        self.calendarBlockingEnabled = false
+                        self.isSyncingCalendarToggle = false
+                        UserDefaults.standard.set(false, forKey: "calendarBlockingEnabled")
+                        self.calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
+                    }
+                }
+            }
+        }
+
+        private static func calendarAuthorizationStatusText() -> String {
+            let status = EKEventStore.authorizationStatus(for: .event)
+            if status == .authorized { return "Calendar access granted." }
+            if #available(macOS 14.0, *), status == .fullAccess { return "Calendar access granted." }
+            if #available(macOS 14.0, *), status == .writeOnly { return "Calendar write-only access; meeting blocking needs full access." }
+            if status == .notDetermined { return "Calendar access not requested." }
+            if status == .restricted { return "Calendar access restricted by system." }
+            if status == .denied { return "Calendar access denied." }
+            return "Calendar access unavailable."
+            }
+        }
     }
-    
-}
     
 
 
