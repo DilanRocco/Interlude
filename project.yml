@@ -77,8 +77,8 @@ targets:
         INFOPLIST_KEY_NSCalendarsUsageDescription: "Interlude uses your calendar to avoid showing break overlays during meetings."
         INFOPLIST_KEY_NSHumanReadableCopyright: ""
         DEVELOPMENT_ASSET_PATHS: "\"testMacos/Preview Content\""
-        MARKETING_VERSION: "2.1"
-        CURRENT_PROJECT_VERSION: "17"
+        MARKETING_VERSION: "2.2"
+        CURRENT_PROJECT_VERSION: "18"
         SWIFT_VERSION: "5.0"
         SWIFT_EMIT_LOC_STRINGS: YES
         ENABLE_PREVIEWS: YES
