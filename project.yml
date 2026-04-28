@@ -118,7 +118,8 @@ targets:
         script: |
           DEST="${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/Library/LoginItems"
           mkdir -p "${DEST}"
-          cp -R "${BUILT_PRODUCTS_DIR}/LauncherApp.app" "${DEST}/"
+          rm -rf "${DEST}/LauncherApp.app"
+          cp -R -L "${BUILT_PRODUCTS_DIR}/LauncherApp.app" "${DEST}/LauncherApp.app"
         inputFiles:
           - "${BUILT_PRODUCTS_DIR}/LauncherApp.app"
         outputFiles:
