@@ -20,7 +20,5 @@
 	<string>1</string>
 	<key>LSUIElement</key>
 	<true/>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Interlude uses your calendar to avoid showing break overlays during meetings.</string>
 </dict>
 </plist>

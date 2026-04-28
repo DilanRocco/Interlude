@@ -11,6 +11,7 @@
 		03821F414E90139493358D78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D16569C7F75CD1C7F42771 /* AppDelegate.swift */; };
 		0BD69BF22EC93024D73BA80A /* hourglassf.gif in Resources */ = {isa = PBXBuildFile; fileRef = F60C12A9A3DA8CE4899E64A5 /* hourglassf.gif */; };
 		10D552299B1CBB0D9E28AA84 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648952A634954BEEE0168BC1 /* ViewController.swift */; };
+		11450D8C0794F282962B961D /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1485F54D5ACE1255A0D410 /* ScheduleManager.swift */; };
 		124F6302831427045EC08737 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D2BC4017E468A434F8009AB /* StoreKit.framework */; };
 		1E7F7497B525B8B0750C25C2 /* InDepthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2335496FBD2409F63E9A235A /* InDepthView.swift */; };
 		23AB7CF81426FC98559FFE91 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3942E0A19435C25B7D355D6C /* UserDefaults.swift */; };
@@ -38,6 +39,7 @@
 		A04D2D876812EC4D9791DC44 /* H.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7A46B81228C24D8DD1E270D6 /* H.mp4 */; };
 		A55A6E0B4B83D225283A4633 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6580543A674AB978B4B1EF53 /* Assets.xcassets */; };
 		B5109D7635BD7D83E868D123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C248B76DFC2B67AD25451842 /* Assets.xcassets */; };
+		BFBE9ABD007FA7CB7EFAFC6F /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B5F472AAD8972502B29F5B /* ScheduleManager.swift */; };
 		C501DB9D6AC57ABF23DB9B7C /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041352F0AF05FCEAE90D170A /* AboutView.swift */; };
 		C61599DE71CDA5EE5E6ED5C6 /* StretchHomePage-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089E0A3D17B038F73046BE0 /* StretchHomePage-ViewModel.swift */; };
 		CBC6807C1F7D242D390FBB0A /* G.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 277572E3BF04C3CAEB68F314 /* G.mp4 */; };
@@ -53,7 +55,6 @@
 		DF4945BC56FF23B1CBBE3793 /* NSVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21906E3446C9619EA2BC5658 /* NSVideoPlayer.swift */; };
 		DF72C73D8F99DD9940A15AE2 /* StatsView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF73A845479299DAD64AB7B7 /* StatsView-ViewModel.swift */; };
 		F115EF46A42948E895359379 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9BB2090C22BF6B199906F7 /* PreferencesView.swift */; };
-		FE26C6672F9E4027008F1F9A /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE26C6662F9E4027008F1F9A /* ScheduleManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,29 +81,31 @@
 		1089E0A3D17B038F73046BE0 /* StretchHomePage-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StretchHomePage-ViewModel.swift"; sourceTree = "<group>"; };
 		120CA86060C94F6B83E26727 /* OverlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayModel.swift; sourceTree = "<group>"; };
 		19546F8AA686C231F1ACFD91 /* Onboarding-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Onboarding-ViewModel.swift"; sourceTree = "<group>"; };
+		1F1485F54D5ACE1255A0D410 /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
 		21906E3446C9619EA2BC5658 /* NSVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSVideoPlayer.swift; sourceTree = "<group>"; };
 		21C31B02615F73371580F602 /* StatsExportFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsExportFormatterTests.swift; sourceTree = "<group>"; };
 		21ECBB6C7532A5308B658E8F /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		2335496FBD2409F63E9A235A /* InDepthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InDepthView.swift; sourceTree = "<group>"; };
 		236BE3BB962F2CC63C0F0FEC /* LauncherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LauncherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2517E85462A250C12D26230D /* AboutView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AboutView-ViewModel.swift"; sourceTree = "<group>"; };
-		277572E3BF04C3CAEB68F314 /* G.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = G.mp4; sourceTree = "<group>"; };
+		25B5F472AAD8972502B29F5B /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
+		277572E3BF04C3CAEB68F314 /* G.mp4 */ = {isa = PBXFileReference; path = G.mp4; sourceTree = "<group>"; };
 		2D05AD6B777A6B12360ABD6C /* GeneralView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeneralView-ViewModel.swift"; sourceTree = "<group>"; };
 		2E5BE8DA7F0262731389FF2A /* Interlude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Interlude.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3942E0A19435C25B7D355D6C /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
-		465889EDC0AC346FD249BB1D /* E.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = E.mp4; sourceTree = "<group>"; };
-		49EBC05F88E92CBE4701DA10 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
+		465889EDC0AC346FD249BB1D /* E.mp4 */ = {isa = PBXFileReference; path = E.mp4; sourceTree = "<group>"; };
+		49EBC05F88E92CBE4701DA10 /* Configuration.storekit */ = {isa = PBXFileReference; path = Configuration.storekit; sourceTree = "<group>"; };
 		578236216246F3E4DB87AF84 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
-		5DEC431D2121DB064FA7F02E /* B.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = B.mp4; sourceTree = "<group>"; };
+		5DEC431D2121DB064FA7F02E /* B.mp4 */ = {isa = PBXFileReference; path = B.mp4; sourceTree = "<group>"; };
 		648952A634954BEEE0168BC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6580543A674AB978B4B1EF53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6C7143E6A3794A0D27EB66F1 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
-		72607CB7A1F6C2A86B5E44C2 /* F.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = F.mp4; sourceTree = "<group>"; };
-		7A46B81228C24D8DD1E270D6 /* H.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = H.mp4; sourceTree = "<group>"; };
+		72607CB7A1F6C2A86B5E44C2 /* F.mp4 */ = {isa = PBXFileReference; path = F.mp4; sourceTree = "<group>"; };
+		7A46B81228C24D8DD1E270D6 /* H.mp4 */ = {isa = PBXFileReference; path = H.mp4; sourceTree = "<group>"; };
 		80BACC74997B080438FE14A0 /* PreferencesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesModel.swift; sourceTree = "<group>"; };
 		8663E0039F7BF7A96CDFC985 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		8D2BC4017E468A434F8009AB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		8FF967D438E5B8B8B6BC334E /* A.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = A.mp4; sourceTree = "<group>"; };
+		8FF967D438E5B8B8B6BC334E /* A.mp4 */ = {isa = PBXFileReference; path = A.mp4; sourceTree = "<group>"; };
 		9002868086A2278F698AA7E9 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		9868AFB38B03E58367068447 /* NSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.swift; sourceTree = "<group>"; };
 		99D16569C7F75CD1C7F42771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,14 +117,13 @@
 		BF73A845479299DAD64AB7B7 /* StatsView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StatsView-ViewModel.swift"; sourceTree = "<group>"; };
 		C248B76DFC2B67AD25451842 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4F3B6EF31125CB17644A9F2 /* StretchHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchHomePage.swift; sourceTree = "<group>"; };
-		D7CF52C6B8956C2BC7CB677C /* D.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = D.mp4; sourceTree = "<group>"; };
+		D7CF52C6B8956C2BC7CB677C /* D.mp4 */ = {isa = PBXFileReference; path = D.mp4; sourceTree = "<group>"; };
 		E943D660467F86505F2FAFCD /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		EA285A91FC377388D38B7776 /* GeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralView.swift; sourceTree = "<group>"; };
 		EF5E3679B4E7E564F2033E68 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		F4792836AB63996DBB65383F /* C.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = C.mp4; sourceTree = "<group>"; };
+		F4792836AB63996DBB65383F /* C.mp4 */ = {isa = PBXFileReference; path = C.mp4; sourceTree = "<group>"; };
 		F60C12A9A3DA8CE4899E64A5 /* hourglassf.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hourglassf.gif; sourceTree = "<group>"; };
 		F97F8D861621256BDECE87FD /* InterludeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterludeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FE26C6662F9E4027008F1F9A /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				6580543A674AB978B4B1EF53 /* Assets.xcassets */,
 				A933902DE31EFD06A860E2F9 /* Constants.swift */,
 				21ECBB6C7532A5308B658E8F /* MenuBar.swift */,
+				1F1485F54D5ACE1255A0D410 /* ScheduleManager.swift */,
 				0AC158593A3A999907A0080F /* testMacosApp.swift */,
 				F3E807D37DC74DE503DCB11A /* Extensions */,
 				483018D6A7DF5AB813D1CEE3 /* Onboarding */,
@@ -277,7 +280,7 @@
 				8663E0039F7BF7A96CDFC985 /* MoreView.swift */,
 				80BACC74997B080438FE14A0 /* PreferencesModel.swift */,
 				AB9BB2090C22BF6B199906F7 /* PreferencesView.swift */,
-				FE26C6662F9E4027008F1F9A /* ScheduleManager.swift */,
+				25B5F472AAD8972502B29F5B /* ScheduleManager.swift */,
 				578236216246F3E4DB87AF84 /* StoreManager.swift */,
 			);
 			path = Preferences;
@@ -491,7 +494,6 @@
 				CE39A377C95C11DB2287C0A6 /* MenuBar.swift in Sources */,
 				CC9F7CF201A3E258EBB642A0 /* MethodologyView.swift in Sources */,
 				7648E7B630679CE115BB3BC7 /* MoreView.swift in Sources */,
-				FE26C6672F9E4027008F1F9A /* ScheduleManager.swift in Sources */,
 				418C50FE10BA47A885822E12 /* NSColor.swift in Sources */,
 				DF4945BC56FF23B1CBBE3793 /* NSVideoPlayer.swift in Sources */,
 				02DB9E9408F1FB9AF6C99304 /* Notification.swift in Sources */,
@@ -500,6 +502,8 @@
 				CEE01633955853584ACBA91C /* OverlayModel.swift in Sources */,
 				CE3F403C08786C6775DA81A0 /* PreferencesModel.swift in Sources */,
 				F115EF46A42948E895359379 /* PreferencesView.swift in Sources */,
+				11450D8C0794F282962B961D /* ScheduleManager.swift in Sources */,
+				BFBE9ABD007FA7CB7EFAFC6F /* ScheduleManager.swift in Sources */,
 				DF72C73D8F99DD9940A15AE2 /* StatsView-ViewModel.swift in Sources */,
 				685661731E61ACED574CB92F /* StatsView.swift in Sources */,
 				8962E5DDD3559281A148CF57 /* StoreManager.swift in Sources */,
@@ -626,6 +630,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LauncherApp/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -714,6 +719,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LauncherApp/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -764,7 +770,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 8S9CQKY697;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -772,7 +778,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Interlude-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Interlude;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Interlude uses your calendar to avoid showing break overlays during meetings.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -799,7 +807,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 8S9CQKY697;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -807,7 +815,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Interlude-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Interlude;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Interlude uses your calendar to avoid showing break overlays during meetings.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
