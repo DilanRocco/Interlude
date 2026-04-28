@@ -39,7 +39,6 @@
 		A04D2D876812EC4D9791DC44 /* H.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7A46B81228C24D8DD1E270D6 /* H.mp4 */; };
 		A55A6E0B4B83D225283A4633 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6580543A674AB978B4B1EF53 /* Assets.xcassets */; };
 		B5109D7635BD7D83E868D123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C248B76DFC2B67AD25451842 /* Assets.xcassets */; };
-		BFBE9ABD007FA7CB7EFAFC6F /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B5F472AAD8972502B29F5B /* ScheduleManager.swift */; };
 		C501DB9D6AC57ABF23DB9B7C /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041352F0AF05FCEAE90D170A /* AboutView.swift */; };
 		C61599DE71CDA5EE5E6ED5C6 /* StretchHomePage-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1089E0A3D17B038F73046BE0 /* StretchHomePage-ViewModel.swift */; };
 		CBC6807C1F7D242D390FBB0A /* G.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 277572E3BF04C3CAEB68F314 /* G.mp4 */; };
@@ -88,7 +87,6 @@
 		2335496FBD2409F63E9A235A /* InDepthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InDepthView.swift; sourceTree = "<group>"; };
 		236BE3BB962F2CC63C0F0FEC /* LauncherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LauncherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2517E85462A250C12D26230D /* AboutView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AboutView-ViewModel.swift"; sourceTree = "<group>"; };
-		25B5F472AAD8972502B29F5B /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
 		277572E3BF04C3CAEB68F314 /* G.mp4 */ = {isa = PBXFileReference; path = G.mp4; sourceTree = "<group>"; };
 		2D05AD6B777A6B12360ABD6C /* GeneralView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeneralView-ViewModel.swift"; sourceTree = "<group>"; };
 		2E5BE8DA7F0262731389FF2A /* Interlude.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Interlude.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -280,7 +278,6 @@
 				8663E0039F7BF7A96CDFC985 /* MoreView.swift */,
 				80BACC74997B080438FE14A0 /* PreferencesModel.swift */,
 				AB9BB2090C22BF6B199906F7 /* PreferencesView.swift */,
-				25B5F472AAD8972502B29F5B /* ScheduleManager.swift */,
 				578236216246F3E4DB87AF84 /* StoreManager.swift */,
 			);
 			path = Preferences;
@@ -456,7 +453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DEST=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/Library/LoginItems\"\nmkdir -p \"${DEST}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/LauncherApp.app\" \"${DEST}/\"\n";
+			shellScript = "DEST=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}/Contents/Library/LoginItems\"\nmkdir -p \"${DEST}\"\nrm -rf \"${DEST}/LauncherApp.app\"\ncp -R -L \"${BUILT_PRODUCTS_DIR}/LauncherApp.app\" \"${DEST}/LauncherApp.app\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -503,7 +500,6 @@
 				CE3F403C08786C6775DA81A0 /* PreferencesModel.swift in Sources */,
 				F115EF46A42948E895359379 /* PreferencesView.swift in Sources */,
 				11450D8C0794F282962B961D /* ScheduleManager.swift in Sources */,
-				BFBE9ABD007FA7CB7EFAFC6F /* ScheduleManager.swift in Sources */,
 				DF72C73D8F99DD9940A15AE2 /* StatsView-ViewModel.swift in Sources */,
 				685661731E61ACED574CB92F /* StatsView.swift in Sources */,
 				8962E5DDD3559281A148CF57 /* StoreManager.swift in Sources */,
