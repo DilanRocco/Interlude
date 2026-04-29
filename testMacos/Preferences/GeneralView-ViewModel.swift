@@ -13,10 +13,11 @@ import EventKit
 extension GeneralView{
     @MainActor class ViewModel: ObservableObject{
         let backgroundColors: [BackgroundColorOverlay]
+        private let settingsStore = AppSettingsStore.shared
         
         @Published var notificationsOn: Bool {
             didSet {
-                UserDefaults.standard.set(notificationsOn, forKey: "useNotifications")
+                settingsStore.updateNotificationsOn(notificationsOn)
             }
         }
         
@@ -24,7 +25,7 @@ extension GeneralView{
         
         @Published var selectedIntervalTime:Int {
             didSet {
-                UserDefaults.standard.set(selectedIntervalTime, forKey: "screenInterval")
+                settingsStore.updateScreenIntervalMinutes(selectedIntervalTime)
                 AppDelegate.StopScreenTimer()
                 AppDelegate.StartScreenTimer()
             }
@@ -32,21 +33,32 @@ extension GeneralView{
        
         @Published var selectedOverlayTime: Int {
             didSet {
-                UserDefaults.standard.set(selectedOverlayTime, forKey: "overlayInterval")
+                settingsStore.updateOverlayIntervalSeconds(selectedOverlayTime)
             }
         }
         
         @Published var selectedBackgroundColor: BackgroundColorOverlay{
             didSet{
-                UserDefaults.backgroundColor = selectedBackgroundColor
+                settingsStore.updateBackgroundColor(selectedBackgroundColor)
             }
         }
+
+        @Published var iCloudSyncEnabled: Bool {
+            didSet {
+                let changed = settingsStore.setICloudSyncEnabled(iCloudSyncEnabled)
+                if changed {
+                    iCloudSyncStatusText = "Sync preference saved. Restart Interlude to apply this change."
+                }
+            }
+        }
+
+        @Published var iCloudSyncStatusText: String
 
         // MARK: - Schedule
 
         @Published var scheduleEnabled: Bool {
             didSet {
-                UserDefaults.standard.set(scheduleEnabled, forKey: "scheduleEnabled")
+                settingsStore.updateScheduleEnabled(scheduleEnabled)
                 AppDelegate.StopScreenTimer()
                 AppDelegate.StartScreenTimer()
             }
@@ -55,8 +67,7 @@ extension GeneralView{
         @Published var scheduleStart: Date {
             didSet {
                 let comps = Calendar.current.dateComponents([.hour, .minute], from: scheduleStart)
-                UserDefaults.standard.set(comps.hour ?? 9,   forKey: "scheduleStartHour")
-                UserDefaults.standard.set(comps.minute ?? 0, forKey: "scheduleStartMinute")
+                settingsStore.updateScheduleStart(hour: comps.hour ?? 9, minute: comps.minute ?? 0)
                 AppDelegate.StopScreenTimer()
                 AppDelegate.StartScreenTimer()
             }
@@ -65,8 +76,7 @@ extension GeneralView{
         @Published var scheduleEnd: Date {
             didSet {
                 let comps = Calendar.current.dateComponents([.hour, .minute], from: scheduleEnd)
-                UserDefaults.standard.set(comps.hour ?? 18,  forKey: "scheduleEndHour")
-                UserDefaults.standard.set(comps.minute ?? 0, forKey: "scheduleEndMinute")
+                settingsStore.updateScheduleEnd(hour: comps.hour ?? 18, minute: comps.minute ?? 0)
                 AppDelegate.StopScreenTimer()
                 AppDelegate.StartScreenTimer()
             }
@@ -74,7 +84,7 @@ extension GeneralView{
 
         @Published var scheduleWeekdaysOnly: Bool {
             didSet {
-                UserDefaults.standard.set(scheduleWeekdaysOnly, forKey: "scheduleWeekdaysOnly")
+                settingsStore.updateScheduleWeekdaysOnly(scheduleWeekdaysOnly)
                 AppDelegate.StopScreenTimer()
                 AppDelegate.StartScreenTimer()
             }
@@ -90,34 +100,39 @@ extension GeneralView{
 
         private var isSyncingCalendarToggle = false
 
-        private static func timeFromHourMinute(hourKey: String, minuteKey: String) -> Date {
+        private static func timeFromHourMinute(hour: Int, minute: Int) -> Date {
             var comps = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-            comps.hour = UserDefaults.standard.integer(forKey: hourKey)
-            comps.minute = UserDefaults.standard.integer(forKey: minuteKey)
+            comps.hour = hour
+            comps.minute = minute
             comps.second = 0
             return Calendar.current.date(from: comps) ?? Date()
         }
 
         init(){
+            let settings = settingsStore.currentSettings()
             backgroundColors = [Constants.DefaultBackgroundColor,BackgroundColorOverlay.init(backColor: "#0a104599", helpText: "Royal Blue Dark",dark: true),BackgroundColorOverlay.init(backColor:  "#da416799", helpText: "Cerise",dark: true),BackgroundColorOverlay.init(backColor: "#edae4999", helpText: "Sunray",dark: false),BackgroundColorOverlay.init(backColor: "#067bc299", helpText: "Star Command Blue",dark: true),BackgroundColorOverlay.init(backColor: "#64b6ac99", helpText: "Green Sheen",dark: false),BackgroundColorOverlay.init(backColor: "#13111299", helpText: "Smoky Black",dark: true)]
             
-            selectedIntervalTime = (UserDefaults.standard.integer(forKey: "screenInterval"))
-            selectedOverlayTime = (UserDefaults.standard.integer(forKey: "overlayInterval"))
-            selectedBackgroundColor = UserDefaults.backgroundColor
-            notificationsOn = (UserDefaults.standard.bool(forKey: "useNotifications"))
+            selectedIntervalTime = settings.screenIntervalMinutes
+            selectedOverlayTime = settings.overlayIntervalSeconds
+            selectedBackgroundColor = settings.backgroundColor
+            notificationsOn = settings.notificationsOn
+            iCloudSyncEnabled = settingsStore.isICloudSyncEnabled
+            iCloudSyncStatusText = settingsStore.isICloudSyncEnabled
+                ? "iCloud sync is enabled."
+                : "Local-only storage is enabled."
 
-            scheduleEnabled = UserDefaults.standard.bool(forKey: "scheduleEnabled")
-            scheduleStart = ViewModel.timeFromHourMinute(hourKey: "scheduleStartHour", minuteKey: "scheduleStartMinute")
-            scheduleEnd   = ViewModel.timeFromHourMinute(hourKey: "scheduleEndHour",   minuteKey: "scheduleEndMinute")
-            scheduleWeekdaysOnly = UserDefaults.standard.bool(forKey: "scheduleWeekdaysOnly")
-            calendarBlockingEnabled = UserDefaults.standard.bool(forKey: "calendarBlockingEnabled")
+            scheduleEnabled = settings.scheduleEnabled
+            scheduleStart = ViewModel.timeFromHourMinute(hour: settings.scheduleStartHour, minute: settings.scheduleStartMinute)
+            scheduleEnd   = ViewModel.timeFromHourMinute(hour: settings.scheduleEndHour, minute: settings.scheduleEndMinute)
+            scheduleWeekdaysOnly = settings.scheduleWeekdaysOnly
+            calendarBlockingEnabled = settings.calendarBlockingEnabled
             calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
         }
 
         private func handleCalendarBlockingToggle() {
             guard !isSyncingCalendarToggle else { return }
 
-            UserDefaults.standard.set(calendarBlockingEnabled, forKey: "calendarBlockingEnabled")
+            settingsStore.updateCalendarBlockingEnabled(calendarBlockingEnabled)
             if !calendarBlockingEnabled {
                 stopCalendarWaitTimer()
                 AppDelegate.StopScreenTimer()
@@ -135,7 +150,7 @@ extension GeneralView{
                         self.isSyncingCalendarToggle = true
                         self.calendarBlockingEnabled = false
                         self.isSyncingCalendarToggle = false
-                        UserDefaults.standard.set(false, forKey: "calendarBlockingEnabled")
+                        self.settingsStore.updateCalendarBlockingEnabled(false)
                         self.calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
                     }
                 }

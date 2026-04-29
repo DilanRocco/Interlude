@@ -127,7 +127,8 @@ class Overlay{
     }
     
     static func timeSinceStringfy() -> String{
-        let time = (ud.integer(forKey: "screenInterval") * (overlaysShown)) % 360
+        let interval = AppSettingsStore.shared.currentSettings().screenIntervalMinutes
+        let time = (interval * overlaysShown) % 360
         
         switch time{
         case 60:
@@ -159,7 +160,7 @@ class Overlay{
     
     static func startNotifying(overlaysShown:Int){
         print("startNotifying")
-        let overlayInterval = ud.integer(forKey: "overlayInterval")
+        let overlayInterval = AppSettingsStore.shared.currentSettings().overlayIntervalSeconds
         UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { Settings in
         if (Settings.authorizationStatus == .authorized){
             let openStretch = UNNotificationAction(identifier: "openStretches", title: "Try Stretches", options: UNNotificationActionOptions.init(rawValue: 0))

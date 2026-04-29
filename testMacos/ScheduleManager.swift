@@ -9,7 +9,6 @@ import EventKit
 var scheduleWaitTimer: Timer?
 var calendarWaitTimer: Timer?
 
-private let calendarBlockingEnabledKey = "calendarBlockingEnabled"
 
 final class CalendarAvailabilityStore {
     static let shared = CalendarAvailabilityStore()
@@ -25,7 +24,7 @@ final class CalendarAvailabilityStore {
     }
 
     var isEnabled: Bool {
-        UserDefaults.standard.bool(forKey: calendarBlockingEnabledKey)
+        AppSettingsStore.shared.currentSettings().calendarBlockingEnabled
     }
 
     var canReadEvents: Bool {
@@ -155,14 +154,14 @@ func handleCalendarStoreChanged() {
 /// Returns true if the app should be active right now (i.e. break reminders should run).
 /// Returns true unconditionally when schedule is disabled.
 func isWithinSchedule() -> Bool {
-    let ud = UserDefaults.standard
-    guard ud.bool(forKey: "scheduleEnabled") else { return true }
+    let settings = AppSettingsStore.shared.currentSettings()
+    guard settings.scheduleEnabled else { return true }
 
     let calendar = Calendar.current
     let now = Date()
     let weekday = calendar.component(.weekday, from: now) // 1=Sun, 7=Sat
 
-    if ud.bool(forKey: "scheduleWeekdaysOnly") {
+    if settings.scheduleWeekdaysOnly {
         let isWeekend = weekday == 1 || weekday == 7
         if isWeekend { return false }
     }
@@ -171,8 +170,8 @@ func isWithinSchedule() -> Bool {
     let currentMinute = calendar.component(.minute, from: now)
     let currentTotalMinutes = currentHour * 60 + currentMinute
 
-    let startTotalMinutes = ud.integer(forKey: "scheduleStartHour") * 60 + ud.integer(forKey: "scheduleStartMinute")
-    let endTotalMinutes = ud.integer(forKey: "scheduleEndHour") * 60 + ud.integer(forKey: "scheduleEndMinute")
+    let startTotalMinutes = settings.scheduleStartHour * 60 + settings.scheduleStartMinute
+    let endTotalMinutes = settings.scheduleEndHour * 60 + settings.scheduleEndMinute
 
     return currentTotalMinutes >= startTotalMinutes && currentTotalMinutes < endTotalMinutes
 }
@@ -204,15 +203,15 @@ func stopScheduleWaitTimer() {
 /// Computes the next Date at which the schedule window opens.
 /// Returns nil if scheduleEnabled is false (no waiting needed).
 private func nextScheduleStart() -> Date? {
-    let ud = UserDefaults.standard
-    guard ud.bool(forKey: "scheduleEnabled") else { return nil }
+    let settings = AppSettingsStore.shared.currentSettings()
+    guard settings.scheduleEnabled else { return nil }
 
     let calendar = Calendar.current
     let now = Date()
 
-    let startHour = ud.integer(forKey: "scheduleStartHour")
-    let startMinute = ud.integer(forKey: "scheduleStartMinute")
-    let weekdaysOnly = ud.bool(forKey: "scheduleWeekdaysOnly")
+    let startHour = settings.scheduleStartHour
+    let startMinute = settings.scheduleStartMinute
+    let weekdaysOnly = settings.scheduleWeekdaysOnly
 
     // Build a candidate start time for today
     var components = calendar.dateComponents([.year, .month, .day], from: now)

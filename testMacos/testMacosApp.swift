@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     }
     
     static func openPauseOverlay(){
-        let backgroundColor = UserDefaults.backgroundColor
+        let backgroundColor = AppSettingsStore.shared.currentSettings().backgroundColor
         NSApp.activate(ignoringOtherApps: true)
 
         //count keeps track of which screen we are in the array of windows, and blurWindows
@@ -72,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
             var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
-            if (ud.bool(forKey: "com.twenty.twenty.extra.features")){
+            if storeManager.isPurchased("com.twenty.twenty.extra.features") {
                 if (overlaysShown % 6 == 0){
                 menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
                 } else if (overlaysShown % 3 == 0) {
@@ -110,7 +110,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             blurWindows[count].level = NSWindow.Level.popUpMenu
         
             windows[count].contentView? = NSHostingView(rootView: menuView)
-            windows[count].backgroundColor = NSColor(hex: UserDefaults.backgroundColor.backColor)
+            windows[count].backgroundColor = NSColor(hex: backgroundColor.backColor)
 
             windows[count].standardWindowButton(.zoomButton)?.isHidden = true
             windows[count].standardWindowButton(.miniaturizeButton)?.isHidden = true
@@ -148,7 +148,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 
             // have this as a global somewhere
             func getFourth() -> Double{
-                0.25 * UserDefaults.standard.double(forKey: "screenInterval") * 60}
+                0.25 * Double(AppSettingsStore.shared.currentSettings().screenIntervalMinutes) * 60}
         //TESTING
 //        func getFourth() -> Double{
 //            return 2.5
@@ -174,7 +174,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                                     deferOverlayUntilCalendarUnblocked()
                                     return
                                 }
-                                if (UserDefaults.standard.bool(forKey: "useNotifications")){
+                                if AppSettingsStore.shared.currentSettings().notificationsOn {
                                     StatsStore.shared.recordTaken()
                                     Overlay.startNotifying(overlaysShown: overlaysShown)
                                 }else{
@@ -207,11 +207,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     //CloseTimerOverlay closes the overlay after the variable overlayInterval has been counted down
     static func CloseTimerOverlay(){
         print("closeTimerOverlay")
-        print(Double(UserDefaults.standard.integer(forKey: "overlayInterval")))
+        print(Double(AppSettingsStore.shared.currentSettings().overlayIntervalSeconds))
         guard timerOverlay == nil else { return }
         
         
-        timerOverlay = Timer.scheduledTimer(withTimeInterval: Double(UserDefaults.standard.integer(forKey: "overlayInterval")), repeats: false) { timer in
+        timerOverlay = Timer.scheduledTimer(withTimeInterval: Double(AppSettingsStore.shared.currentSettings().overlayIntervalSeconds), repeats: false) { timer in
                 print("in overlay")
                 StopTimerOverlay()
                 StatsStore.shared.recordTaken()
@@ -289,17 +289,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
             print("App has already launched once before")
         }else{
-            ud.set(false, forKey: "useNotifications")
-            UserDefaults.backgroundColor = Constants.DefaultBackgroundColor
-            ud.set(20, forKey: "screenInterval")
-            ud.set(20, forKey: "overlayInterval")
-            ud.set(false, forKey: "scheduleEnabled")
-            ud.set(9,     forKey: "scheduleStartHour")
-            ud.set(0,     forKey: "scheduleStartMinute")
-            ud.set(18,    forKey: "scheduleEndHour")
-            ud.set(0,     forKey: "scheduleEndMinute")
-            ud.set(false, forKey: "scheduleWeekdaysOnly")
-            ud.set(false, forKey: "calendarBlockingEnabled")
             ud.set(true, forKey: "isAppAlreadyLaunchedOnce")
             openOnboardingWindow()
         }
