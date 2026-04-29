@@ -62,6 +62,13 @@ struct GeneralView: View {
                     EnableNotifcaionsView(viewModel: viewModel)
                 }
 
+                PreferenceSection(title: "Sync", subtitle: "Keep settings local by default, or opt in to iCloud sync.") {
+                    Toggle("Sync settings with iCloud", isOn: $viewModel.iCloudSyncEnabled)
+                    Text(viewModel.iCloudSyncStatusText)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
                 PreferenceSection(title: "Maintenance") {
                     HStack(spacing: 10) {
                         OpenOnboardingSlides()

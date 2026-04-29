@@ -12,6 +12,12 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
     var request: SKProductsRequest!
     
     @Published var myProducts = [SKProduct]()
+    @Published var purchasedProductIDs = Set<String>()
+
+    override init() {
+        super.init()
+        refreshPurchasedProducts()
+    }
     
     func getProducts(productIDs: [String]) {
         print("Start requesting products ...")
@@ -58,13 +64,13 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
             case .purchasing:
                 transactionState = .purchasing
             case .purchased:
-                UserDefaults.standard.setValue(true, forKey: transaction.payment.productIdentifier)
                 queue.finishTransaction(transaction)
                 transactionState = .purchased
+                refreshPurchasedProducts()
             case .restored:
-                UserDefaults.standard.setValue(true, forKey: transaction.payment.productIdentifier)
                 queue.finishTransaction(transaction)
                 transactionState = .restored
+                refreshPurchasedProducts()
             case .failed, .deferred:
                 print("Payment Queue Error: \(String(describing: transaction.error))")
                 queue.finishTransaction(transaction)
@@ -78,5 +84,26 @@ class StoreManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPay
     func restoreProducts() {
         print("Restoring products ...")
         SKPaymentQueue.default().restoreCompletedTransactions()
+        refreshPurchasedProducts()
+    }
+
+    func isPurchased(_ productID: String) -> Bool {
+        purchasedProductIDs.contains(productID)
+    }
+
+    private func refreshPurchasedProducts() {
+        if #available(macOS 12.0, *) {
+            Task {
+                var productIDs = Set<String>()
+                for await entitlement in Transaction.currentEntitlements {
+                    guard case let .verified(transaction) = entitlement else { continue }
+                    productIDs.insert(transaction.productID)
+                }
+                let resolvedProductIDs = productIDs
+                await MainActor.run {
+                    self.purchasedProductIDs = resolvedProductIDs
+                }
+            }
+        }
     }
 }

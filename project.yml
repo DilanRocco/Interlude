@@ -3,7 +3,7 @@ name: Interlude
 options:
   createIntermediateGroups: true
   deploymentTarget:
-    macOS: "11.0"
+    macOS: "14.0"
 
 packages:
   SDWebImageSwiftUI:
@@ -44,7 +44,7 @@ targets:
   Interlude:
     type: application
     platform: macOS
-    deploymentTarget: "11.0"
+    deploymentTarget: "14.0"
 
     info:
       path: Interlude-Info.plist
@@ -57,6 +57,13 @@ targets:
         com.apple.security.app-sandbox: true
         com.apple.security.files.user-selected.read-write: true
         com.apple.security.personal-information.calendars: true
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.com.twenty.twenty
+        com.apple.developer.icloud-services:
+          - CloudKit
+        com.apple.developer.ubiquity-container-identifiers:
+          - iCloud.com.twenty.twenty
+        com.apple.developer.ubiquity-kvstore-identifier: "$(TeamIdentifierPrefix)$(CFBundleIdentifier)"
 
     settings:
       base:
@@ -82,7 +89,7 @@ targets:
         SWIFT_VERSION: "5.0"
         SWIFT_EMIT_LOC_STRINGS: YES
         ENABLE_PREVIEWS: YES
-        MACOSX_DEPLOYMENT_TARGET: "11.0"
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
         LD_RUNPATH_SEARCH_PATHS:
           - "$(inherited)"
           - "@executable_path/../Frameworks"
@@ -131,7 +138,7 @@ targets:
   InterludeTests:
     type: bundle.unit-test
     platform: macOS
-    deploymentTarget: "11.0"
+    deploymentTarget: "14.0"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.twenty.twenty.tests
@@ -141,7 +148,7 @@ targets:
         CODE_SIGN_IDENTITY: "Apple Development"
         GENERATE_INFOPLIST_FILE: YES
         SWIFT_VERSION: "5.0"
-        MACOSX_DEPLOYMENT_TARGET: "11.0"
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
     sources:
       - path: InterludeTests
     dependencies:

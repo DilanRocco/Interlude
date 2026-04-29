@@ -39,7 +39,7 @@ struct MoreView: View {
                     HStack {
                         Spacer()
                         ForEach(storeManager.myProducts, id: \.self) { product in
-                        if UserDefaults.standard.bool(forKey: product.productIdentifier) {
+                        if storeManager.isPurchased(product.productIdentifier) {
                             Text("Purchased")
                                 .foregroundColor(.green)
                                 .padding([.trailing])
@@ -90,7 +90,7 @@ struct MoreView2: View {
                                 Text("• A specific overlay every hour that suggests that you step away from the computer").font(.title3)
                             Text("• A specifc overlay every second hour that suggests that you perform stretches").font(.title3).padding([.bottom])
                             ForEach(storeManager.myProducts, id: \.self) { product in
-                            if UserDefaults.standard.bool(forKey: product.productIdentifier) {
+                            if storeManager.isPurchased(product.productIdentifier) {
                                 Text("Purchased")
                                     .foregroundColor(.green)
                                     .padding([.trailing])
