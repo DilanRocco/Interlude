@@ -43,20 +43,20 @@ struct AppSettingsSnapshot {
 
 @Model
 final class AppSettingsRecord {
-    var notificationsOn: Bool
-    var screenIntervalMinutes: Int
-    var overlayIntervalSeconds: Int
-    var backgroundColorHex: String
-    var backgroundColorHelpText: String
-    var backgroundColorDark: Bool
-    var scheduleEnabled: Bool
-    var scheduleStartHour: Int
-    var scheduleStartMinute: Int
-    var scheduleEndHour: Int
-    var scheduleEndMinute: Int
-    var scheduleWeekdaysOnly: Bool
-    var calendarBlockingEnabled: Bool
-    var createdAt: Date
+    var notificationsOn: Bool = false
+    var screenIntervalMinutes: Int = 20
+    var overlayIntervalSeconds: Int = 20
+    var backgroundColorHex: String = Constants.DefaultBackgroundColor.backColor
+    var backgroundColorHelpText: String = Constants.DefaultBackgroundColor.helpText
+    var backgroundColorDark: Bool = Constants.DefaultBackgroundColor.dark
+    var scheduleEnabled: Bool = false
+    var scheduleStartHour: Int = 9
+    var scheduleStartMinute: Int = 0
+    var scheduleEndHour: Int = 18
+    var scheduleEndMinute: Int = 0
+    var scheduleWeekdaysOnly: Bool = false
+    var calendarBlockingEnabled: Bool = false
+    var createdAt: Date = Date()
 
     init(from snapshot: AppSettingsSnapshot) {
         notificationsOn = snapshot.notificationsOn
@@ -142,7 +142,7 @@ final class AppSettingsStore: ObservableObject {
     private init() {
         let savedMode = AppSettingsStore.readSyncMode()
         syncMode = savedMode
-        let configuredContainer = AppSettingsStore.makeContainer(for: savedMode) ?? AppSettingsStore.makeContainer(for: .local)!
+        let configuredContainer = AppSettingsStore.makeContainer(for: savedMode)
         container = configuredContainer
         context = ModelContext(container)
         let bootstrappedRecord = AppSettingsStore.loadOrCreateRecord(
@@ -243,19 +243,42 @@ final class AppSettingsStore: ObservableObject {
         return SettingsSyncMode(rawValue: raw) ?? .local
     }
 
-    private static func makeContainer(for mode: SettingsSyncMode) -> ModelContainer? {
-        let configuration: ModelConfiguration
-        switch mode {
-        case .local:
-            configuration = ModelConfiguration("AppSettingsLocal")
-        case .iCloud:
-            configuration = ModelConfiguration("AppSettingsCloud", cloudKitDatabase: .automatic)
-        }
+    private static func makeContainer(for mode: SettingsSyncMode) -> ModelContainer {
+        let primaryConfiguration = configuration(for: mode)
         do {
-            return try ModelContainer(for: AppSettingsRecord.self, configurations: configuration)
+            return try ModelContainer(for: AppSettingsRecord.self, configurations: primaryConfiguration)
         } catch {
             print("Failed creating \(mode.rawValue) settings container: \(error)")
-            return nil
+        }
+
+        if mode != .local {
+            let localConfiguration = configuration(for: .local)
+            do {
+                return try ModelContainer(for: AppSettingsRecord.self, configurations: localConfiguration)
+            } catch {
+                print("Failed creating local settings container: \(error)")
+            }
+        }
+
+        // Last resort: allow app launch with ephemeral settings rather than crashing.
+        let inMemoryConfiguration = ModelConfiguration(
+            "AppSettingsInMemoryFallback",
+            isStoredInMemoryOnly: true,
+            cloudKitDatabase: .none
+        )
+        do {
+            return try ModelContainer(for: AppSettingsRecord.self, configurations: inMemoryConfiguration)
+        } catch {
+            fatalError("Unable to create any AppSettingsStore model container: \(error)")
+        }
+    }
+
+    private static func configuration(for mode: SettingsSyncMode) -> ModelConfiguration {
+        switch mode {
+        case .local:
+            return ModelConfiguration("AppSettingsLocal", cloudKitDatabase: .none)
+        case .iCloud:
+            return ModelConfiguration("AppSettingsCloud", cloudKitDatabase: .automatic)
         }
     }
 
