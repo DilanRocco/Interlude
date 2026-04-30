@@ -1,0 +1,19 @@
+# Xcode user-specific
+**/xcuserdata/
+**/*.xcuserstate
+
+# Build output
+DerivedData/
+.build/
+**/build/
+
+# SwiftPM
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Logs / temp
+*.log
+*.tmp
