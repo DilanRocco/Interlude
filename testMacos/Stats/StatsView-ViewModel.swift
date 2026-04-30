@@ -269,6 +269,32 @@ final class StatsStore {
         }
         defaults.set(true, forKey: migrationKey)
     }
+
+    func exportStatsToDownloads(scope: StatsScope, format: StatsExportFormat) throws -> URL {
+        let rows = dailyStats(for: scope)
+        let payload: String
+
+        switch format {
+        case .csv:
+            payload = StatsExportFormatter.buildCSV(rows: rows)
+        case .text:
+            payload = StatsExportFormatter.buildPlainText(rows: rows, scope: scope, streakDays: currentStreakLength(now: Date()))
+        }
+
+        let fileManager = FileManager.default
+        let baseDirectory = fileManager.urls(for: .downloadsDirectory, in: .userDomainMask).first
+            ?? fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? fileManager.homeDirectoryForCurrentUser
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd-HHmmss"
+        let timestamp = formatter.string(from: Date())
+        let fileName = "interlude-stats-\(scope.rawValue)-\(timestamp).\(format.fileExtension)"
+        let destinationURL = baseDirectory.appendingPathComponent(fileName)
+
+        try payload.write(to: destinationURL, atomically: true, encoding: .utf8)
+        return destinationURL
+    }
 }
 
 enum StatsExportFormat {

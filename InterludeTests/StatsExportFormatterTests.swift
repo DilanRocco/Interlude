@@ -27,6 +27,16 @@ final class StatsExportFormatterTests: XCTestCase {
         XCTAssertTrue(text.contains("2026-04-26: taken 2, skipped 0, compliance 100%"))
     }
 
+    func testShortcutEnumMappingsResolveToStatsTypes() {
+        if #available(macOS 13.0, *) {
+            XCTAssertEqual(InterludeExportScope.today.statsScope, .today)
+            XCTAssertEqual(InterludeExportScope.thisWeek.statsScope, .thisWeek)
+            XCTAssertEqual(InterludeExportScope.thisMonth.statsScope, .thisMonth)
+            XCTAssertEqual(InterludeExportFormat.csv.statsFormat, .csv)
+            XCTAssertEqual(InterludeExportFormat.text.statsFormat, .text)
+        }
+    }
+
     private func makeDate(_ value: String) -> Date {
         let parts = value.split(separator: "-").compactMap { Int($0) }
         var calendar = Calendar(identifier: .gregorian)

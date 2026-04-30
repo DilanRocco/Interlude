@@ -9,6 +9,7 @@ import AppKit
 import UserNotifications
 import ServiceManagement
 import Cocoa
+import AppIntents
 
 let appDelegate = AppDelegate()
 @main
@@ -284,6 +285,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         fileNotifications()
         NSApp.setActivationPolicy(.accessory)
         menuExtrasConfigurator = .init(imageName: "hourglass100%")
+        if #available(macOS 13.0, *) {
+            InterludeShortcutsProvider.updateAppShortcutParameters()
+        }
 //        ud.set(false, forKey: "isAppAlreadyLaunchedOnce")
 //        ud.set(false, forKey:"com.twenty.twenty.extra.features")
         if (UserDefaults.standard.bool(forKey: "isAppAlreadyLaunchedOnce")){
