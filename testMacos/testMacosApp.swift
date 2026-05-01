@@ -33,6 +33,53 @@ var NotificationTimer: Timer?
 var timerTest: Timer?
 var timerOverlay: Timer?
 
+struct AIBreakTimingPolicy {
+    static let baselineMultiplier = 1.0
+    private static let minimumSamples = 5
+    private static let maxSampleWindow = 20
+
+    static func timingMultiplier() -> Double {
+        let settings = AppSettingsStore.shared.currentSettings()
+        guard settings.aiBreakTimeEnabled else { return baselineMultiplier }
+        guard let stats = StatsStore.shared.recentBreakStats(sampleSize: maxSampleWindow),
+              stats.sampleCount >= minimumSamples else {
+            return baselineMultiplier
+        }
+
+        let normalizedStreak = min(Double(stats.recentSkipStreak), 5.0) / 5.0
+        let sampleConfidence = min(Double(stats.sampleCount) / Double(maxSampleWindow), 1.0)
+
+        // Small on-device logistic model predicting skip probability.
+        let logit = -1.1
+        + (3.1 * stats.skipRate)
+        + (1.0 * normalizedStreak)
+        - (0.35 * sampleConfidence)
+        let skipProbability = 1.0 / (1.0 + exp(-logit))
+
+        let multiplier: Double
+        switch skipProbability {
+        case ..<0.40:
+            multiplier = 1.0
+        case ..<0.60:
+            multiplier = 1.15
+        case ..<0.75:
+            multiplier = 1.3
+        default:
+            multiplier = 1.5
+        }
+
+        #if DEBUG
+        print(
+            "AIBreakTime enabled=\(settings.aiBreakTimeEnabled) sample=\(stats.sampleCount) " +
+            "skipRate=\(stats.skipRate) streak=\(stats.recentSkipStreak) " +
+            "pSkip=\(skipProbability) multiplier=\(multiplier)"
+        )
+        #endif
+
+        return multiplier
+    }
+}
+
 
 
 
@@ -147,9 +194,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             stopScheduleWaitTimer()
             stopCalendarWaitTimer()
 
-            // have this as a global somewhere
+            // Adjust interval dynamically when AI Break Time is enabled.
             func getFourth() -> Double{
-                0.25 * Double(AppSettingsStore.shared.currentSettings().screenIntervalMinutes) * 60}
+                let settings = AppSettingsStore.shared.currentSettings()
+                let baseInterval = Double(settings.screenIntervalMinutes) * 60
+                let adjustedInterval = baseInterval * AIBreakTimingPolicy.timingMultiplier()
+                return 0.25 * adjustedInterval
+            }
         //TESTING
 //        func getFourth() -> Double{
 //            return 2.5

@@ -20,6 +20,14 @@ extension GeneralView{
                 settingsStore.updateNotificationsOn(notificationsOn)
             }
         }
+
+        @Published var aiBreakTimeEnabled: Bool {
+            didSet {
+                settingsStore.updateAIBreakTimeEnabled(aiBreakTimeEnabled)
+                AppDelegate.StopScreenTimer()
+                AppDelegate.StartScreenTimer()
+            }
+        }
         
         @Published var displaySettingPage: Bool = false
         
@@ -116,6 +124,7 @@ extension GeneralView{
             selectedOverlayTime = settings.overlayIntervalSeconds
             selectedBackgroundColor = settings.backgroundColor
             notificationsOn = settings.notificationsOn
+            aiBreakTimeEnabled = settings.aiBreakTimeEnabled
             iCloudSyncEnabled = settingsStore.isICloudSyncEnabled
             iCloudSyncStatusText = settingsStore.isICloudSyncEnabled
                 ? "iCloud sync is enabled."
