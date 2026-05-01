@@ -46,6 +46,11 @@ struct GeneralView: View {
                             valueText: "\(viewModel.selectedOverlayTime) sec"
                         )
                     }
+
+                    Divider()
+
+                    Toggle("AI Break Time (adaptive reminder timing)", isOn: $viewModel.aiBreakTimeEnabled)
+                        .help("When enabled, Interlude predicts skip probability from recent behavior and adjusts reminder timing.")
                 }
 
                 PreferenceSection(title: "Appearance", subtitle: "Choose the overlay color theme.") {
@@ -243,6 +248,7 @@ struct ResetView: View{
             viewModel.selectedOverlayTime = 20
             viewModel.selectedBackgroundColor = Constants.DefaultBackgroundColor
             viewModel.notificationsOn = false
+            viewModel.aiBreakTimeEnabled = false
             watchingAMovie = false
             
             

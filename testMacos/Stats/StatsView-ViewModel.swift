@@ -18,6 +18,12 @@ struct BreakEvent: Codable {
     let outcome: BreakOutcome
 }
 
+struct RecentBreakStats {
+    let sampleCount: Int
+    let skipRate: Double
+    let recentSkipStreak: Int
+}
+
 struct DailyStats: Identifiable {
     let dayStart: Date
     let takenCount: Int
@@ -182,6 +188,24 @@ final class StatsStore {
         return chartSeries(from: range.start, toExclusive: range.endExclusive, calendar: calendar)
     }
 
+    func recentBreakStats(sampleSize: Int = 20) -> RecentBreakStats? {
+        let allEvents = loadEvents()
+        guard !allEvents.isEmpty else { return nil }
+
+        let boundedSampleSize = max(1, sampleSize)
+        let window = Array(allEvents.suffix(boundedSampleSize))
+        let skipCount = window.reduce(0) { total, event in
+            total + (event.outcome == .skipped ? 1 : 0)
+        }
+        let streak = recentSkipStreak(from: allEvents)
+        let skipRate = Double(skipCount) / Double(window.count)
+        return RecentBreakStats(
+            sampleCount: window.count,
+            skipRate: skipRate,
+            recentSkipStreak: streak
+        )
+    }
+
     private func record(outcome: BreakOutcome, at date: Date) {
         var events = loadEvents()
         events.append(BreakEvent(timestamp: date, outcome: outcome))
@@ -234,6 +258,18 @@ final class StatsStore {
 
     private func dayKey(for date: Date) -> String {
         StatsComputation.dayKey(for: date, calendar: mondayFirstCalendar)
+    }
+
+    private func recentSkipStreak(from events: [BreakEvent]) -> Int {
+        var streak = 0
+        for event in events.reversed() {
+            if event.outcome == .skipped {
+                streak += 1
+            } else {
+                break
+            }
+        }
+        return streak
     }
 
     private func loadEvents() -> [BreakEvent] {

@@ -15,6 +15,7 @@ enum SettingsSyncMode: String {
 
 struct AppSettingsSnapshot {
     var notificationsOn: Bool
+    var aiBreakTimeEnabled: Bool
     var screenIntervalMinutes: Int
     var overlayIntervalSeconds: Int
     var backgroundColor: BackgroundColorOverlay
@@ -28,6 +29,7 @@ struct AppSettingsSnapshot {
 
     static let `default` = AppSettingsSnapshot(
         notificationsOn: false,
+        aiBreakTimeEnabled: false,
         screenIntervalMinutes: 20,
         overlayIntervalSeconds: 20,
         backgroundColor: Constants.DefaultBackgroundColor,
@@ -44,6 +46,7 @@ struct AppSettingsSnapshot {
 @Model
 final class AppSettingsRecord {
     var notificationsOn: Bool = false
+    var aiBreakTimeEnabled: Bool = false
     var screenIntervalMinutes: Int = 20
     var overlayIntervalSeconds: Int = 20
     var backgroundColorHex: String = Constants.DefaultBackgroundColor.backColor
@@ -60,6 +63,7 @@ final class AppSettingsRecord {
 
     init(from snapshot: AppSettingsSnapshot) {
         notificationsOn = snapshot.notificationsOn
+        aiBreakTimeEnabled = snapshot.aiBreakTimeEnabled
         screenIntervalMinutes = snapshot.screenIntervalMinutes
         overlayIntervalSeconds = snapshot.overlayIntervalSeconds
         backgroundColorHex = snapshot.backgroundColor.backColor
@@ -77,6 +81,7 @@ final class AppSettingsRecord {
 
     func update(from snapshot: AppSettingsSnapshot) {
         notificationsOn = snapshot.notificationsOn
+        aiBreakTimeEnabled = snapshot.aiBreakTimeEnabled
         screenIntervalMinutes = snapshot.screenIntervalMinutes
         overlayIntervalSeconds = snapshot.overlayIntervalSeconds
         backgroundColorHex = snapshot.backgroundColor.backColor
@@ -94,6 +99,7 @@ final class AppSettingsRecord {
     func snapshot() -> AppSettingsSnapshot {
         AppSettingsSnapshot(
             notificationsOn: notificationsOn,
+            aiBreakTimeEnabled: aiBreakTimeEnabled,
             screenIntervalMinutes: screenIntervalMinutes,
             overlayIntervalSeconds: overlayIntervalSeconds,
             backgroundColor: BackgroundColorOverlay(
@@ -128,6 +134,7 @@ final class AppSettingsStore: ObservableObject {
         static let launchedBefore = "isAppAlreadyLaunchedOnce"
         static let backgroundColor = "BackgroundColor"
         static let useNotifications = "useNotifications"
+        static let aiBreakTimeEnabled = "aiBreakTimeEnabled"
         static let screenInterval = "screenInterval"
         static let overlayInterval = "overlayInterval"
         static let scheduleEnabled = "scheduleEnabled"
@@ -173,6 +180,12 @@ final class AppSettingsStore: ObservableObject {
     func updateNotificationsOn(_ value: Bool) {
         mutate {
             $0.notificationsOn = value
+        }
+    }
+
+    func updateAIBreakTimeEnabled(_ value: Bool) {
+        mutate {
+            $0.aiBreakTimeEnabled = value
         }
     }
 
@@ -318,6 +331,7 @@ final class AppSettingsStore: ObservableObject {
 
         return AppSettingsSnapshot(
             notificationsOn: defaults.object(forKey: Keys.useNotifications) != nil ? defaults.bool(forKey: Keys.useNotifications) : false,
+            aiBreakTimeEnabled: defaults.object(forKey: Keys.aiBreakTimeEnabled) != nil ? defaults.bool(forKey: Keys.aiBreakTimeEnabled) : false,
             screenIntervalMinutes: max(1, intValue(Keys.screenInterval, fallback: 20)),
             overlayIntervalSeconds: max(1, intValue(Keys.overlayInterval, fallback: 20)),
             backgroundColor: readLegacyBackgroundColor(from: defaults),
