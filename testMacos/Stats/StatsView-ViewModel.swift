@@ -24,6 +24,106 @@ struct RecentBreakStats {
     let recentSkipStreak: Int
 }
 
+enum RecoveryTier: String {
+    case optimal = "Optimal"
+    case strong = "Strong"
+    case steady = "Steady"
+    case strained = "Strained"
+    case depleted = "Depleted"
+}
+
+enum RecoveryViewState {
+    case loading
+    case empty
+    case partial
+    case ready
+    case error
+}
+
+struct RecoveryScoreInput {
+    let compliance: Int
+    let skipRate: Double
+    let recentSkipStreak: Int
+    let streakDays: Int
+    let meetingLoadRatio: Double?
+}
+
+struct RecoveryScoreSnapshot {
+    let score: Int
+    let tier: RecoveryTier
+    let insightText: String
+    let trendText: String
+    let missingSignals: [String]
+
+    var isPartial: Bool {
+        !missingSignals.isEmpty
+    }
+}
+
+enum RecoveryScoreComputation {
+    static func score(from input: RecoveryScoreInput) -> Int {
+        var value = Double(input.compliance)
+        value -= input.skipRate * 22.0
+        value -= Double(min(input.recentSkipStreak, 5)) * 3.0
+        value += Double(min(input.streakDays, 7)) * 1.5
+        if let meetingLoadRatio = input.meetingLoadRatio {
+            value -= min(max(meetingLoadRatio, 0), 1) * 10.0
+        }
+        return min(max(Int(value.rounded()), 0), 100)
+    }
+
+    static func tier(for score: Int) -> RecoveryTier {
+        switch score {
+        case 85...100:
+            return .optimal
+        case 70...84:
+            return .strong
+        case 55...69:
+            return .steady
+        case 40...54:
+            return .strained
+        default:
+            return .depleted
+        }
+    }
+
+    static func trendText(current: Int, previous: Int?) -> String {
+        guard let previous else { return "No prior-day baseline yet" }
+        let delta = current - previous
+        if delta >= 8 {
+            return "Up \(delta) vs yesterday"
+        }
+        if delta <= -8 {
+            return "Down \(abs(delta)) vs yesterday"
+        }
+        return "Stable vs yesterday"
+    }
+
+    static func insightText(input: RecoveryScoreInput, score: Int) -> String {
+        if input.compliance < 50 {
+            return "Low break compliance is dragging recovery down."
+        }
+        if input.recentSkipStreak >= 3 {
+            return "Recent skipped-break streak is increasing strain."
+        }
+        if let meetingLoadRatio = input.meetingLoadRatio, meetingLoadRatio >= 0.6 {
+            return "Heavy meeting load is reducing recovery headroom."
+        }
+        if input.streakDays >= 3 {
+            return "Consistent break streak is supporting recovery."
+        }
+        if score >= 70 {
+            return "Recovery is in a strong range today."
+        }
+        return "More consistent breaks can improve recovery quickly."
+    }
+
+    static func baselineScore(compliance: Int, skippedCount: Int) -> Int {
+        let value = Double(compliance) - Double(min(skippedCount, 5) * 6)
+        return min(max(Int(value.rounded()), 0), 100)
+    }
+}
+
 struct DailyStats: Identifiable {
     let dayStart: Date
     let takenCount: Int
@@ -206,6 +306,53 @@ final class StatsStore {
         )
     }
 
+    func recoveryScoreSnapshot(now: Date = Date()) -> RecoveryScoreSnapshot? {
+        let calendar = mondayFirstCalendar
+        let todayRecord = dailyRecord(for: now, calendar: calendar)
+        let totalToday = todayRecord.takenCount + todayRecord.skippedCount
+        guard totalToday > 0 else { return nil }
+
+        let complianceToday = StatsComputation.compliancePercentage(
+            taken: todayRecord.takenCount,
+            skipped: todayRecord.skippedCount
+        ) ?? 0
+        let recentStats = recentBreakStats(sampleSize: 20)
+        let skipRate = recentStats?.skipRate ?? Double(todayRecord.skippedCount) / Double(max(totalToday, 1))
+        let skipStreak = recentStats?.recentSkipStreak ?? 0
+        let streakDays = currentStreakLength(now: now)
+        let meetingLoadRatio = CalendarAvailabilityStore.shared.meetingLoadRatioForToday(reference: now)
+
+        let input = RecoveryScoreInput(
+            compliance: complianceToday,
+            skipRate: skipRate,
+            recentSkipStreak: skipStreak,
+            streakDays: streakDays,
+            meetingLoadRatio: meetingLoadRatio
+        )
+
+        let score = RecoveryScoreComputation.score(from: input)
+        let tier = RecoveryScoreComputation.tier(for: score)
+        let previousDayScore = previousDayBaselineScore(now: now, calendar: calendar)
+        let trendText = RecoveryScoreComputation.trendText(current: score, previous: previousDayScore)
+        let insight = RecoveryScoreComputation.insightText(input: input, score: score)
+
+        var missingSignals: [String] = []
+        if recentStats == nil {
+            missingSignals.append("Recent behavior sample")
+        }
+        if meetingLoadRatio == nil {
+            missingSignals.append("Calendar load")
+        }
+
+        return RecoveryScoreSnapshot(
+            score: score,
+            tier: tier,
+            insightText: insight,
+            trendText: trendText,
+            missingSignals: missingSignals
+        )
+    }
+
     private func record(outcome: BreakOutcome, at date: Date) {
         var events = loadEvents()
         events.append(BreakEvent(timestamp: date, outcome: outcome))
@@ -270,6 +417,27 @@ final class StatsStore {
             }
         }
         return streak
+    }
+
+    private func dailyRecord(for date: Date, calendar: Calendar) -> DailyStatsRecord {
+        let key = StatsComputation.dayKey(for: date, calendar: calendar)
+        return loadDailyRecords()[key] ?? DailyStatsRecord(takenCount: 0, skippedCount: 0)
+    }
+
+    private func previousDayBaselineScore(now: Date, calendar: Calendar) -> Int? {
+        guard let previousDate = calendar.date(byAdding: .day, value: -1, to: now) else { return nil }
+        let previousRecord = dailyRecord(for: previousDate, calendar: calendar)
+        let total = previousRecord.takenCount + previousRecord.skippedCount
+        guard total > 0 else { return nil }
+
+        let compliance = StatsComputation.compliancePercentage(
+            taken: previousRecord.takenCount,
+            skipped: previousRecord.skippedCount
+        ) ?? 0
+        return RecoveryScoreComputation.baselineScore(
+            compliance: compliance,
+            skippedCount: previousRecord.skippedCount
+        )
     }
 
     private func loadEvents() -> [BreakEvent] {
@@ -395,7 +563,7 @@ struct StatsExportFormatter {
 
 extension StatsView {
     @MainActor final class ViewModel: ObservableObject {
-        @Published var selectedScope: StatsScope = .today {
+        @Published var selectedScope: StatsScope = .thisWeek {
             didSet { refresh() }
         }
         @Published var takenForScope: Int = 0
@@ -404,6 +572,13 @@ extension StatsView {
         @Published var streakDays: Int = 0
         @Published var chartData: [DailyStats] = []
         @Published var allTimeTotal: Int = 0
+        @Published var recoveryScoreValue: Int = 0
+        @Published var recoveryScoreText: String = "--"
+        @Published var recoveryTierLabel: String = "No Data"
+        @Published var recoveryInsightText: String = "Recovery score appears after recorded break activity."
+        @Published var recoveryTrendText: String = ""
+        @Published var recoveryStateMessage: String = ""
+        @Published var recoveryViewState: RecoveryViewState = .loading
 
         private let statsStore = StatsStore.shared
         private var cancellables: Set<AnyCancellable> = []
@@ -414,6 +589,8 @@ extension StatsView {
         }
 
         func refresh() {
+            recoveryViewState = .loading
+
             let snapshot = statsStore.snapshot(for: selectedScope)
             takenForScope = snapshot.takenCount
             skippedForScope = snapshot.skippedCount
@@ -421,6 +598,34 @@ extension StatsView {
             streakDays = snapshot.streakDays
             chartData = snapshot.chartPoints
             allTimeTotal = snapshot.allTimeTakenCount
+
+            guard let recovery = statsStore.recoveryScoreSnapshot() else {
+                recoveryScoreValue = 0
+                recoveryScoreText = "--"
+                recoveryTierLabel = "No Data"
+                recoveryInsightText = "Complete a few break cycles to generate your daily recovery score."
+                recoveryTrendText = "No baseline yet"
+                recoveryStateMessage = "Insufficient history to calculate recovery."
+                recoveryViewState = .empty
+                return
+            }
+
+            recoveryScoreValue = recovery.score
+            recoveryScoreText = "\(recovery.score)"
+            recoveryTierLabel = recovery.tier.rawValue
+            recoveryInsightText = recovery.insightText
+            recoveryTrendText = recovery.trendText
+            if recovery.isPartial {
+                recoveryStateMessage = "Limited signals: \(recovery.missingSignals.joined(separator: ", "))."
+                recoveryViewState = .partial
+            } else {
+                recoveryStateMessage = ""
+                recoveryViewState = .ready
+            }
+        }
+
+        func retryRecovery() {
+            refresh()
         }
 
         func exportAsCSV() {

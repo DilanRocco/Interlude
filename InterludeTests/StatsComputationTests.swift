@@ -51,6 +51,62 @@ final class StatsComputationTests: XCTestCase {
         XCTAssertEqual(streak, 2)
     }
 
+    func testRecoveryScoreHighComplianceLowSkipsProducesHighScore() {
+        let input = RecoveryScoreInput(
+            compliance: 92,
+            skipRate: 0.05,
+            recentSkipStreak: 0,
+            streakDays: 4,
+            meetingLoadRatio: 0.2
+        )
+
+        let score = RecoveryScoreComputation.score(from: input)
+        XCTAssertGreaterThanOrEqual(score, 80)
+        XCTAssertEqual(RecoveryScoreComputation.tier(for: score), .optimal)
+    }
+
+    func testRecoveryScoreLowComplianceHighSkipsProducesLowScore() {
+        let input = RecoveryScoreInput(
+            compliance: 34,
+            skipRate: 0.8,
+            recentSkipStreak: 4,
+            streakDays: 0,
+            meetingLoadRatio: 0.7
+        )
+
+        let score = RecoveryScoreComputation.score(from: input)
+        XCTAssertLessThanOrEqual(score, 30)
+        XCTAssertEqual(RecoveryScoreComputation.tier(for: score), .depleted)
+    }
+
+    func testRecoveryScoreIsClampedToRange() {
+        let highInput = RecoveryScoreInput(
+            compliance: 150,
+            skipRate: 0,
+            recentSkipStreak: 0,
+            streakDays: 20,
+            meetingLoadRatio: nil
+        )
+        let lowInput = RecoveryScoreInput(
+            compliance: 0,
+            skipRate: 2.0,
+            recentSkipStreak: 20,
+            streakDays: 0,
+            meetingLoadRatio: 1.0
+        )
+
+        XCTAssertEqual(RecoveryScoreComputation.score(from: highInput), 100)
+        XCTAssertEqual(RecoveryScoreComputation.score(from: lowInput), 0)
+    }
+
+    func testRecoveryTierBoundariesAreDeterministic() {
+        XCTAssertEqual(RecoveryScoreComputation.tier(for: 85), .optimal)
+        XCTAssertEqual(RecoveryScoreComputation.tier(for: 70), .strong)
+        XCTAssertEqual(RecoveryScoreComputation.tier(for: 55), .steady)
+        XCTAssertEqual(RecoveryScoreComputation.tier(for: 40), .strained)
+        XCTAssertEqual(RecoveryScoreComputation.tier(for: 39), .depleted)
+    }
+
     private func makeDate(
         year: Int,
         month: Int,
