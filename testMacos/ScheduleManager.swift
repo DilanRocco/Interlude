@@ -92,6 +92,30 @@ final class CalendarAvailabilityStore {
         return activeEndDates.max()
     }
 
+    /// Returns a normalized 0...1 meeting load for the current day.
+    /// Nil means calendar data is unavailable or disabled.
+    func meetingLoadRatioForToday(reference: Date = Date()) -> Double? {
+        guard isEnabled, canReadEvents else { return nil }
+
+        let calendar = Calendar.current
+        let dayStart = calendar.startOfDay(for: reference)
+        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) ?? reference
+        let predicate = eventStore.predicateForEvents(withStart: dayStart, end: dayEnd, calendars: nil)
+        let events = eventStore.events(matching: predicate).filter { event in
+            !event.isAllDay && isBlockingAvailability(event.availability)
+        }
+
+        let totalBusySeconds = events.reduce(0.0) { total, event in
+            let intervalStart = max(event.startDate, dayStart)
+            let intervalEnd = min(event.endDate, dayEnd)
+            let duration = max(0, intervalEnd.timeIntervalSince(intervalStart))
+            return total + duration
+        }
+
+        // Normalize against an 8-hour workday.
+        return min(max(totalBusySeconds / (8 * 60 * 60), 0), 1)
+    }
+
     private func activeBlockingEvents(at now: Date) -> [EKEvent] {
         let calendar = Calendar.current
         let rangeStart = calendar.date(byAdding: .day, value: -7, to: now) ?? now
