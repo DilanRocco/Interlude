@@ -222,10 +222,10 @@ private struct RecoveryScoreHero: View {
                 RecoveryGauge(score: score)
                     .frame(width: 86, height: 86)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Daily Recovery")
+                    Text("Recovery Score")
                         .font(.headline)
                         .foregroundStyle(.white.opacity(0.9))
-                    Text(scoreText)
+                    Text("\(scoreText) / 100")
                         .font(.system(size: 34, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
                     Text(tier)
