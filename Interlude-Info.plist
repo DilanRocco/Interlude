@@ -20,5 +20,7 @@
 	<string>1</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Interlude uses the camera to run on-device posture checks and baseline calibration.</string>
 </dict>
 </plist>

@@ -57,6 +57,13 @@ var menuExtrasConfigurator: MacExtrasConfigurator?
         
         func createMainMenu(){
             let mainMenu = NSMenu()
+
+            let postureFlowItem = NSMenuItem()
+            postureFlowItem.title = "Posture Check"
+            postureFlowItem.target = self
+            postureFlowItem.action = #selector(Self.checkPostureAction(_:))
+            mainMenu.addItem(postureFlowItem)
+            mainMenu.addItem(.separator())
             
             let rootItem = NSMenuItem()
             rootItem.title = "Reset Break"
@@ -127,6 +134,10 @@ var menuExtrasConfigurator: MacExtrasConfigurator?
         @objc private func closeAppAction(_ sender: Any?) {
             NSApp.terminate(self)
 
+        }
+
+        @objc private func checkPostureAction(_ sender: Any?) {
+            openPostureFlowWindow()
         }
         
     }

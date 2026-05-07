@@ -107,6 +107,85 @@ final class StatsComputationTests: XCTestCase {
         XCTAssertEqual(RecoveryScoreComputation.tier(for: 39), .depleted)
     }
 
+    func testPostureMetricEngineReturnsGoodForIdealAngleAndPreferredDistance() {
+        let sample = PostureFrameSample(
+            faceScale: 0.15,
+            downwardPitchDegrees: 3,
+            confidence: 0.9
+        )
+        let calibration = PostureCalibrationSnapshot(
+            cameraToScreenOffsetDegrees: 10,
+            baselineFaceScale: 0.12,
+            createdAt: Date()
+        )
+        let input = PostureMetricInput(sample: sample, calibration: calibration)
+
+        let result = PostureMetricEngine.evaluate(input: input)
+
+        XCTAssertEqual(result.classification, .good)
+        XCTAssertEqual(result.distanceBand, .preferred)
+        XCTAssertEqual(result.calibrationState, .calibrated)
+        XCTAssertEqual(result.correctedAngleDegrees?.rounded(), 13)
+    }
+
+    func testPostureMetricEngineReturnsInconclusiveWhenConfidenceIsLow() {
+        let sample = PostureFrameSample(
+            faceScale: 0.15,
+            downwardPitchDegrees: 0,
+            confidence: 0.2
+        )
+        let input = PostureMetricInput(sample: sample, calibration: nil)
+
+        let result = PostureMetricEngine.evaluate(input: input)
+
+        XCTAssertEqual(result.classification, .inconclusive)
+        XCTAssertEqual(result.distanceBand, .unknown)
+        XCTAssertNil(result.correctedAngleDegrees)
+    }
+
+    func testPostureDistanceClassificationHandlesNearPreferredAndFarBands() {
+        let calibration = PostureCalibrationSnapshot(
+            cameraToScreenOffsetDegrees: 12,
+            baselineFaceScale: 0.1,
+            createdAt: Date()
+        )
+
+        XCTAssertEqual(
+            PostureMetricEngine.classifyDistance(faceScale: 0.16, calibration: calibration),
+            .nearWarning
+        )
+        XCTAssertEqual(
+            PostureMetricEngine.classifyDistance(faceScale: 0.115, calibration: calibration),
+            .preferred
+        )
+        XCTAssertEqual(
+            PostureMetricEngine.classifyDistance(faceScale: 0.05, calibration: calibration),
+            .farWarning
+        )
+    }
+
+    func testPostureRecordRoundTripsWithCodable() throws {
+        let record = PostureCheckRecord(
+            timestamp: Date(timeIntervalSince1970: 123),
+            classification: .adjust,
+            distanceBand: .comfortPreferred,
+            correctedAngleDegrees: 18.5,
+            confidence: 0.88,
+            recommendation: "Sit slightly farther back.",
+            calibrationState: .calibrated
+        )
+
+        let encoded = try JSONEncoder().encode(record)
+        let decoded = try JSONDecoder().decode(PostureCheckRecord.self, from: encoded)
+
+        XCTAssertEqual(decoded.classification, .adjust)
+        XCTAssertEqual(decoded.distanceBand, .comfortPreferred)
+        XCTAssertEqual(decoded.correctedAngleDegrees, 18.5)
+        XCTAssertEqual(decoded.confidence, 0.88)
+        XCTAssertEqual(decoded.recommendation, "Sit slightly farther back.")
+        XCTAssertEqual(decoded.calibrationState, .calibrated)
+    }
+
     private func makeDate(
         year: Int,
         month: Int,
