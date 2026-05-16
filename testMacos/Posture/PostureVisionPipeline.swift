@@ -8,8 +8,10 @@ final class PostureVisionAnalyzer {
 
     func bestSample(from cgImages: [CGImage]) throws -> PostureFrameSample {
         var best: PostureFrameSample?
+        var detectedCount = 0
         for image in cgImages {
             guard let sample = try analyze(cgImage: image) else { continue }
+            detectedCount += 1
             if let currentBest = best {
                 if sample.confidence > currentBest.confidence {
                     best = sample
@@ -19,7 +21,15 @@ final class PostureVisionAnalyzer {
             }
         }
         guard let best else { throw PostureCheckError.noFaceDetected }
-        return best
+        // Blend raw Vision confidence (40%) with frame detection rate (60%) so
+        // poor lighting or partial occlusion across frames lowers the score ceiling.
+        let detectionRate = Double(detectedCount) / Double(max(1, cgImages.count))
+        let blendedConfidence = min(max(best.confidence * 0.4 + detectionRate * 0.6, 0), 1)
+        return PostureFrameSample(
+            faceScale: best.faceScale,
+            downwardPitchDegrees: best.downwardPitchDegrees,
+            confidence: blendedConfidence
+        )
     }
 
     private func analyze(cgImage: CGImage) throws -> PostureFrameSample? {

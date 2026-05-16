@@ -37,22 +37,22 @@ enum PostureCalibrationReason: String {
     var title: String {
         switch self {
         case .missingBaseline:
-            return "Preparing first-time baseline"
+            return "Sit in your perfect posture now"
         case .staleBaseline:
-            return "Refreshing baseline for accuracy"
+            return "Re-capture your ideal posture"
         case .recentLowConfidence:
-            return "Improving accuracy"
+            return "Re-capture your ideal posture"
         }
     }
 
     var subtitle: String {
         switch self {
         case .missingBaseline:
-            return "Hold your natural posture while Interlude captures your reference."
+            return "Interlude will snapshot this position as your baseline. Every future check is scored against it — so make it count."
         case .staleBaseline:
-            return "Your previous baseline is old. Interlude is refreshing it before scoring."
+            return "Your baseline is outdated. Sit in your ideal ergonomic position and Interlude will replace it with a fresh reference."
         case .recentLowConfidence:
-            return "Recent checks were less confident. Interlude is re-calibrating automatically."
+            return "Recent checks had low confidence. Sit in your ideal position with good lighting so Interlude can rebuild an accurate baseline."
         }
     }
 }

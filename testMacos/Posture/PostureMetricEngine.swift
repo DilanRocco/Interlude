@@ -67,9 +67,8 @@ enum PostureMetricEngine {
             let ratio = faceScale / max(calibration.baselineFaceScale, 0.0001)
             if ratio > 1.45 { return .nearWarning }
             if ratio >= 1.1 { return .preferred }
-            if ratio >= 0.78 { return .comfortPreferred }
-            if ratio < 0.55 { return .farWarning }
-            return .preferred
+            if ratio >= 0.55 { return .comfortPreferred }
+            return .farWarning
         }
 
         // Fallback bins before calibration. Values are normalized bbox area in the camera frame.

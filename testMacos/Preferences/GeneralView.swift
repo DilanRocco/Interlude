@@ -77,6 +77,7 @@ struct GeneralView: View {
                 PreferenceSection(title: "Maintenance") {
                     HStack(spacing: 10) {
                         OpenOnboardingSlides()
+                        ResetPostureCalibrationView()
                         Spacer()
                         ResetView(viewModel: viewModel)
                     }
@@ -254,6 +255,23 @@ struct ResetView: View{
             
         }
         .foregroundColor(.black)
+    }
+}
+
+struct ResetPostureCalibrationView: View {
+    @State private var cleared = false
+
+    var body: some View {
+        Button(cleared ? "Calibration cleared" : "Reset posture calibration") {
+            PostureStore.shared.clearCalibration()
+            cleared = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                cleared = false
+            }
+        }
+        .buttonStyle(.bordered)
+        .foregroundColor(cleared ? .secondary : .primary)
+        .disabled(cleared)
     }
 }
 

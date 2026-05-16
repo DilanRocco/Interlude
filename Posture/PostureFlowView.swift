@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PostureFlowView: View {
     @ObservedObject var viewModel: PostureMenuViewModel
+    @State private var showErgonomicsInfo = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -75,23 +76,96 @@ struct PostureFlowView: View {
     }
 
     private var introCard: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            Image(systemName: "figure.stand")
-                .font(.system(size: 40, weight: .semibold))
-                .foregroundStyle(.blue)
-            Text("Let’s run a clean posture check.")
-                .font(.title3.weight(.semibold))
-            Text("Interlude will auto-optimize setup if needed, run a fast camera scan, and reveal your posture score.")
-                .foregroundColor(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(spacing: 12) {
+                Image(systemName: "figure.stand")
+                    .font(.system(size: 36, weight: .semibold))
+                    .foregroundStyle(.blue)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Let’s run a clean posture check.")
+                        .font(.title3.weight(.semibold))
+                    Text("Interlude will optimize setup if needed, scan with your camera, and score your posture.")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            ergonomicsInfoCard
+
             Spacer()
             Button("Start Check") {
                 viewModel.continueFromIntro()
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
+            Button("New setup? Recalibrate") {
+                viewModel.resetForNewSetup()
+                viewModel.continueFromIntro()
+            }
+            .buttonStyle(.plain)
+            .font(.subheadline)
+            .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    private var ergonomicsInfoCard: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Button {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showErgonomicsInfo.toggle()
+                }
+            } label: {
+                HStack {
+                    Label("What makes good posture?", systemImage: "info.circle")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundColor(.blue)
+                    Spacer()
+                    Image(systemName: showErgonomicsInfo ? "chevron.up" : "chevron.down")
+                        .font(.caption.weight(.semibold))
+                        .foregroundColor(.secondary)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+            }
+            .buttonStyle(.plain)
+
+            if showErgonomicsInfo {
+                Divider()
+                    .padding(.horizontal, 14)
+                VStack(alignment: .leading, spacing: 10) {
+                    ErgonomicsInfoRow(
+                        icon: "eye",
+                        title: "Gaze angle",
+                        detail: "Screen center 10–20° below your horizontal eye line. Eyes should appear looking slightly downward — not level or upward."
+                    )
+                    ErgonomicsInfoRow(
+                        icon: "arrow.left.and.right",
+                        title: "Screen distance",
+                        detail: "50–90 cm from eyes (roughly arm’s length). Face size in frame is used to estimate this relative to your calibration."
+                    )
+                    ErgonomicsInfoRow(
+                        icon: "person.fill",
+                        title: "Head & neck",
+                        detail: "Head balanced over spine. Neck flexion ≤15° is fine; >30° sustained significantly increases fatigue. No forward jutting."
+                    )
+                    ErgonomicsInfoRow(
+                        icon: "camera",
+                        title: "Webcam position",
+                        detail: "Camera is typically at the monitor top. If your screen is correctly positioned, your eyes should appear looking slightly down — not straight at the lens."
+                    )
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+            }
+        }
+        .background(Color.blue.opacity(0.05))
+        .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .stroke(Color.blue.opacity(0.15), lineWidth: 1)
+        )
     }
 
     private var cameraReadyCard: some View {
@@ -102,7 +176,7 @@ struct PostureFlowView: View {
                 Text("Camera Ready")
                     .font(.headline)
             }
-            Text("Face the screen naturally and keep your shoulders relaxed. When ready, start the scan.")
+            Text("Sit up straight with your back supported, head balanced over your spine. Don't adjust your posture mid-scan.")
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             RoundedRectangle(cornerRadius: 14, style: .continuous)
@@ -112,9 +186,11 @@ struct PostureFlowView: View {
                         Image(systemName: "person.crop.square.fill")
                             .font(.system(size: 34, weight: .semibold))
                             .foregroundColor(.blue.opacity(0.8))
-                        Text("Center your face and keep a natural, relaxed posture.")
+                        Text("Center your face. Sit tall — head balanced, not jutting forward.")
                             .font(.caption)
                             .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 12)
                     }
                 )
                 .frame(height: 220)
@@ -140,9 +216,9 @@ struct PostureFlowView: View {
     }
 
     private func calibrationCard(reason: PostureCalibrationReason) -> some View {
-        VStack(spacing: 22) {
+        VStack(spacing: 14) {
             CalibrationPulseView()
-            VStack(spacing: 8) {
+            VStack(spacing: 6) {
                 Text(reason.title)
                     .font(.title3.weight(.semibold))
                 Text(reason.subtitle)
@@ -150,6 +226,30 @@ struct PostureFlowView: View {
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            HStack(spacing: 10) {
+                Image(systemName: "scope")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(.orange)
+                Text("This position becomes your 100% reference. Set it up right.")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundColor(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.orange.opacity(0.08))
+            .cornerRadius(10)
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(PostureFlowView.calibrationChecklist, id: \.self) { item in
+                    Label(item, systemImage: "checkmark.circle.fill")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.blue.opacity(0.06))
+            .cornerRadius(10)
             Text("This takes only a few seconds.")
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -157,6 +257,13 @@ struct PostureFlowView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
+
+    fileprivate static let calibrationChecklist: [String] = [
+        "Screen top at or just below eye level",
+        "Screen at arm's length away (~60–70 cm)",
+        "Sitting upright, back supported by chair",
+        "Head balanced over spine — not jutting forward",
+    ]
 
     private func scoreCard(result: PostureCheckResult) -> some View {
         let score = postureScoreValue(for: result)
@@ -263,11 +370,54 @@ struct PostureFlowView: View {
     private func postureScoreValue(for result: PostureCheckResult) -> Int {
         switch result.classification {
         case .good:
-            return max(80, Int((result.confidence * 100).rounded()))
+            var score = 100
+            if let angle = result.correctedAngleDegrees {
+                let deviation = abs(angle - 15.0)
+                score -= min(15, Int(deviation * 3))
+            }
+            if result.distanceBand == .comfortPreferred {
+                score -= 5
+            }
+            return max(80, score)
         case .adjust:
-            return min(79, max(45, Int((result.confidence * 75).rounded())))
+            var score = 55
+            if let angle = result.correctedAngleDegrees {
+                let outsideBand: Double
+                if angle < 10 { outsideBand = 10 - angle }
+                else if angle > 20 { outsideBand = angle - 20 }
+                else { outsideBand = 0 }
+                score -= min(15, Int(outsideBand * 2))
+            }
+            if result.distanceBand == .nearWarning || result.distanceBand == .farWarning {
+                score -= 10
+            }
+            return max(30, min(74, score))
         case .inconclusive:
             return max(20, Int((result.confidence * 50).rounded()))
+        }
+    }
+}
+
+private struct ErgonomicsInfoRow: View {
+    let icon: String
+    let title: String
+    let detail: String
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: icon)
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.blue)
+                .frame(width: 16)
+                .padding(.top, 1)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.caption.weight(.semibold))
+                Text(detail)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
     }
 }

@@ -22,6 +22,10 @@ final class PostureStore {
         defaults.set(data, forKey: calibrationKey)
     }
 
+    func clearCalibration() {
+        defaults.removeObject(forKey: calibrationKey)
+    }
+
     func appendRecord(_ result: PostureCheckResult, at date: Date = Date()) {
         var records = loadRecords()
         records.append(

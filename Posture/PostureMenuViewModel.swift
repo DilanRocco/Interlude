@@ -37,6 +37,10 @@ final class PostureMenuViewModel: ObservableObject {
         isPresented = false
     }
 
+    func resetForNewSetup() {
+        store.clearCalibration()
+    }
+
     func continueFromIntro() {
         if calibrationDecision.needsCalibration, let reason = calibrationDecision.reason {
             runCalibration(reason: reason)
