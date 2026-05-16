@@ -4,157 +4,199 @@ import Vision
 import CoreImage
 
 final class PostureVisionAnalyzer {
-    private let request = VNDetectFaceLandmarksRequest()
+    private let bodyPoseRequest = VNDetectHumanBodyPoseRequest()
 
-    func bestSample(from cgImages: [CGImage]) throws -> PostureFrameSample {
-        var best: PostureFrameSample?
+    func bestObservation(from cgImages: [CGImage]) throws -> (observation: BodyPoseObservation, confidence: Double) {
+        var best: BodyPoseObservation?
+        var bestConfidence: Float = 0
         var detectedCount = 0
+
         for image in cgImages {
-            guard let sample = try analyze(cgImage: image) else { continue }
-            detectedCount += 1
-            if let currentBest = best {
-                if sample.confidence > currentBest.confidence {
-                    best = sample
+            if let obs = try analyze(cgImage: image) {
+                detectedCount += 1
+                let avgConf = averageConfidence(obs)
+                if avgConf > bestConfidence {
+                    bestConfidence = avgConf
+                    best = obs
                 }
-            } else {
-                best = sample
             }
         }
-        guard let best else { throw PostureCheckError.noFaceDetected }
-        // Blend raw Vision confidence (40%) with frame detection rate (60%) so
-        // poor lighting or partial occlusion across frames lowers the score ceiling.
+
+        guard let best else { throw PostureCheckError.noBodyDetected }
+
         let detectionRate = Double(detectedCount) / Double(max(1, cgImages.count))
-        let blendedConfidence = min(max(best.confidence * 0.4 + detectionRate * 0.6, 0), 1)
-        return PostureFrameSample(
-            faceScale: best.faceScale,
-            downwardPitchDegrees: best.downwardPitchDegrees,
-            confidence: blendedConfidence
+        let blendedConfidence = min(Double(bestConfidence) * 0.4 + detectionRate * 0.6, 1.0)
+        return (best, blendedConfidence)
+    }
+
+    private func analyze(cgImage: CGImage) throws -> BodyPoseObservation? {
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        try handler.perform([bodyPoseRequest])
+
+        guard let result = bodyPoseRequest.results?.first else { return nil }
+
+        func point(for joint: VNHumanBodyPoseObservation.JointName) -> (CGPoint?, Float) {
+            guard let recognized = try? result.recognizedPoint(joint),
+                  recognized.confidence > 0.1 else {
+                return (nil, 0)
+            }
+            return (recognized.location, recognized.confidence)
+        }
+
+        let (nose, noseConf) = point(for: .nose)
+        let (leftEar, leftEarConf) = point(for: .leftEar)
+        let (rightEar, rightEarConf) = point(for: .rightEar)
+        let (leftShoulder, leftShoulderConf) = point(for: .leftShoulder)
+        let (rightShoulder, rightShoulderConf) = point(for: .rightShoulder)
+        let (neck, neckConf) = point(for: .neck)
+
+        let hasAnyData = nose != nil || leftEar != nil || rightEar != nil
+        guard hasAnyData else { return nil }
+
+        return BodyPoseObservation(
+            nose: nose,
+            leftEar: leftEar,
+            rightEar: rightEar,
+            leftShoulder: leftShoulder,
+            rightShoulder: rightShoulder,
+            neck: neck,
+            noseConfidence: noseConf,
+            leftEarConfidence: leftEarConf,
+            rightEarConfidence: rightEarConf,
+            leftShoulderConfidence: leftShoulderConf,
+            rightShoulderConfidence: rightShoulderConf,
+            neckConfidence: neckConf
         )
     }
 
-    private func analyze(cgImage: CGImage) throws -> PostureFrameSample? {
-        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        try handler.perform([request])
-        guard let observation = request.results?.first as? VNFaceObservation else {
-            return nil
-        }
-
-        let faceScale = Double(observation.boundingBox.width * observation.boundingBox.height)
-        let rawPitchDegrees = observation.pitch.map { -($0.doubleValue * 180.0 / .pi) } ?? 0
-
-        var confidence = Double(observation.confidence)
-        if observation.landmarks == nil {
-            confidence *= 0.6
-        }
-
-        return PostureFrameSample(
-            faceScale: faceScale,
-            downwardPitchDegrees: rawPitchDegrees,
-            confidence: min(max(confidence, 0), 1)
-        )
+    private func averageConfidence(_ obs: BodyPoseObservation) -> Float {
+        let values = [
+            obs.noseConfidence, obs.leftEarConfidence, obs.rightEarConfidence,
+            obs.leftShoulderConfidence, obs.rightShoulderConfidence, obs.neckConfidence,
+        ]
+        let nonZero = values.filter { $0 > 0 }
+        guard !nonZero.isEmpty else { return 0 }
+        return nonZero.reduce(0, +) / Float(nonZero.count)
     }
 }
 
-final class CameraFrameBurstCapture: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
-    private let session = AVCaptureSession()
+final class PostureCameraManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
+    let session = AVCaptureSession()
     private let output = AVCaptureVideoDataOutput()
     private let outputQueue = DispatchQueue(label: "interlude.posture.camera")
     private let ciContext = CIContext()
 
-    private var targetFrames = 0
-    private var completion: ((Result<[CGImage], Error>) -> Void)?
-    private var images: [CGImage] = []
+    private var isCapturing = false
+    private var capturedImages: [CGImage] = []
+    private var targetFrameCount = 0
+    private var captureCompletion: ((Result<[CGImage], Error>) -> Void)?
     private var timeoutWorkItem: DispatchWorkItem?
+    private var isSessionConfigured = false
 
-    func capture(frameCount: Int = 12, timeout: TimeInterval = 3.0, completion: @escaping (Result<[CGImage], Error>) -> Void) {
+    func startSession() {
+        guard !session.isRunning else { return }
+
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         switch status {
         case .authorized:
-            startCapture(frameCount: frameCount, timeout: timeout, completion: completion)
+            configureAndStart()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 DispatchQueue.main.async {
-                    if granted {
-                        self.startCapture(frameCount: frameCount, timeout: timeout, completion: completion)
-                    } else {
-                        completion(.failure(PostureCheckError.permissionDenied))
-                    }
+                    if granted { self.configureAndStart() }
                 }
             }
         default:
-            completion(.failure(PostureCheckError.permissionDenied))
+            break
         }
     }
 
-    private func startCapture(frameCount: Int, timeout: TimeInterval, completion: @escaping (Result<[CGImage], Error>) -> Void) {
-        guard let camera = AVCaptureDevice.default(for: .video) else {
+    func stopSession() {
+        timeoutWorkItem?.cancel()
+        timeoutWorkItem = nil
+        isCapturing = false
+        captureCompletion = nil
+        if session.isRunning {
+            session.stopRunning()
+        }
+    }
+
+    func captureFrames(count: Int = 8, timeout: TimeInterval = 4.0, completion: @escaping (Result<[CGImage], Error>) -> Void) {
+        guard session.isRunning else {
             completion(.failure(PostureCheckError.cameraUnavailable))
             return
         }
 
-        self.completion = completion
-        self.targetFrames = max(1, frameCount)
-        self.images = []
+        capturedImages = []
+        targetFrameCount = max(1, count)
+        captureCompletion = completion
+        isCapturing = true
+
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.finishCapture()
+        }
+        timeoutWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout, execute: workItem)
+    }
+
+    private func configureAndStart() {
+        guard !isSessionConfigured else {
+            if !session.isRunning { session.startRunning() }
+            return
+        }
+
+        guard let camera = AVCaptureDevice.default(for: .video) else { return }
 
         session.beginConfiguration()
         session.sessionPreset = .medium
-        session.inputs.forEach { session.removeInput($0) }
-        session.outputs.forEach { session.removeOutput($0) }
 
         do {
             let input = try AVCaptureDeviceInput(device: camera)
-            if session.canAddInput(input) {
-                session.addInput(input)
-            }
+            if session.canAddInput(input) { session.addInput(input) }
         } catch {
             session.commitConfiguration()
-            completion(.failure(error))
             return
         }
 
         output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
         output.setSampleBufferDelegate(self, queue: outputQueue)
         output.alwaysDiscardsLateVideoFrames = true
-        if session.canAddOutput(output) {
-            session.addOutput(output)
-        }
+        if session.canAddOutput(output) { session.addOutput(output) }
         session.commitConfiguration()
 
+        isSessionConfigured = true
         session.startRunning()
-
-        let workItem = DispatchWorkItem { [weak self] in
-            self?.finishCaptureIfNeeded()
-        }
-        timeoutWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + timeout, execute: workItem)
     }
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard images.count < targetFrames,
+        guard isCapturing, capturedImages.count < targetFrameCount,
               let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+
         let image = CIImage(cvPixelBuffer: pixelBuffer)
         guard let cgImage = ciContext.createCGImage(image, from: image.extent) else { return }
-        images.append(cgImage)
+        capturedImages.append(cgImage)
 
-        if images.count >= targetFrames {
-            finishCaptureIfNeeded()
+        if capturedImages.count >= targetFrameCount {
+            finishCapture()
         }
     }
 
-    private func finishCaptureIfNeeded() {
-        guard let completion else { return }
+    private func finishCapture() {
+        guard let completion = captureCompletion else { return }
         timeoutWorkItem?.cancel()
         timeoutWorkItem = nil
-        self.completion = nil
-        output.setSampleBufferDelegate(nil, queue: nil)
-        if session.isRunning {
-            session.stopRunning()
-        }
+        captureCompletion = nil
+        isCapturing = false
 
-        guard !images.isEmpty else {
-            completion(.failure(PostureCheckError.frameCaptureFailed))
-            return
+        let images = capturedImages
+        capturedImages = []
+
+        DispatchQueue.main.async {
+            if images.isEmpty {
+                completion(.failure(PostureCheckError.frameCaptureFailed))
+            } else {
+                completion(.success(images))
+            }
         }
-        completion(.success(images))
     }
 }

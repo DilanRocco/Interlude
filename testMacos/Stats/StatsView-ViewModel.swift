@@ -101,21 +101,21 @@ enum RecoveryScoreComputation {
 
     static func insightText(input: RecoveryScoreInput, score: Int) -> String {
         if input.compliance < 50 {
-            return "Low break compliance is dragging recovery down."
+            return "Low break compliance is dragging break health down."
         }
         if input.recentSkipStreak >= 3 {
             return "Recent skipped-break streak is increasing strain."
         }
         if let meetingLoadRatio = input.meetingLoadRatio, meetingLoadRatio >= 0.6 {
-            return "Heavy meeting load is reducing recovery headroom."
+            return "Heavy meeting load is reducing break health headroom."
         }
         if input.streakDays >= 3 {
-            return "Consistent break streak is supporting recovery."
+            return "Consistent break streak is supporting break health."
         }
         if score >= 70 {
-            return "Recovery is in a strong range today."
+            return "Break health is in a strong range today."
         }
-        return "More consistent breaks can improve recovery quickly."
+        return "More consistent breaks can improve break health quickly."
     }
 
     static func baselineScore(compliance: Int, skippedCount: Int) -> Int {
@@ -575,7 +575,7 @@ extension StatsView {
         @Published var recoveryScoreValue: Int = 0
         @Published var recoveryScoreText: String = "--"
         @Published var recoveryTierLabel: String = "No Data"
-        @Published var recoveryInsightText: String = "Recovery score appears after recorded break activity."
+        @Published var recoveryInsightText: String = "Break health score appears after recorded break activity."
         @Published var recoveryTrendText: String = ""
         @Published var recoveryStateMessage: String = ""
         @Published var recoveryViewState: RecoveryViewState = .loading
@@ -603,9 +603,9 @@ extension StatsView {
                 recoveryScoreValue = 0
                 recoveryScoreText = "--"
                 recoveryTierLabel = "No Data"
-                recoveryInsightText = "Complete a few break cycles to generate your daily recovery score."
+                recoveryInsightText = "Complete a few break cycles to generate your daily break health score."
                 recoveryTrendText = "No baseline yet"
-                recoveryStateMessage = "Insufficient history to calculate recovery."
+                recoveryStateMessage = "Insufficient history to calculate break health."
                 recoveryViewState = .empty
                 return
             }

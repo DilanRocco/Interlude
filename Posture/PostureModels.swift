@@ -1,115 +1,79 @@
 import Foundation
 
-enum PostureDistanceBand: String, Codable {
-    case nearWarning
-    case preferred
-    case comfortPreferred
-    case farWarning
-    case unknown
+enum PostureFactor: String, Codable {
+    case headForward
+    case headTilt
+    case shoulderSymmetry
+    case shoulderRounding
+}
 
-    var label: String {
-        switch self {
-        case .nearWarning: return "too near"
-        case .preferred: return "preferred"
-        case .comfortPreferred: return "comfort"
-        case .farWarning: return "too far"
-        case .unknown: return "unknown"
-        }
+struct BodyPoseObservation {
+    let nose: CGPoint?
+    let leftEar: CGPoint?
+    let rightEar: CGPoint?
+    let leftShoulder: CGPoint?
+    let rightShoulder: CGPoint?
+    let neck: CGPoint?
+
+    let noseConfidence: Float
+    let leftEarConfidence: Float
+    let rightEarConfidence: Float
+    let leftShoulderConfidence: Float
+    let rightShoulderConfidence: Float
+    let neckConfidence: Float
+
+    var hasSufficientShoulderData: Bool {
+        leftShoulderConfidence > 0.3 && rightShoulderConfidence > 0.3
+            && leftShoulder != nil && rightShoulder != nil
+    }
+
+    var hasEarData: Bool {
+        (leftEarConfidence > 0.3 || rightEarConfidence > 0.3)
+            && (leftEar != nil || rightEar != nil)
     }
 }
 
-enum PostureClassification: String, Codable {
-    case good
-    case adjust
-    case inconclusive
+struct PostureMetrics {
+    let headForwardAngleDegrees: Double?
+    let headTiltDegrees: Double?
+    let shoulderSymmetryDelta: Double?
+    let shoulderRoundingOffset: Double?
+    let availableFactors: Set<PostureFactor>
 }
 
-enum PostureCalibrationState: String, Codable {
-    case calibrated
-    case uncalibrated
-}
-
-enum PostureCalibrationReason: String {
-    case missingBaseline
-    case staleBaseline
-    case recentLowConfidence
-
-    var title: String {
-        switch self {
-        case .missingBaseline:
-            return "Sit in your perfect posture now"
-        case .staleBaseline:
-            return "Re-capture your ideal posture"
-        case .recentLowConfidence:
-            return "Re-capture your ideal posture"
-        }
-    }
-
-    var subtitle: String {
-        switch self {
-        case .missingBaseline:
-            return "Interlude will snapshot this position as your baseline. Every future check is scored against it — so make it count."
-        case .staleBaseline:
-            return "Your baseline is outdated. Sit in your ideal ergonomic position and Interlude will replace it with a fresh reference."
-        case .recentLowConfidence:
-            return "Recent checks had low confidence. Sit in your ideal position with good lighting so Interlude can rebuild an accurate baseline."
-        }
-    }
-}
-
-struct PostureCalibrationDecision {
-    let needsCalibration: Bool
-    let reason: PostureCalibrationReason?
-}
-
-struct PostureCalibrationSnapshot: Codable {
-    let cameraToScreenOffsetDegrees: Double
-    let baselineFaceScale: Double
-    let createdAt: Date
+struct PostureCheckResult {
+    let score: Int
+    let metrics: PostureMetrics
+    let recommendations: [String]
+    let confidence: Double
+    let limitedVisibility: Bool
 }
 
 struct PostureCheckRecord: Codable {
     let timestamp: Date
-    let classification: PostureClassification
-    let distanceBand: PostureDistanceBand
-    let correctedAngleDegrees: Double?
+    let score: Int
+    let headForwardAngleDegrees: Double?
+    let headTiltDegrees: Double?
+    let shoulderSymmetryDelta: Double?
+    let shoulderRoundingOffset: Double?
     let confidence: Double
     let recommendation: String
-    let calibrationState: PostureCalibrationState
-}
-
-struct PostureCheckResult {
-    let classification: PostureClassification
-    let distanceBand: PostureDistanceBand
-    let correctedAngleDegrees: Double?
-    let confidence: Double
-    let recommendation: String
-    let calibrationState: PostureCalibrationState
+    let limitedVisibility: Bool
 }
 
 struct PostureDailySummary {
     let checkCount: Int
+    let averageScore: Double
     let goodRate: Double
     let averageConfidence: Double
-}
-
-struct PostureFrameSample {
-    let faceScale: Double
-    let downwardPitchDegrees: Double
-    let confidence: Double
 }
 
 enum PostureCheckError: Error {
     case permissionDenied
     case cameraUnavailable
     case frameCaptureFailed
-    case noFaceDetected
+    case noBodyDetected
     case lowConfidence
-}
-
-struct PostureMetricInput {
-    let sample: PostureFrameSample
-    let calibration: PostureCalibrationSnapshot?
 }
 
 func postureErrorText(_ error: Error) -> String {
@@ -123,9 +87,9 @@ func postureErrorText(_ error: Error) -> String {
         return "No camera available for posture check."
     case .frameCaptureFailed:
         return "Unable to capture camera frames. Try again."
-    case .noFaceDetected:
-        return "No face detected. Center your face and retry."
+    case .noBodyDetected:
+        return "No body detected. Make sure you're visible in the camera and try again."
     case .lowConfidence:
-        return "Low confidence calibration. Improve lighting and retry."
+        return "Low confidence result. Improve lighting and try again."
     }
 }

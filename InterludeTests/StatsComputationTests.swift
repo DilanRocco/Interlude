@@ -107,83 +107,95 @@ final class StatsComputationTests: XCTestCase {
         XCTAssertEqual(RecoveryScoreComputation.tier(for: 39), .depleted)
     }
 
-    func testPostureMetricEngineReturnsGoodForIdealAngleAndPreferredDistance() {
-        let sample = PostureFrameSample(
-            faceScale: 0.15,
-            downwardPitchDegrees: 3,
-            confidence: 0.9
+    func testPostureMetricEngineScoresHighForGoodPosture() {
+        let observation = BodyPoseObservation(
+            nose: CGPoint(x: 0.5, y: 0.7),
+            leftEar: CGPoint(x: 0.45, y: 0.65),
+            rightEar: CGPoint(x: 0.55, y: 0.65),
+            leftShoulder: CGPoint(x: 0.4, y: 0.5),
+            rightShoulder: CGPoint(x: 0.6, y: 0.5),
+            neck: CGPoint(x: 0.5, y: 0.55),
+            noseConfidence: 0.9,
+            leftEarConfidence: 0.9,
+            rightEarConfidence: 0.9,
+            leftShoulderConfidence: 0.9,
+            rightShoulderConfidence: 0.9,
+            neckConfidence: 0.9
         )
-        let calibration = PostureCalibrationSnapshot(
-            cameraToScreenOffsetDegrees: 10,
-            baselineFaceScale: 0.12,
-            createdAt: Date()
-        )
-        let input = PostureMetricInput(sample: sample, calibration: calibration)
 
-        let result = PostureMetricEngine.evaluate(input: input)
+        let result = PostureMetricEngine.evaluate(observation: observation, confidence: 0.9)
 
-        XCTAssertEqual(result.classification, .good)
-        XCTAssertEqual(result.distanceBand, .preferred)
-        XCTAssertEqual(result.calibrationState, .calibrated)
-        XCTAssertEqual(result.correctedAngleDegrees?.rounded(), 13)
+        XCTAssertGreaterThanOrEqual(result.score, 70)
+        XCTAssertFalse(result.limitedVisibility)
     }
 
-    func testPostureMetricEngineReturnsInconclusiveWhenConfidenceIsLow() {
-        let sample = PostureFrameSample(
-            faceScale: 0.15,
-            downwardPitchDegrees: 0,
-            confidence: 0.2
+    func testPostureMetricEngineDegradeGracefullyWithoutShoulders() {
+        let observation = BodyPoseObservation(
+            nose: CGPoint(x: 0.5, y: 0.7),
+            leftEar: CGPoint(x: 0.45, y: 0.65),
+            rightEar: CGPoint(x: 0.55, y: 0.65),
+            leftShoulder: nil,
+            rightShoulder: nil,
+            neck: nil,
+            noseConfidence: 0.9,
+            leftEarConfidence: 0.9,
+            rightEarConfidence: 0.9,
+            leftShoulderConfidence: 0,
+            rightShoulderConfidence: 0,
+            neckConfidence: 0
         )
-        let input = PostureMetricInput(sample: sample, calibration: nil)
 
-        let result = PostureMetricEngine.evaluate(input: input)
+        let result = PostureMetricEngine.evaluate(observation: observation, confidence: 0.8)
 
-        XCTAssertEqual(result.classification, .inconclusive)
-        XCTAssertEqual(result.distanceBand, .unknown)
-        XCTAssertNil(result.correctedAngleDegrees)
+        XCTAssertTrue(result.limitedVisibility)
+        XCTAssertGreaterThan(result.score, 0)
+        XCTAssertFalse(result.recommendations.isEmpty)
     }
 
-    func testPostureDistanceClassificationHandlesNearPreferredAndFarBands() {
-        let calibration = PostureCalibrationSnapshot(
-            cameraToScreenOffsetDegrees: 12,
-            baselineFaceScale: 0.1,
-            createdAt: Date()
+    func testPostureGaussianScoringHasNoCliffDrops() {
+        let metrics1 = PostureMetrics(
+            headForwardAngleDegrees: 9,
+            headTiltDegrees: 2,
+            shoulderSymmetryDelta: 0.01,
+            shoulderRoundingOffset: 0.01,
+            availableFactors: [.headForward, .headTilt, .shoulderSymmetry, .shoulderRounding]
+        )
+        let metrics2 = PostureMetrics(
+            headForwardAngleDegrees: 11,
+            headTiltDegrees: 2,
+            shoulderSymmetryDelta: 0.01,
+            shoulderRoundingOffset: 0.01,
+            availableFactors: [.headForward, .headTilt, .shoulderSymmetry, .shoulderRounding]
         )
 
-        XCTAssertEqual(
-            PostureMetricEngine.classifyDistance(faceScale: 0.16, calibration: calibration),
-            .nearWarning
-        )
-        XCTAssertEqual(
-            PostureMetricEngine.classifyDistance(faceScale: 0.115, calibration: calibration),
-            .preferred
-        )
-        XCTAssertEqual(
-            PostureMetricEngine.classifyDistance(faceScale: 0.05, calibration: calibration),
-            .farWarning
-        )
+        let score1 = PostureMetricEngine.score(metrics: metrics1)
+        let score2 = PostureMetricEngine.score(metrics: metrics2)
+        let diff = abs(score1 - score2)
+
+        XCTAssertLessThan(diff, 0.1, "Scores for similar postures should not cliff-drop")
     }
 
     func testPostureRecordRoundTripsWithCodable() throws {
         let record = PostureCheckRecord(
             timestamp: Date(timeIntervalSince1970: 123),
-            classification: .adjust,
-            distanceBand: .comfortPreferred,
-            correctedAngleDegrees: 18.5,
+            score: 78,
+            headForwardAngleDegrees: 8.5,
+            headTiltDegrees: 3.0,
+            shoulderSymmetryDelta: 0.02,
+            shoulderRoundingOffset: 0.03,
             confidence: 0.88,
-            recommendation: "Sit slightly farther back.",
-            calibrationState: .calibrated
+            recommendation: "Your posture looks great.",
+            limitedVisibility: false
         )
 
         let encoded = try JSONEncoder().encode(record)
         let decoded = try JSONDecoder().decode(PostureCheckRecord.self, from: encoded)
 
-        XCTAssertEqual(decoded.classification, .adjust)
-        XCTAssertEqual(decoded.distanceBand, .comfortPreferred)
-        XCTAssertEqual(decoded.correctedAngleDegrees, 18.5)
+        XCTAssertEqual(decoded.score, 78)
+        XCTAssertEqual(decoded.headForwardAngleDegrees, 8.5)
         XCTAssertEqual(decoded.confidence, 0.88)
-        XCTAssertEqual(decoded.recommendation, "Sit slightly farther back.")
-        XCTAssertEqual(decoded.calibrationState, .calibrated)
+        XCTAssertEqual(decoded.recommendation, "Your posture looks great.")
+        XCTAssertFalse(decoded.limitedVisibility)
     }
 
     private func makeDate(

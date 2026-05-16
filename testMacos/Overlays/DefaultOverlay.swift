@@ -15,23 +15,24 @@ struct DefaultOverlay: View {
     var overlay: Int;
     var timeSinceStringfy: String;
     var dark: Bool
+    var suggestion: String
     // overlay:
     // 1,
     // 2,
     // 3,
     // 1 represents the 20 minute main interval 2 represents the hour interval and 3 represents the 2 hour interval
-    
+
     var body: some View {
             VStack{
                 Spacer()
-                
+
                 if (overlay == 1){
                 Text("Turn Away")
                     .font(.system(size: 100))
                     .fontWeight(.heavy)
                     .foregroundColor(dark ? .white : .black)
-                    
-                Text(Overlay.getRandonSuggestion())
+
+                Text(suggestion)
                     .font(.system(size: 17))
                     .foregroundColor(dark ? .white : .black)
                     

@@ -110,7 +110,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
 
         //count keeps track of which screen we are in the array of windows, and blurWindows
         var count = 0;
-     
+        let suggestion = Overlay.getRandonSuggestion()
+
         NSScreen.screens.forEach { NSScreen in
             windows[count] = NSWindow(
                 contentRect: NSRect(x: 0, y:0, width: NSScreen.frame.width, height: NSScreen.frame.height),
@@ -119,12 +120,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             windows[count].setFrameOrigin(NSScreen.frame.origin)
             windows[count].isOpaque = false
             windows[count].alphaValue = 0.01
-            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
+            var menuView:AnyView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 1,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark, suggestion: suggestion))
             if storeManager.isPurchased("com.twenty.twenty.extra.features") {
                 if (overlaysShown % 6 == 0){
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 3, timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark, suggestion: suggestion))
                 } else if (overlaysShown % 3 == 0) {
-                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark))
+                menuView = AnyView(DefaultOverlay(width: NSScreen.frame.width, height: NSScreen.frame.height, overlay: 2,timeSinceStringfy: Overlay.timeSinceStringfy(), dark: backgroundColor.dark, suggestion: suggestion))
                 }
             }
             blurWindows[count] = NSWindow(

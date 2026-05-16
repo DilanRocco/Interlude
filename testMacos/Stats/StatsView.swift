@@ -17,22 +17,24 @@ struct StatsView: View {
                 }
                 .padding()
 
-                SectionHeader("Recovery")
-                    .padding(.horizontal)
-                    .padding(.top, 16)
+                if shouldShowRecoverySection {
+                    SectionHeader("Break Health")
+                        .padding(.horizontal)
+                        .padding(.top, 16)
 
-                RecoveryScoreSection(
-                    state: viewModel.recoveryViewState,
-                    score: viewModel.recoveryScoreValue,
-                    scoreText: viewModel.recoveryScoreText,
-                    tier: viewModel.recoveryTierLabel,
-                    insight: viewModel.recoveryInsightText,
-                    trend: viewModel.recoveryTrendText,
-                    message: viewModel.recoveryStateMessage,
-                    onRetry: viewModel.retryRecovery
-                )
-                .padding(.horizontal)
-                .padding(.top, 8)
+                    RecoveryScoreSection(
+                        state: viewModel.recoveryViewState,
+                        score: viewModel.recoveryScoreValue,
+                        scoreText: viewModel.recoveryScoreText,
+                        tier: viewModel.recoveryTierLabel,
+                        insight: viewModel.recoveryInsightText,
+                        trend: viewModel.recoveryTrendText,
+                        message: viewModel.recoveryStateMessage,
+                        onRetry: viewModel.retryRecovery
+                    )
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                }
 
                 Picker("Range", selection: $viewModel.selectedScope) {
                     ForEach(StatsScope.allCases) { scope in
@@ -77,6 +79,15 @@ struct StatsView: View {
 
                 Spacer(minLength: 24)
             }
+        }
+    }
+
+    private var shouldShowRecoverySection: Bool {
+        switch viewModel.recoveryViewState {
+        case .empty:
+            false
+        case .loading, .partial, .ready, .error:
+            true
         }
     }
 }
@@ -171,7 +182,7 @@ private struct RecoveryScoreSection: View {
         switch state {
         case .loading:
             RecoveryStateCard(
-                title: "Calculating recovery...",
+                title: "Calculating break health...",
                 subtitle: "Collecting today's break and workload signals.",
                 actionTitle: nil,
                 action: nil,
@@ -179,7 +190,7 @@ private struct RecoveryScoreSection: View {
             )
         case .empty:
             RecoveryStateCard(
-                title: "No recovery score yet",
+                title: "No break health score yet",
                 subtitle: "Complete a few break cycles and Interlude will compute your daily score.",
                 actionTitle: "Refresh",
                 action: onRetry,
@@ -187,7 +198,7 @@ private struct RecoveryScoreSection: View {
             )
         case .error:
             RecoveryStateCard(
-                title: "Recovery score unavailable",
+                title: "Break health score unavailable",
                 subtitle: "Interlude couldn't calculate the score right now.",
                 actionTitle: "Retry",
                 action: onRetry,
@@ -222,7 +233,7 @@ private struct RecoveryScoreHero: View {
                 RecoveryGauge(score: score)
                     .frame(width: 86, height: 86)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Recovery Score")
+                    Text("Break Health Score")
                         .font(.headline)
                         .foregroundStyle(.white.opacity(0.9))
                     Text("\(scoreText) / 100")
@@ -292,7 +303,7 @@ private struct RecoveryGauge: View {
                 .foregroundStyle(.white)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Recovery score")
+        .accessibilityLabel("Break health score")
         .accessibilityValue("\(score) out of 100")
     }
 }

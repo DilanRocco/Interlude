@@ -24,28 +24,27 @@ struct GeneralView: View {
                 }
 
                 PreferenceSection(title: "Timing", subtitle: "Control when reminders appear and how long they stay visible.") {
-                    Stepper(
-                        value: $viewModel.selectedIntervalTime,
-                        in: 1...120
-                    ) {
-                        LabeledPreferenceValue(
-                            title: "Duration between breaks",
-                            valueText: "\(viewModel.selectedIntervalTime) min"
-                        )
-                    }
+                    PresetTimingRow(
+                        title: "Duration between breaks",
+                        unitSuffix: "min",
+                        presets: GeneralView.intervalMinutePresets,
+                        range: 1...360,
+                        step: 1,
+                        presetTitle: GeneralView.intervalPresetTitle(for:),
+                        value: $viewModel.selectedIntervalTime
+                    )
 
                     Divider()
 
-                    Stepper(
-                        value: $viewModel.selectedOverlayTime,
-                        in: 5...300,
-                        step: 5
-                    ) {
-                        LabeledPreferenceValue(
-                            title: "Break duration",
-                            valueText: "\(viewModel.selectedOverlayTime) sec"
-                        )
-                    }
+                    PresetTimingRow(
+                        title: "Break duration",
+                        unitSuffix: "sec",
+                        presets: GeneralView.overlaySecondPresets,
+                        range: 5...900,
+                        step: 5,
+                        presetTitle: GeneralView.overlayPresetTitle(for:),
+                        value: $viewModel.selectedOverlayTime
+                    )
 
                     Divider()
 
@@ -77,7 +76,6 @@ struct GeneralView: View {
                 PreferenceSection(title: "Maintenance") {
                     HStack(spacing: 10) {
                         OpenOnboardingSlides()
-                        ResetPostureCalibrationView()
                         Spacer()
                         ResetView(viewModel: viewModel)
                     }
@@ -86,7 +84,42 @@ struct GeneralView: View {
             .font(.system(size: 14))
             .frame(maxWidth: 560, alignment: .leading)
             .padding(24)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                NSApp.keyWindow?.makeFirstResponder(nil)
+            }
         }
+    }
+
+    /// Quick picks for “between breaks”; slider covers full `1…120`.
+    fileprivate static let intervalMinutePresets: [Int] = [15, 20, 30, 45, 60, 90, 120]
+
+    /// Quick picks for overlay length; slider covers full `5…300` in steps of 5.
+    fileprivate static let overlaySecondPresets: [Int] = [10, 20, 30, 45, 60, 120, 180]
+
+    fileprivate static func intervalPresetTitle(for minutes: Int) -> String {
+        let h = minutes / 60
+        let m = minutes % 60
+        let base: String
+        if h > 0 && m == 0 {
+            base = h == 1 ? "1 hour" : "\(h) hours"
+        } else if h > 0 {
+            base = "\(h)h \(m)m"
+        } else {
+            base = "\(minutes) min"
+        }
+        return minutes == 20 ? "\(base) (recommended)" : base
+    }
+
+    fileprivate static func overlayPresetTitle(for seconds: Int) -> String {
+        let base: String
+        if seconds >= 60 && seconds % 60 == 0 {
+            let m = seconds / 60
+            base = m == 1 ? "1 minute" : "\(m) minutes"
+        } else {
+            base = "\(seconds) sec"
+        }
+        return seconds == 20 ? "\(base) (recommended)" : base
     }
 }
 
@@ -103,12 +136,14 @@ private struct PreferenceSection<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(title)
-                .font(.headline)
-            if let subtitle {
-                Text(subtitle)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(.headline)
+                if let subtitle {
+                    Text(subtitle)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
             }
             content
         }
@@ -125,16 +160,95 @@ private struct PreferenceSection<Content: View>: View {
     }
 }
 
-private struct LabeledPreferenceValue: View {
+private struct PresetTimingRow: View {
     let title: String
-    let valueText: String
+    let unitSuffix: String
+    let presets: [Int]
+    let range: ClosedRange<Int>
+    let step: Int
+    let presetTitle: (Int) -> String
+    @Binding var value: Int
+
+    @State private var showCustom = false
+
+    private let customMenuTag = Int.min
+
+    private var isCustom: Bool {
+        showCustom || !presets.contains(value)
+    }
+
+    private var pickerSelection: Binding<Int> {
+        Binding(
+            get: { isCustom ? customMenuTag : value },
+            set: { newTag in
+                if newTag == customMenuTag {
+                    showCustom = true
+                } else {
+                    showCustom = false
+                    value = newTag
+                }
+            }
+        )
+    }
+
+    private func clampAndSnap(_ raw: Int) -> Int {
+        let clamped = min(range.upperBound, max(range.lowerBound, raw))
+        guard step > 1 else { return clamped }
+        let lower = range.lowerBound
+        let remainder = (clamped - lower) % step
+        let down = clamped - remainder
+        let up = min(range.upperBound, down + step)
+        return (clamped - down < up - clamped) ? max(range.lowerBound, down) : up
+    }
 
     var body: some View {
-        HStack {
-            Text(title)
-            Spacer(minLength: 16)
-            Text(valueText)
-                .foregroundColor(.secondary)
+        VStack(alignment: .leading, spacing: 0) {
+            // Primary row — always visible
+            HStack {
+                Text(title)
+                    .foregroundColor(.primary)
+                Spacer()
+                Picker("", selection: pickerSelection) {
+                    ForEach(presets, id: \.self) { preset in
+                        Text(presetTitle(preset)).tag(preset)
+                    }
+                    Divider()
+                    Text("Custom…").tag(customMenuTag)
+                }
+                .labelsHidden()
+                .fixedSize()
+                .pickerStyle(.menu)
+                .accessibilityLabel(title)
+            }
+            .frame(minHeight: 28)
+
+            // Custom sub-row — only visible when Custom is selected
+            if isCustom {
+                HStack(spacing: 6) {
+                    Spacer()
+                    TextField("", value: $value, format: .number)
+                        .multilineTextAlignment(.trailing)
+                        .frame(width: 52)
+                        .textFieldStyle(.roundedBorder)
+                    Text(unitSuffix)
+                        .foregroundColor(.secondary)
+                        .frame(width: 26, alignment: .leading)
+                    Stepper("", value: $value, in: range, step: step)
+                        .labelsHidden()
+                }
+                .padding(.top, 6)
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+        }
+        .animation(.easeInOut(duration: 0.15), value: isCustom)
+        .onAppear {
+            showCustom = !presets.contains(value)
+        }
+        .onChange(of: value) { _, newValue in
+            let snapped = clampAndSnap(newValue)
+            if snapped != newValue {
+                value = snapped
+            }
         }
     }
 }
@@ -255,23 +369,6 @@ struct ResetView: View{
             
         }
         .foregroundColor(.black)
-    }
-}
-
-struct ResetPostureCalibrationView: View {
-    @State private var cleared = false
-
-    var body: some View {
-        Button(cleared ? "Calibration cleared" : "Reset posture calibration") {
-            PostureStore.shared.clearCalibration()
-            cleared = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                cleared = false
-            }
-        }
-        .buttonStyle(.bordered)
-        .foregroundColor(cleared ? .secondary : .primary)
-        .disabled(cleared)
     }
 }
 
