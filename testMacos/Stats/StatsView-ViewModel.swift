@@ -40,6 +40,11 @@ enum RecoveryViewState {
     case error
 }
 
+enum PostureViewState {
+    case empty
+    case ready
+}
+
 struct RecoveryScoreInput {
     let compliance: Int
     let skipRate: Double
@@ -580,7 +585,13 @@ extension StatsView {
         @Published var recoveryStateMessage: String = ""
         @Published var recoveryViewState: RecoveryViewState = .loading
 
+        @Published var postureViewState: PostureViewState = .empty
+        @Published var postureAverageScore: Int = 0
+        @Published var postureCheckCount: Int = 0
+        @Published var postureTrendText: String = ""
+
         private let statsStore = StatsStore.shared
+        private let postureStore = PostureStore.shared
         private var cancellables: Set<AnyCancellable> = []
 
         init() {
@@ -622,6 +633,23 @@ extension StatsView {
                 recoveryStateMessage = ""
                 recoveryViewState = .ready
             }
+
+            refreshPosture()
+        }
+
+        private func refreshPosture() {
+            let calendar = StatsComputation.mondayFirstCalendar()
+            let range = StatsComputation.dateRange(for: selectedScope, now: Date(), calendar: calendar)
+
+            guard let summary = postureStore.summary(from: range.start, to: range.endExclusive) else {
+                postureViewState = .empty
+                return
+            }
+
+            postureAverageScore = Int(summary.averageScore.rounded())
+            postureCheckCount = summary.checkCount
+            postureTrendText = "\(summary.checkCount) check\(summary.checkCount == 1 ? "" : "s") · \(Int((summary.goodRate * 100).rounded()))% good posture"
+            postureViewState = .ready
         }
 
         func retryRecovery() {
@@ -642,6 +670,10 @@ extension StatsView {
                 .store(in: &cancellables)
 
             NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
+                .sink { [weak self] _ in self?.refresh() }
+                .store(in: &cancellables)
+
+            NotificationCenter.default.publisher(for: .interludePostureDidChange)
                 .sink { [weak self] _ in self?.refresh() }
                 .store(in: &cancellables)
         }

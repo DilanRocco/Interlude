@@ -49,10 +49,6 @@ struct PostureFlowView: View {
             .popover(isPresented: $showErgonomicsInfo, arrowEdge: .bottom) {
                 ergonomicsPopover
             }
-            Button("Close") {
-                viewModel.closeFlow()
-            }
-            .buttonStyle(.bordered)
         }
         .padding(18)
     }
@@ -367,10 +363,6 @@ struct PostureFlowView: View {
                 .fixedSize(horizontal: false, vertical: true)
             Spacer()
             HStack {
-                Button("Close") {
-                    viewModel.closeFlow()
-                }
-                .buttonStyle(.bordered)
                 Spacer()
                 Button("Try Again") {
                     viewModel.retryAfterError()

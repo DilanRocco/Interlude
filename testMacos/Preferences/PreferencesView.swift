@@ -13,7 +13,7 @@ var storeManager = StoreManager ()
 struct PreferencesView: View {
     
     @State var selected: Int?
-    var tabs = ["Customize","Theory","Interlude+","About","Stats"]
+    var tabs = ["Customize","Theory","About","Stats"]
     
     
     let productIDs = [
@@ -46,14 +46,7 @@ struct PreferencesView: View {
     
     @ViewBuilder var detailView: some View {
         
-        let tabViews =  [AnyView(GeneralView()),AnyView(MethodologyView()),AnyView(MoreView(storeManager: storeManager)
-            .onAppear(perform: {
-                if alreadyLoaded {
-                   return
-                }else{
-                    storeManager.getProducts(productIDs: productIDs)
-                    alreadyLoaded = true
-                }})),AnyView(AboutView()),AnyView(StatsView())]
+        let tabViews =  [AnyView(GeneralView()),AnyView(MethodologyView()),AnyView(AboutView()),AnyView(StatsView())]
         
         AnyView(tabViews[selected ?? 0])
         }

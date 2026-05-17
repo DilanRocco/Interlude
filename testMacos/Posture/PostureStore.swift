@@ -1,5 +1,9 @@
 import Foundation
 
+extension Notification.Name {
+    static let interludePostureDidChange = Notification.Name("interludePostureDidChange")
+}
+
 final class PostureStore {
     static let shared = PostureStore()
 
@@ -24,6 +28,27 @@ final class PostureStore {
             )
         )
         saveRecords(records)
+        NotificationCenter.default.post(name: .interludePostureDidChange, object: nil)
+    }
+
+    func records(from start: Date, to end: Date) -> [PostureCheckRecord] {
+        loadRecords().filter { $0.timestamp >= start && $0.timestamp < end }
+    }
+
+    func summary(from start: Date, to end: Date) -> PostureDailySummary? {
+        let filtered = records(from: start, to: end)
+        guard !filtered.isEmpty else { return nil }
+
+        let scoreTotal = filtered.reduce(0) { $0 + $1.score }
+        let goodCount = filtered.filter { $0.score >= 70 }.count
+        let confidenceTotal = filtered.reduce(0.0) { $0 + $1.confidence }
+
+        return PostureDailySummary(
+            checkCount: filtered.count,
+            averageScore: Double(scoreTotal) / Double(filtered.count),
+            goodRate: Double(goodCount) / Double(filtered.count),
+            averageConfidence: confidenceTotal / Double(filtered.count)
+        )
     }
 
     func dailySummary(reference: Date = Date()) -> PostureDailySummary? {

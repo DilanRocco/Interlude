@@ -44,10 +44,12 @@ final class PostureMenuViewModel: ObservableObject {
             do {
                 let result = try await postureCoordinator.runCheckAsync()
                 await MainActor.run {
+                    self.postureCoordinator.cameraManager.stopSession()
                     self.step = .result(result)
                 }
             } catch {
                 await MainActor.run {
+                    self.postureCoordinator.cameraManager.stopSession()
                     self.step = .error(postureErrorText(error))
                 }
             }

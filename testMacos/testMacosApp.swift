@@ -301,6 +301,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     @objc func onWakeNote(note: NSNotification) {
         print("on wake")
        AppDelegate.StartScreenTimer()
+       startPostureBackgroundTimer()
     }
 
     @objc func onSleepNote(note: NSNotification) {
@@ -311,6 +312,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
        AppDelegate.StopScreenTimer()
        stopScheduleWaitTimer()
        stopCalendarWaitTimer()
+       stopPostureBackgroundTimer()
     }
    
     // deals with computer going to sleep and waking up
@@ -329,6 +331,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         stopScheduleWaitTimer()
         stopCalendarWaitTimer()
+        stopPostureBackgroundTimer()
          
    }
     
@@ -354,6 +357,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
         
         UNUserNotificationCenter.current().delegate = self
         AppDelegate.StartScreenTimer()
+        startPostureBackgroundTimer()
         
         NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
             guard event.modifierFlags.intersection(.deviceIndependentFlagsMask).contains([.command, .option]),

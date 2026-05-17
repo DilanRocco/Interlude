@@ -9,6 +9,7 @@ import Foundation
 import UserNotifications
 import AppKit
 import EventKit
+import AVFoundation
 
 extension GeneralView{
     @MainActor class ViewModel: ObservableObject{
@@ -106,6 +107,13 @@ extension GeneralView{
 
         @Published var calendarAccessStatusText: String
 
+        @Published var autoPostureCheckEnabled: Bool {
+            didSet { handleAutoPostureToggle() }
+        }
+
+        @Published var cameraAccessStatusText: String
+
+        private var isSyncingPostureToggle = false
         private var isSyncingCalendarToggle = false
 
         private static func timeFromHourMinute(hour: Int, minute: Int) -> Date {
@@ -136,6 +144,8 @@ extension GeneralView{
             scheduleWeekdaysOnly = settings.scheduleWeekdaysOnly
             calendarBlockingEnabled = settings.calendarBlockingEnabled
             calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
+            autoPostureCheckEnabled = settings.autoPostureCheckEnabled
+            cameraAccessStatusText = ViewModel.cameraAuthorizationStatusText()
         }
 
         private func handleCalendarBlockingToggle() {
@@ -163,6 +173,58 @@ extension GeneralView{
                         self.calendarAccessStatusText = ViewModel.calendarAuthorizationStatusText()
                     }
                 }
+            }
+        }
+
+        private func handleAutoPostureToggle() {
+            guard !isSyncingPostureToggle else { return }
+
+            settingsStore.updateAutoPostureCheckEnabled(autoPostureCheckEnabled)
+            if !autoPostureCheckEnabled {
+                stopPostureBackgroundTimer()
+                cameraAccessStatusText = ViewModel.cameraAuthorizationStatusText()
+                return
+            }
+
+            let status = AVCaptureDevice.authorizationStatus(for: .video)
+            switch status {
+            case .authorized:
+                stopPostureBackgroundTimer()
+                startPostureBackgroundTimer()
+                cameraAccessStatusText = ViewModel.cameraAuthorizationStatusText()
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                    DispatchQueue.main.async {
+                        guard let self else { return }
+                        if granted {
+                            stopPostureBackgroundTimer()
+                            startPostureBackgroundTimer()
+                        } else {
+                            self.isSyncingPostureToggle = true
+                            self.autoPostureCheckEnabled = false
+                            self.isSyncingPostureToggle = false
+                            self.settingsStore.updateAutoPostureCheckEnabled(false)
+                        }
+                        self.cameraAccessStatusText = ViewModel.cameraAuthorizationStatusText()
+                    }
+                }
+            default:
+                isSyncingPostureToggle = true
+                autoPostureCheckEnabled = false
+                isSyncingPostureToggle = false
+                settingsStore.updateAutoPostureCheckEnabled(false)
+                cameraAccessStatusText = ViewModel.cameraAuthorizationStatusText()
+            }
+        }
+
+        private static func cameraAuthorizationStatusText() -> String {
+            let status = AVCaptureDevice.authorizationStatus(for: .video)
+            switch status {
+            case .authorized: return "Camera access granted."
+            case .notDetermined: return "Camera access will be requested when enabled."
+            case .denied: return "Camera access denied. Enable in System Settings → Privacy & Security → Camera."
+            case .restricted: return "Camera access restricted by system."
+            @unknown default: return "Camera access unavailable."
             }
         }
 

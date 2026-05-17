@@ -54,6 +54,7 @@
 		DF4945BC56FF23B1CBBE3793 /* NSVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21906E3446C9619EA2BC5658 /* NSVideoPlayer.swift */; };
 		DF72C73D8F99DD9940A15AE2 /* StatsView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF73A845479299DAD64AB7B7 /* StatsView-ViewModel.swift */; };
 		F115EF46A42948E895359379 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9BB2090C22BF6B199906F7 /* PreferencesView.swift */; };
+		FEE549422FB954900023102D /* hourglasslm.gif in Resources */ = {isa = PBXBuildFile; fileRef = FEE549412FB954900023102D /* hourglasslm.gif */; };
 		FEE927902FACB03B00B83C48 /* PostureFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE927882FACB03B00B83C48 /* PostureFlowView.swift */; };
 		FEE927912FACB03B00B83C48 /* PostureVisionPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE9278E2FACB03B00B83C48 /* PostureVisionPipeline.swift */; };
 		FEE927922FACB03B00B83C48 /* PostureFlowWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE927892FACB03B00B83C48 /* PostureFlowWindow.swift */; };
@@ -62,6 +63,7 @@
 		FEE927952FACB03B00B83C48 /* PostureModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE9278C2FACB03B00B83C48 /* PostureModels.swift */; };
 		FEE927962FACB03B00B83C48 /* PostureCheckCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE927872FACB03B00B83C48 /* PostureCheckCoordinator.swift */; };
 		FEE927972FACB03B00B83C48 /* PostureMetricEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE9278B2FACB03B00B83C48 /* PostureMetricEngine.swift */; };
+		8E90BD0159D01B32190601E3 /* PostureBackgroundTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C612A4B037182FA0663119 /* PostureBackgroundTimer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +132,7 @@
 		F4792836AB63996DBB65383F /* C.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = C.mp4; sourceTree = "<group>"; };
 		F60C12A9A3DA8CE4899E64A5 /* hourglassf.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hourglassf.gif; sourceTree = "<group>"; };
 		F97F8D861621256BDECE87FD /* InterludeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterludeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEE549412FB954900023102D /* hourglasslm.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hourglasslm.gif; sourceTree = "<group>"; };
 		FEE927872FACB03B00B83C48 /* PostureCheckCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureCheckCoordinator.swift; sourceTree = "<group>"; };
 		FEE927882FACB03B00B83C48 /* PostureFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureFlowView.swift; sourceTree = "<group>"; };
 		FEE927892FACB03B00B83C48 /* PostureFlowWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureFlowWindow.swift; sourceTree = "<group>"; };
@@ -138,6 +141,7 @@
 		FEE9278C2FACB03B00B83C48 /* PostureModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureModels.swift; sourceTree = "<group>"; };
 		FEE9278D2FACB03B00B83C48 /* PostureStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureStore.swift; sourceTree = "<group>"; };
 		FEE9278E2FACB03B00B83C48 /* PostureVisionPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureVisionPipeline.swift; sourceTree = "<group>"; };
+		B1C612A4B037182FA0663119 /* PostureBackgroundTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostureBackgroundTimer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +168,7 @@
 		0CC0CBED746DFF0FE3FC90CA /* testMacos */ = {
 			isa = PBXGroup;
 			children = (
+				FEE9278F2FACB03B00B83C48 /* Posture */,
 				6580543A674AB978B4B1EF53 /* Assets.xcassets */,
 				A933902DE31EFD06A860E2F9 /* Constants.swift */,
 				21ECBB6C7532A5308B658E8F /* MenuBar.swift */,
@@ -219,6 +224,7 @@
 		55677E5365D6F2E2B822E22E = {
 			isa = PBXGroup;
 			children = (
+				FEE549412FB954900023102D /* hourglasslm.gif */,
 				F60C12A9A3DA8CE4899E64A5 /* hourglassf.gif */,
 				BC23767B147188EBCAAB917D /* overlayDefault.mov */,
 				98BB177D077397971BDC99CB /* InterludeTests */,
@@ -226,7 +232,6 @@
 				0CC0CBED746DFF0FE3FC90CA /* testMacos */,
 				A5010F8940CE31263FC4BFAE /* Frameworks */,
 				1DC187EF7DFA169557DF0BAE /* Products */,
-				FEE9278F2FACB03B00B83C48 /* Posture */,
 			);
 			sourceTree = "<group>";
 		};
@@ -323,6 +328,7 @@
 				FEE9278C2FACB03B00B83C48 /* PostureModels.swift */,
 				FEE9278D2FACB03B00B83C48 /* PostureStore.swift */,
 				FEE9278E2FACB03B00B83C48 /* PostureVisionPipeline.swift */,
+				B1C612A4B037182FA0663119 /* PostureBackgroundTimer.swift */,
 			);
 			path = Posture;
 			sourceTree = "<group>";
@@ -441,6 +447,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEE549422FB954900023102D /* hourglasslm.gif in Resources */,
 				54CAFC3351F4AAEF16B106F1 /* A.mp4 in Resources */,
 				A55A6E0B4B83D225283A4633 /* Assets.xcassets in Resources */,
 				D5DA82CA34354374DC4E5D38 /* B.mp4 in Resources */,
@@ -539,6 +546,7 @@
 				FEE927952FACB03B00B83C48 /* PostureModels.swift in Sources */,
 				FEE927962FACB03B00B83C48 /* PostureCheckCoordinator.swift in Sources */,
 				FEE927972FACB03B00B83C48 /* PostureMetricEngine.swift in Sources */,
+				8E90BD0159D01B32190601E3 /* PostureBackgroundTimer.swift in Sources */,
 				11450D8C0794F282962B961D /* ScheduleManager.swift in Sources */,
 				DF72C73D8F99DD9940A15AE2 /* StatsView-ViewModel.swift in Sources */,
 				685661731E61ACED574CB92F /* StatsView.swift in Sources */,
@@ -806,7 +814,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 8S9CQKY697;
 				ENABLE_APP_SANDBOX = YES;
@@ -834,7 +842,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twenty.twenty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -854,7 +862,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"testMacos/Preview Content\"";
 				DEVELOPMENT_TEAM = 8S9CQKY697;
 				ENABLE_APP_SANDBOX = YES;
@@ -882,7 +890,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 2.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twenty.twenty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

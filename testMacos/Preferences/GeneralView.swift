@@ -66,6 +66,13 @@ struct GeneralView: View {
                     EnableNotifcaionsView(viewModel: viewModel)
                 }
 
+                PreferenceSection(title: "Posture", subtitle: "Automatic posture monitoring using your camera.") {
+                    Toggle("Check posture every 30 minutes", isOn: $viewModel.autoPostureCheckEnabled)
+                    Text(viewModel.cameraAccessStatusText)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
                 PreferenceSection(title: "Sync", subtitle: "Keep settings local by default, or opt in to iCloud sync.") {
                     Toggle("Sync settings with iCloud", isOn: $viewModel.iCloudSyncEnabled)
                     Text(viewModel.iCloudSyncStatusText)
@@ -364,11 +371,12 @@ struct ResetView: View{
             viewModel.selectedBackgroundColor = Constants.DefaultBackgroundColor
             viewModel.notificationsOn = false
             viewModel.aiBreakTimeEnabled = false
+            viewModel.autoPostureCheckEnabled = false
             watchingAMovie = false
             
             
         }
-        .foregroundColor(.black)
+        .foregroundColor(.primary)
     }
 }
 

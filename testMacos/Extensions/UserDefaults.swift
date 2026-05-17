@@ -26,6 +26,7 @@ struct AppSettingsSnapshot {
     var scheduleEndMinute: Int
     var scheduleWeekdaysOnly: Bool
     var calendarBlockingEnabled: Bool
+    var autoPostureCheckEnabled: Bool
 
     static let `default` = AppSettingsSnapshot(
         notificationsOn: false,
@@ -39,7 +40,8 @@ struct AppSettingsSnapshot {
         scheduleEndHour: 18,
         scheduleEndMinute: 0,
         scheduleWeekdaysOnly: false,
-        calendarBlockingEnabled: false
+        calendarBlockingEnabled: false,
+        autoPostureCheckEnabled: false
     )
 }
 
@@ -59,6 +61,7 @@ final class AppSettingsRecord {
     var scheduleEndMinute: Int = 0
     var scheduleWeekdaysOnly: Bool = false
     var calendarBlockingEnabled: Bool = false
+    var autoPostureCheckEnabled: Bool = false
     var createdAt: Date = Date()
 
     init(from snapshot: AppSettingsSnapshot) {
@@ -76,6 +79,7 @@ final class AppSettingsRecord {
         scheduleEndMinute = snapshot.scheduleEndMinute
         scheduleWeekdaysOnly = snapshot.scheduleWeekdaysOnly
         calendarBlockingEnabled = snapshot.calendarBlockingEnabled
+        autoPostureCheckEnabled = snapshot.autoPostureCheckEnabled
         createdAt = Date()
     }
 
@@ -94,6 +98,7 @@ final class AppSettingsRecord {
         scheduleEndMinute = snapshot.scheduleEndMinute
         scheduleWeekdaysOnly = snapshot.scheduleWeekdaysOnly
         calendarBlockingEnabled = snapshot.calendarBlockingEnabled
+        autoPostureCheckEnabled = snapshot.autoPostureCheckEnabled
     }
 
     func snapshot() -> AppSettingsSnapshot {
@@ -113,7 +118,8 @@ final class AppSettingsRecord {
             scheduleEndHour: scheduleEndHour,
             scheduleEndMinute: scheduleEndMinute,
             scheduleWeekdaysOnly: scheduleWeekdaysOnly,
-            calendarBlockingEnabled: calendarBlockingEnabled
+            calendarBlockingEnabled: calendarBlockingEnabled,
+            autoPostureCheckEnabled: autoPostureCheckEnabled
         )
     }
 }
@@ -239,6 +245,12 @@ final class AppSettingsStore: ObservableObject {
         }
     }
 
+    func updateAutoPostureCheckEnabled(_ value: Bool) {
+        mutate {
+            $0.autoPostureCheckEnabled = value
+        }
+    }
+
     private func mutate(_ mutation: (inout AppSettingsSnapshot) -> Void) {
         var next = settings
         mutation(&next)
@@ -341,7 +353,8 @@ final class AppSettingsStore: ObservableObject {
             scheduleEndHour: intValue(Keys.scheduleEndHour, fallback: 18),
             scheduleEndMinute: intValue(Keys.scheduleEndMinute, fallback: 0),
             scheduleWeekdaysOnly: defaults.object(forKey: Keys.scheduleWeekdaysOnly) != nil ? defaults.bool(forKey: Keys.scheduleWeekdaysOnly) : false,
-            calendarBlockingEnabled: defaults.object(forKey: Keys.calendarBlockingEnabled) != nil ? defaults.bool(forKey: Keys.calendarBlockingEnabled) : false
+            calendarBlockingEnabled: defaults.object(forKey: Keys.calendarBlockingEnabled) != nil ? defaults.bool(forKey: Keys.calendarBlockingEnabled) : false,
+            autoPostureCheckEnabled: false
         )
     }
 

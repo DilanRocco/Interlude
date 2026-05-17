@@ -36,6 +36,20 @@ struct StatsView: View {
                     .padding(.top, 8)
                 }
 
+                if shouldShowPostureSection {
+                    SectionHeader("Posture")
+                        .padding(.horizontal)
+                        .padding(.top, 16)
+
+                    PostureScoreCard(
+                        score: viewModel.postureAverageScore,
+                        checkCount: viewModel.postureCheckCount,
+                        trendText: viewModel.postureTrendText
+                    )
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                }
+
                 Picker("Range", selection: $viewModel.selectedScope) {
                     ForEach(StatsScope.allCases) { scope in
                         Text(scope.title).tag(scope)
@@ -79,6 +93,15 @@ struct StatsView: View {
 
                 Spacer(minLength: 24)
             }
+        }
+    }
+
+    private var shouldShowPostureSection: Bool {
+        switch viewModel.postureViewState {
+        case .empty:
+            false
+        case .ready:
+            true
         }
     }
 
@@ -357,5 +380,98 @@ private struct RecoveryStateCard: View {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
                 .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
         )
+    }
+}
+
+private struct PostureScoreCard: View {
+    let score: Int
+    let checkCount: Int
+    let trendText: String
+
+    private var accent: Color {
+        switch score {
+        case 80...100: .green
+        case 60...79: .orange
+        default: .red
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .center, spacing: 16) {
+                PostureGauge(score: score)
+                    .frame(width: 86, height: 86)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Posture Score")
+                        .font(.headline)
+                        .foregroundStyle(.white.opacity(0.9))
+                    Text("\(score) / 100")
+                        .font(.system(size: 34, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                    Text(scoreTier)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.85))
+                }
+                Spacer()
+            }
+            RecoveryInsightRow(icon: "figure.stand", text: trendText)
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [Color.black.opacity(0.92), Color(red: 0.12, green: 0.15, blue: 0.22)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(Color.white.opacity(0.12), lineWidth: 1)
+        )
+    }
+
+    private var scoreTier: String {
+        switch score {
+        case 80...100: "Good"
+        case 60...79: "Fair"
+        default: "Needs Improvement"
+        }
+    }
+}
+
+private struct PostureGauge: View {
+    let score: Int
+
+    private var progress: Double {
+        min(max(Double(score) / 100.0, 0), 1)
+    }
+
+    private var accent: Color {
+        switch score {
+        case 80...100: .green
+        case 60...79: .orange
+        default: .red
+        }
+    }
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(Color.white.opacity(0.14), lineWidth: 10)
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(accent, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+            Text("\(score)")
+                .font(.system(size: 18, weight: .bold, design: .rounded))
+                .foregroundStyle(.white)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Posture score")
+        .accessibilityValue("\(score) out of 100")
     }
 }

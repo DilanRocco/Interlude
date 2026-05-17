@@ -40,7 +40,7 @@ enum OnboardingPage: CaseIterable {
     case overview
     case more
     case end
-    static let fullOnboarding = OnboardingPage.allCases
+    static let fullOnboarding: [OnboardingPage] = [.welcome, .overlay, .overview, .end]
     
     var shouldShowNextButton: Bool {
         switch self {
@@ -58,12 +58,8 @@ enum OnboardingPage: CaseIterable {
     func view(action: @escaping () -> Void) -> some View {
         switch self {
         case .welcome:
-            //AnimatedImage(url: )
             Spacer()
-            AnimatedImage(url: Bundle.main.url(forResource: "hourglassf", withExtension: "gif")!).customLoopCount(1000)
-                .resizable()
-                .frame(width: 250, height: 250, alignment: .center)
-                
+            HourglassGif()
             Text("Welcome to Interlude!").font(.system(size:40)).bold()
             Spacer()
         case .overview:
@@ -137,3 +133,15 @@ struct OverlayView: View {
 
 }
     }
+
+private struct HourglassGif: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        let name = colorScheme == .dark ? "hourglassf" : "hourglasslm"
+        AnimatedImage(url: Bundle.main.url(forResource: name, withExtension: "gif")!)
+            .customLoopCount(1000)
+            .resizable()
+            .frame(width: 250, height: 250, alignment: .center)
+    }
+}
