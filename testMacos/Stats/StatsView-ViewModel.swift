@@ -358,6 +358,53 @@ final class StatsStore {
         )
     }
 
+    func recoveryScoreSnapshot(for scope: StatsScope, now: Date = Date()) -> RecoveryScoreSnapshot? {
+        let calendar = mondayFirstCalendar
+        let range = StatsComputation.dateRange(for: scope, now: now, calendar: calendar)
+        let scopedDaily = chartSeries(from: range.start, toExclusive: range.endExclusive, calendar: calendar)
+        let taken = scopedDaily.reduce(0) { $0 + $1.takenCount }
+        let skipped = scopedDaily.reduce(0) { $0 + $1.skippedCount }
+        let total = taken + skipped
+        guard total > 0 else { return nil }
+
+        let compliance = StatsComputation.compliancePercentage(taken: taken, skipped: skipped) ?? 0
+        let recentStats = recentBreakStats(sampleSize: 20)
+        let skipRate = recentStats?.skipRate ?? Double(skipped) / Double(max(total, 1))
+        let skipStreak = recentStats?.recentSkipStreak ?? 0
+        let streakDays = currentStreakLength(now: now)
+        let meetingLoadRatio = CalendarAvailabilityStore.shared.meetingLoadRatioForToday(reference: now)
+
+        let input = RecoveryScoreInput(
+            compliance: compliance,
+            skipRate: skipRate,
+            recentSkipStreak: skipStreak,
+            streakDays: streakDays,
+            meetingLoadRatio: meetingLoadRatio
+        )
+
+        let score = RecoveryScoreComputation.score(from: input)
+        let tier = RecoveryScoreComputation.tier(for: score)
+        let previousDayScore = previousDayBaselineScore(now: now, calendar: calendar)
+        let trendText = RecoveryScoreComputation.trendText(current: score, previous: previousDayScore)
+        let insight = RecoveryScoreComputation.insightText(input: input, score: score)
+
+        var missingSignals: [String] = []
+        if recentStats == nil {
+            missingSignals.append("Recent behavior sample")
+        }
+        if meetingLoadRatio == nil {
+            missingSignals.append("Calendar load")
+        }
+
+        return RecoveryScoreSnapshot(
+            score: score,
+            tier: tier,
+            insightText: insight,
+            trendText: trendText,
+            missingSignals: missingSignals
+        )
+    }
+
     private func record(outcome: BreakOutcome, at date: Date) {
         var events = loadEvents()
         events.append(BreakEvent(timestamp: date, outcome: outcome))
@@ -610,7 +657,12 @@ extension StatsView {
             chartData = snapshot.chartPoints
             allTimeTotal = snapshot.allTimeTakenCount
 
-            guard let recovery = statsStore.recoveryScoreSnapshot() else {
+            refreshPosture()
+            refreshRecovery()
+        }
+
+        private func refreshRecovery() {
+            guard let recovery = statsStore.recoveryScoreSnapshot(for: selectedScope) else {
                 recoveryScoreValue = 0
                 recoveryScoreText = "--"
                 recoveryTierLabel = "No Data"
@@ -633,8 +685,6 @@ extension StatsView {
                 recoveryStateMessage = ""
                 recoveryViewState = .ready
             }
-
-            refreshPosture()
         }
 
         private func refreshPosture() {

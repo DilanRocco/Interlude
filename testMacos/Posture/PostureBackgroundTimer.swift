@@ -11,7 +11,6 @@ func startPostureBackgroundTimer() {
     postureBackgroundTimer = Timer.scheduledTimer(withTimeInterval: 30 * 60, repeats: true) { _ in
         runSilentPostureCheck()
     }
-    runSilentPostureCheck()
 }
 
 func stopPostureBackgroundTimer() {
@@ -19,15 +18,33 @@ func stopPostureBackgroundTimer() {
     postureBackgroundTimer = nil
 }
 
+private var sessionObserver: NSObjectProtocol?
+
 private func runSilentPostureCheck() {
     let coordinator = PostureCheckCoordinator.shared
     guard !coordinator.cameraManager.session.isRunning else { return }
 
-    coordinator.cameraManager.startSession()
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        coordinator.runCheck { _ in
+    sessionObserver = NotificationCenter.default.addObserver(
+        forName: .AVCaptureSessionDidStartRunning,
+        object: coordinator.cameraManager.session,
+        queue: .main
+    ) { _ in
+        if let observer = sessionObserver {
+            NotificationCenter.default.removeObserver(observer)
+            sessionObserver = nil
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        coordinator.runCheck { result in
             coordinator.cameraManager.stopSession()
+            switch result {
+            case .success(let posture):
+                print("[PostureBackground] ✅ score: \(posture.score), confidence: \(String(format: "%.2f", posture.confidence))")
+            case .failure(let error):
+                print("[PostureBackground] ❌ failed: \(error.localizedDescription)")
+            }
+        }
         }
     }
+
+    coordinator.cameraManager.startSession()
 }

@@ -97,22 +97,9 @@ struct StatsView: View {
     }
 
     private var shouldShowPostureSection: Bool {
-        switch viewModel.postureViewState {
-        case .empty:
-            false
-        case .ready:
-            true
-        }
+        viewModel.postureViewState == .ready
     }
-
-    private var shouldShowRecoverySection: Bool {
-        switch viewModel.recoveryViewState {
-        case .empty:
-            false
-        case .loading, .partial, .ready, .error:
-            true
-        }
-    }
+    private var shouldShowRecoverySection: Bool { true }
 }
 
 private struct SectionHeader: View {
